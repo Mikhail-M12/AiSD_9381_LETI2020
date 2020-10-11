@@ -142,7 +142,7 @@ void runTests(string testFile, string testAssertFile) {
     ifstream testStream, testsResStream;
     testStream.open(testFile);
     testsResStream.open(testAssertFile);
-    string test, res, num, accumulator;
+    string test, res, num;
     assert(testStream);
     assert(testsResStream);
     int passed = 0, all = 0;
@@ -188,11 +188,11 @@ int main() {
         freopen("output.txt", "w", stdout);
     }
     cout << "Введите строку:\n";
-    string s = "((AB)(AB))((AB)(AB))";
+    string s;
     cin >> s;
     int k = 0, depth = 0;
     parserResult res = parser(s, k, depth);
     cout << s << (res.s != FAILURE ? " is skobki" : " is not skobki") << "\n\n";
-
+    return 0;
 }
 
