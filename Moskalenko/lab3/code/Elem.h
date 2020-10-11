@@ -6,7 +6,6 @@ using namespace std;
 class Elem;
 typedef Elem* tree;
 typedef char T;
-//template <typename T>
 
 class Elem {
         tree left;
@@ -16,26 +15,26 @@ class Elem {
         Elem():left(nullptr), right(nullptr), data('\0') {};
 
         tree getLeft() {
-            return left;
+            return left;               //возвращает левое поддерево
         }
 
         void setLeft(tree l) {
-            left = l;
+            left = l;                   //устанавливает левое поддерево
         }
 
-        void setRight(tree r) {
+        void setRight(tree r) {         //устанавливает правое поддерево
             right = r;
         }
 
-        tree getRight() {
+        tree getRight() {               //возвращает правое поддерево
             return right;
         }
 
-        T getData() const {
+        T getData() const {             //возвращает значение элемента
             return data;
         }
 
-        void setData(T t) {
+        void setData(T t) {             //устанавливает значение элемента
             data = t;
         }
 
