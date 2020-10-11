@@ -34,6 +34,17 @@ void printDepth(string s, int depth, bool parsed) {
 
 
 /**
+ * Структура-обертка результата парсинга
+ * Помещается строка s - самое последнее, что обнаружил парсер и
+ * статус - успешен ли парсинг.
+ */
+struct parserResult {
+    string s;
+    string status;
+};
+
+
+/**
  * Рекурсивная функция проверки строки по правилу
  * скобки::=А | B | ( скобки скобки ).
  * @param - s строка для проверки
@@ -41,42 +52,50 @@ void printDepth(string s, int depth, bool parsed) {
  * @param - depth глубина рекисии
  * @return строка с результатом разбора PARSED/FAILURE
  */
-string parser(string s, int &k, int depth) {
+parserResult parser(string s, int &k, int depth) {
     // Крайний случай, когда вся строка заведомо не может быть скобкой.
     if (((s[0] == 'A' || s[0] == 'B') && s.size() > 1)) {
-        return FAILURE;
+        return {"", FAILURE};
     }
-
     // Внутри () ждем 2 скобки
+
+    string res;
     if (s[k] == '(') {
+        res += '(';
         string snapshot = s.substr(k, s.size() - k - depth); // следующая подстрока для разбора
         printDepth(snapshot, depth, false);
-        if (parser(s, ++k, depth + 1) == PARSED) {
-            if (parser(s, ++k, depth + 1) == PARSED) {
-                if (s[++k] == ')') {
-                    printDepth(snapshot, depth, true);
-                    return PARSED;
+        parserResult result = parser(s, ++k, depth + 1);
+        if (result.status == PARSED) {
+            res += result.s;
+            result = parser(s, ++k, depth + 1);
+            if (result.status == PARSED) {
+                res += result.s;
+                if (s[++k] == ')' && !(depth == 0 && k != s.size() - 1)) {
+                    res += ')';
+                    printDepth(res, depth, true);
+                    return {res, PARSED};
                 } else {
                     error(s, k, 4);
-                    return FAILURE;
+                    return {FAILURE, FAILURE};
                 }
             } else {
                 error(s, k, 3);
-                return FAILURE;
+                return {FAILURE, FAILURE};
             }
         } else {
             error(s, k, 2);
-            return FAILURE;
+            return {FAILURE, FAILURE};
         }
     } else {
         // Дошли до базового случая скобки единичной длины
         if ((s[k] == 'A' || s[k] == 'B')) {
+            res += s[k];
             printDepth(s.substr(k, 1), depth, false);
             printDepth(s.substr(k, 1), depth, true);
-            return PARSED;
+            return {res, PARSED};
         }
     }
-    return FAILURE;
+    return {FAILURE, FAILURE};
 }
 
 
@@ -123,7 +142,7 @@ void runTests(string testFile, string testAssertFile) {
     ifstream testStream, testsResStream;
     testStream.open(testFile);
     testsResStream.open(testAssertFile);
-    string test, res, num;
+    string test, res, num, accumulator;
     assert(testStream);
     assert(testsResStream);
     int passed = 0, all = 0;
@@ -134,11 +153,11 @@ void runTests(string testFile, string testAssertFile) {
         testStream >> num;
         testStream >> test;
         testsResStream >> num >> res;
-        string parserRes = parser(test, k, depth);
+        parserResult parserRes = parser(test, k, depth);
         cout << INFO_COLOR << num << " " << test << " " << RESET_COLOR;
-        if (parserRes == FAILURE) cout << "not ";
+        if (parserRes.status == FAILURE) cout << "not ";
         cout << "parsed is ";
-        if (res == parserRes) {
+        if (res == parserRes.status) {
             cout << SUCCESS_COLOR << '[' << PARSED << ']' << "\n";
             passed++;
         } else {
@@ -169,11 +188,11 @@ int main() {
         freopen("output.txt", "w", stdout);
     }
     cout << "Введите строку:\n";
-    string s;
+    string s = "((AB)(AB))((AB)(AB))";
     cin >> s;
     int k = 0, depth = 0;
-    string res = parser(s, k, depth);
-    cout << s << (res != FAILURE ? " is skobki" : " is not skobki" ) << "\n";
-    return 0;
+    parserResult res = parser(s, k, depth);
+    cout << s << (res.s != FAILURE ? " is skobki" : " is not skobki") << "\n\n";
+
 }
 
