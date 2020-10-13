@@ -3,30 +3,27 @@
 using namespace std;
 
 static int readIndex;     //переменная, отвечающая за индекс элемента в строке
-class Elem;
-typedef Elem* tree;
 typedef char T;
-
 class Elem {
-    tree left;
-    tree right;
+    Elem* left;
+    Elem* right;
     T data;
 public:
     Elem():left(nullptr), right(nullptr), data('\0') {};
 
-    tree getLeft() {
+    Elem* getLeft() {
         return left;        //возвращает значение левого поддерева
     }
 
-    void setLeft(tree l) {  //устанавливает левое поддерево
+    void setLeft(Elem* l) {  //устанавливает левое поддерево
         left = l;
     }
 
-    void setRight(tree r) {     //устанавливает правое поддерево
+    void setRight(Elem* r) {     //устанавливает правое поддерево
         right = r;
     }
 
-    tree getRight() {           //возвращает значение правого поддерева
+    Elem* getRight() {           //возвращает значение правого поддерева
         return right;
     }
 
@@ -37,13 +34,11 @@ public:
     void setData(T t) {       //устанавливает значение элемента
         data = t;
     }
-
 };
+typedef Elem* Tree;
 
-
-class SimpleList;
-typedef SimpleList* Simple;
 static int countSame = 0;  //количество различных одинаковых элементов
+
 class SimpleList {
 public:
     T data; //значение
@@ -52,7 +47,7 @@ public:
 
     SimpleList() : data('\0'), next(nullptr), countH(1) {};
 
-    SimpleList(T sign, Simple elem = nullptr, int count = 1) : data(sign), next(elem), countH(count) {};
+    SimpleList(T sign, SimpleList* elem = nullptr, int count = 1) : data(sign), next(elem), countH(count) {};
 
     void push(T sign);
 
@@ -63,9 +58,10 @@ public:
         data = sign;            // инициализация головы линейного списка
     }
 
-    Simple checkSimple(T sign);
+    SimpleList* checkSimple(T sign);
 
 };
+typedef SimpleList* Simple;
 
 void SimpleList::push(T sign) {
     cout << "Добавляем " << sign << " в линейный список" << "\n";
@@ -108,7 +104,7 @@ Simple SimpleList::checkSimple(T sign){
     return nullptr;
 }
 
-void recTreePrint(tree node) {
+void recTreePrint(Tree node) {
     if (!node) {
         cout << '/';
         return;
@@ -119,14 +115,14 @@ void recTreePrint(tree node) {
 }
 
 
-tree readBT(string input){
+Tree readBT(string input){
     T sign = input[readIndex];
     readIndex++;
     if (sign == '/'){        //если элемент пустой
         return nullptr;
     }
     else{
-        tree buf = new Elem();   //если нет, создаем листок
+        Tree buf = new Elem();   //если нет, создаем листок
         buf->setData(sign);
         buf->setLeft(readBT(input));
         buf->setRight(readBT(input));
@@ -143,7 +139,7 @@ int count(string str, char c){     //подсчет конкретного си�
     return count;
 }
 
-void treePrint(Simple head, tree tree) {
+void treePrint(Simple head, Tree tree) {
     if (tree != nullptr) { //Пока не встретится пустой узел
         Simple p = head->checkSimple(tree->getData());
         if (!p) {
@@ -194,7 +190,7 @@ int main() {
         cout << "Данные некорректны";
         return 0;
     }
-    tree root = readBT(input);
+    Tree root = readBT(input);
     cout << "Введенное дерево: ";
     recTreePrint(root);
     cout << "\n";
