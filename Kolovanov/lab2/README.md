@@ -1,5 +1,8 @@
 #Запуск программы
 
+Программа компилировалась в среде Microsoft Visual Studio 2019 Community.
+Требования: Microsoft Visual C++ Redistributable 2015-2019
+
 Список доступных опций:
 
 	-f - Считать входные данные с файла.
