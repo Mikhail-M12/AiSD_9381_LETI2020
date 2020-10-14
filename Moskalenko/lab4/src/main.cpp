@@ -6,7 +6,7 @@
 using namespace std;
 static int h = 0;   //отвечает за количество замен
 
-template <typename T> void printArr(T* arr, int size, int f, int l){
+template <typename T> void printArr(T* arr, int size, int f = -1, int l = -1){
     for (int i = 0; i < size; i++){
         if (i == f || i == l)
             cout << "\033[34m" << arr[i] << "\033[0m ";  //цветной вывод элементов, которые меняются местами
@@ -18,17 +18,26 @@ template <typename T> void printArr(T* arr, int size, int f, int l){
 
 template <typename T> void insert(T* array, int step, int size){
     int j;
+
     for (int i = step; i < size; i++) {
         h++;       //количество замен увеличивается
         cout << "   ЗАМЕНА № \033[32m" << h << "\033[0m\n";
         T temp = array[i];
-        for (j = i - step; (j >= 0) && (array[j] > temp); j -= step)
-            array[j+step] = array[j];
-        array[j+step] = temp;
-        cout << "Change " << array[i-step] << " and " << array[i] << endl;
-        printArr(array, size, i-step, i); //печать измененного массива
+        T sec = array[i-step];
+        cout << "   Change " << sec << " and " << temp << endl;
+        printArr(array,size,i,i-step);
+
+        for (j = i - step; (j >= 0) && (array[j] > array[j + step]); j -= step) {
+           // array[j + step] = array[j];
+            swap(array[j], array[j + step]);
+            printArr(array,size);
+        }
+      //  array[j+step] = temp;
+        cout << "   The result of change:\n";
+        printArr(array,size,j+step,i);
     }
 }
+
 
 template <typename T> void shellSortSedgwick(T* array, int size) {
     int steps[50];  //массив для хранения инкремент(step)
@@ -84,6 +93,7 @@ template <typename T> void typeSort(T* array, int size){
     }
 }
 
+
 int main() {
     int size = 0;  //размер массива
     int type = 0; //тип ввода и тип сортировки Шелла
@@ -122,7 +132,7 @@ int main() {
             return 0;
     }
     cout << "YOUR INPUT: ";
-    printArr(array,size,-1,-1); //вывод введенного массива
+    printArr(array,size); //вывод введенного массива
 
     cout << "TEST USING STD::SORT: ";
     vector<int> vec (array, array+size);
@@ -131,9 +141,10 @@ int main() {
         cout << vec[i] << " ";
     }
     cout << '\n';
+    //insertSort(array,size);
     typeSort(array, size);
     cout << "\nИТОГ:\n";
-    printArr(array, size,-1,-1); //вывод отсортированного массива
+    printArr(array, size); //вывод отсортированного массива
     if (check(vec,array,size))
         cout << "Results of std::sort and Shell sorting are SAME. Test passed.";
     else
