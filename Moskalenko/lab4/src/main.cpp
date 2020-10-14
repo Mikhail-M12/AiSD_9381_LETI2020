@@ -17,16 +17,16 @@ template <typename T> void printArr(T* arr, int size, int f, int l){
 }
 
 template <typename T> void insert(T* array, int step, int size){
+    int j;
     for (int i = step; i < size; i++) {
-        for (int j = i - step; j >= 0 && array[j] > array[j+step]; j -= step) { //сортировка вставками с учетом инкременты
-            T x = array[j];
-            h++;       //количество замен увеличивается
-            cout << "   ЗАМЕНА № \033[32m" << h << "\033[0m\n";
-            cout << "\033[31m Change " << array[j] << " and " << array[j+step] << "  \033[0m\n";
-            array[j] = array[j + step];
-            array[j + step] = x;
-            printArr(array, size, j+step, j); //печать измененного массива
-        }
+        h++;       //количество замен увеличивается
+        cout << "   ЗАМЕНА № \033[32m" << h << "\033[0m\n";
+        T temp = array[i];
+        for (j = i - step; (j >= 0) && (array[j] > temp); j -= step)
+            array[j+step] = array[j];
+        array[j+step] = temp;
+        cout << "Change " << array[i-step] << " and " << array[i] << endl;
+        printArr(array, size, i-step, i); //печать измененного массива
     }
 }
 
