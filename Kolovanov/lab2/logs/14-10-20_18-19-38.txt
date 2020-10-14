@@ -1,0 +1,149 @@
+File with tests: tests\tests.txt
+
+[Test #1 OK]
+Input list: UNCORRECT_DATA
+Deleting element: x
+Correct result: invalid
+Test result: invalid
+
+
+[Test #2 OK]
+Input list: (
+Deleting element: x
+Correct result: invalid
+Test result: invalid
+
+
+[Test #3 OK]
+Input list: )
+Deleting element: x
+Correct result: invalid
+Test result: invalid
+
+
+[Test #4 OK]
+Input list: ((a)
+Deleting element: a
+Correct result: invalid
+Test result: invalid
+
+
+[Test #5 OK]
+Input list: (a))
+Deleting element: a
+Correct result: invalid
+Test result: invalid
+
+
+[Test #6 OK]
+Input list: (abc)hhh
+Deleting element: h
+Correct result: invalid
+Test result: invalid
+
+
+[Test #7 OK]
+Input list: (a)
+Deleting element: a
+Correct result: ()
+Test result: ()
+
+
+[Test #8 OK]
+Input list: ((((b))))
+Deleting element: b
+Correct result: (((())))
+Test result: (((())))
+
+
+[Test #9 OK]
+Input list: (xab)
+Deleting element: x
+Correct result: (ab)
+Test result: (ab)
+
+
+[Test #10 OK]
+Input list: (axb)
+Deleting element: x
+Correct result: (ab)
+Test result: (ab)
+
+
+[Test #11 OK]
+Input list: (abx)
+Deleting element: x
+Correct result: (ab)
+Test result: (ab)
+
+
+[Test #12 OK]
+Input list: (abc)
+Deleting element: x
+Correct result: (abc)
+Test result: (abc)
+
+
+[Test #13 OK]
+Input list: (zzz)
+Deleting element: z
+Correct result: ()
+Test result: ()
+
+
+[Test #14 OK]
+Input list: (xb(xd)ex)
+Deleting element: x
+Correct result: (b(d)e)
+Test result: (b(d)e)
+
+
+[Test #15 OK]
+Input list: (ax(cx)xf)
+Deleting element: x
+Correct result: (a(c)f)
+Test result: (a(c)f)
+
+
+[Test #16 OK]
+Input list: (ab(axd)ev)
+Deleting element: x
+Correct result: (ab(ad)ev)
+Test result: (ab(ad)ev)
+
+
+[Test #17 OK]
+Input list: (xx(abc)xx)
+Deleting element: x
+Correct result: ((abc))
+Test result: ((abc))
+
+
+[Test #18 OK]
+Input list: (ab(cccc)ab)
+Deleting element: c
+Correct result: (ab()ab)
+Test result: (ab()ab)
+
+
+[Test #19 OK]
+Input list: (xaxbx(xaxbx)x(xaxbx)xabx)
+Deleting element: x
+Correct result: (ab(ab)(ab)ab)
+Test result: (ab(ab)(ab)ab)
+
+
+[Test #20 OK]
+Input list: (ab(abxanc)xxxmf)
+Deleting element: x
+Correct result: (ab(abanc)mf)
+Test result: (ab(abanc)mf)
+
+
+[Test #21 OK]
+Input list: (axxb(xabx(abxx)axxxb(axb)xab)xaxb)
+Deleting element: x
+Correct result: (ab(ab(ab)ab(ab)ab)ab)
+Test result: (ab(ab(ab)ab(ab)ab)ab)
+
+Passed tests: 21/21
