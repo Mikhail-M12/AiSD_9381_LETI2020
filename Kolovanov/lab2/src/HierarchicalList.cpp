@@ -3,24 +3,24 @@
 #include "Logger.h"
 
 HierarchicalList::HierarchicalList(const char*& character) {
-    // Если скобочная запись списка не начинается с '(', то выходим
+    // Р•СЃР»Рё СЃРєРѕР±РѕС‡РЅР°СЏ Р·Р°РїРёСЃСЊ СЃРїРёСЃРєР° РЅРµ РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ '(', С‚Рѕ РІС‹С…РѕРґРёРј
     if (*character != '(') {
         return;
     }
     
-    // Считываем элементы до тех пор, пока не встретим конец списка
+    // РЎС‡РёС‚С‹РІР°РµРј СЌР»РµРјРµРЅС‚С‹ РґРѕ С‚РµС… РїРѕСЂ, РїРѕРєР° РЅРµ РІСЃС‚СЂРµС‚РёРј РєРѕРЅРµС† СЃРїРёСЃРєР°
     while (*(++character) != ')') {
-        // Если встретился подсписок, то добавляем подсписок в конец списка
+        // Р•СЃР»Рё РІСЃС‚СЂРµС‚РёР»СЃСЏ РїРѕРґСЃРїРёСЃРѕРє, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј РїРѕРґСЃРїРёСЃРѕРє РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
         if (*character == '(') {
             append('\0');
             createSublist(getSize() - 1, character);
         } 
-        // Если встретился элемент списка, то добавляем его в конец списка
+        // Р•СЃР»Рё РІСЃС‚СЂРµС‚РёР»СЃСЏ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј РµРіРѕ РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
         else if (*character != ' ' && *character != '\0') {
             append(*character);
         }
         
-        // Если достигли конца выражения, то выходим
+        // Р•СЃР»Рё РґРѕСЃС‚РёРіР»Рё РєРѕРЅС†Р° РІС‹СЂР°Р¶РµРЅРёСЏ, С‚Рѕ РІС‹С…РѕРґРёРј
         if (*character == '\0') {
             return;
         }
@@ -28,19 +28,19 @@ HierarchicalList::HierarchicalList(const char*& character) {
 }
 
 HierarchicalList::Node* HierarchicalList::getNode(size_t index) {
-    // Если список пуст, то выбрасываем исключение
+    // Р•СЃР»Рё СЃРїРёСЃРѕРє РїСѓСЃС‚, С‚Рѕ РІС‹Р±СЂР°СЃС‹РІР°РµРј РёСЃРєР»СЋС‡РµРЅРёРµ
     if (head_ == nullptr) {
         throw Exception("In function HierarchicalList::getNode(): List is null.");
     }
 
-    // Если индекс превышает размер, то выбрасываем исключение
+    // Р•СЃР»Рё РёРЅРґРµРєСЃ РїСЂРµРІС‹С€Р°РµС‚ СЂР°Р·РјРµСЂ, С‚Рѕ РІС‹Р±СЂР°СЃС‹РІР°РµРј РёСЃРєР»СЋС‡РµРЅРёРµ
     if (size_ <= index) {
         throw Exception("In function HierarchicalList::getNode(): Out of range.");
     }
     
     Node* temp = head_;
 
-    // Пробегаемся по списку до нужного индекса
+    // РџСЂРѕР±РµРіР°РµРјСЃСЏ РїРѕ СЃРїРёСЃРєСѓ РґРѕ РЅСѓР¶РЅРѕРіРѕ РёРЅРґРµРєСЃР°
     for (size_t i = 0; i < index; i++) {
         temp = temp->next_;
     }
@@ -49,14 +49,14 @@ HierarchicalList::Node* HierarchicalList::getNode(size_t index) {
 }
 
 void HierarchicalList::append(const ListType& element) {
-    // Если список пуст - создаем голову
+    // Р•СЃР»Рё СЃРїРёСЃРѕРє РїСѓСЃС‚ - СЃРѕР·РґР°РµРј РіРѕР»РѕРІСѓ
     if (head_ == nullptr) {
         head_ = new Node;
         head_->element_ = element;
     } else {
         Node* temp = nullptr;
 
-        // Получаем последний элемент списка
+        // РџРѕР»СѓС‡Р°РµРј РїРѕСЃР»РµРґРЅРёР№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
         try {
             temp = getNode(getSize() - 1);
         } catch (Exception e) {
@@ -64,7 +64,7 @@ void HierarchicalList::append(const ListType& element) {
             return;
         }
 
-        // Привязываем новый элемент к последнему элементу списка
+        // РџСЂРёРІСЏР·С‹РІР°РµРј РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ Рє РїРѕСЃР»РµРґРЅРµРјСѓ СЌР»РµРјРµРЅС‚Сѓ СЃРїРёСЃРєР°
         temp->next_ = new Node;
         temp->next_->previous_ = temp;
         temp->next_->element_ = element;
@@ -76,7 +76,7 @@ void HierarchicalList::append(const ListType& element) {
 HierarchicalList* HierarchicalList::createSublist(size_t index, const char*& character) {
     Node* temp = nullptr;
 
-    // Получаем элемент списка
+    // РџРѕР»СѓС‡Р°РµРј СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
     try {
         temp = getNode(index);
     } catch (Exception e) {
@@ -84,10 +84,10 @@ HierarchicalList* HierarchicalList::createSublist(size_t index, const char*& cha
         return nullptr;
     }
 
-    // Если полученный элемент - подсписок, то очищаем его
+    // Р•СЃР»Рё РїРѕР»СѓС‡РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ - РїРѕРґСЃРїРёСЃРѕРє, С‚Рѕ РѕС‡РёС‰Р°РµРј РµРіРѕ
     delete temp->sublist_;
 
-    // Создаем подсписок
+    // РЎРѕР·РґР°РµРј РїРѕРґСЃРїРёСЃРѕРє
     temp->sublist_ = new HierarchicalList(character);
     return temp->sublist_;
 }
@@ -99,7 +99,7 @@ size_t HierarchicalList::getSize() {
 void HierarchicalList::deleteElement(size_t index) {
     Node* temp = nullptr;
 
-    // Получаем элемент списка
+    // РџРѕР»СѓС‡Р°РµРј СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
     try {
         temp = getNode(index);
     } catch (Exception e) {
@@ -107,21 +107,21 @@ void HierarchicalList::deleteElement(size_t index) {
         return;
     }
 
-    // Если полученный элемент - голова списка, то устанавливаем новую голову списка
+    // Р•СЃР»Рё РїРѕР»СѓС‡РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ - РіРѕР»РѕРІР° СЃРїРёСЃРєР°, С‚Рѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅРѕРІСѓСЋ РіРѕР»РѕРІСѓ СЃРїРёСЃРєР°
     if (index == 0) {
         head_ = temp->next_;
     } 
-    // Если полученный элемент - конец списка, то удаляем связь с предыдущим элементом
+    // Р•СЃР»Рё РїРѕР»СѓС‡РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ - РєРѕРЅРµС† СЃРїРёСЃРєР°, С‚Рѕ СѓРґР°Р»СЏРµРј СЃРІСЏР·СЊ СЃ РїСЂРµРґС‹РґСѓС‰РёРј СЌР»РµРјРµРЅС‚РѕРј
     else if (index == getSize() - 1) {
         temp->previous_->next_ = nullptr;
     } 
-    // Если полученный элемент - не голова и не конец списка, то устанавливаем связи между соседними элементами
+    // Р•СЃР»Рё РїРѕР»СѓС‡РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ - РЅРµ РіРѕР»РѕРІР° Рё РЅРµ РєРѕРЅРµС† СЃРїРёСЃРєР°, С‚Рѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРІСЏР·Рё РјРµР¶РґСѓ СЃРѕСЃРµРґРЅРёРјРё СЌР»РµРјРµРЅС‚Р°РјРё
     else {
         temp->previous_->next_ = temp->next_;
         temp->next_->previous_ = temp->previous_;
     }
 
-    // Очищаем память элемента списка
+    // РћС‡РёС‰Р°РµРј РїР°РјСЏС‚СЊ СЌР»РµРјРµРЅС‚Р° СЃРїРёСЃРєР°
     delete temp->sublist_;
     delete temp;
 
@@ -135,21 +135,21 @@ void HierarchicalList::deleteElements(const ListType& element, int indent) {
     Node* temp = head_;
     size_t index = 0;
 
-    // Проходимся по всем элементам списка
+    // РџСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РІСЃРµРј СЌР»РµРјРµРЅС‚Р°Рј СЃРїРёСЃРєР°
     while (temp != nullptr) {
         Node* next = temp->next_;
 
-        // Если элемент списка - подсписок, то рекурсивно вызываем для подсписка метод deleteElements
+        // Р•СЃР»Рё СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР° - РїРѕРґСЃРїРёСЃРѕРє, С‚Рѕ СЂРµРєСѓСЂСЃРёРІРЅРѕ РІС‹Р·С‹РІР°РµРј РґР»СЏ РїРѕРґСЃРїРёСЃРєР° РјРµС‚РѕРґ deleteElements
         if (temp->sublist_ != nullptr) {
             temp->sublist_->deleteElements(element, indent + 1);
         }
-        // Если элемент списка - элемент, который нужно удлаить, то удаляем его из списка
+        // Р•СЃР»Рё СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР° - СЌР»РµРјРµРЅС‚, РєРѕС‚РѕСЂС‹Р№ РЅСѓР¶РЅРѕ СѓРґР»Р°РёС‚СЊ, С‚Рѕ СѓРґР°Р»СЏРµРј РµРіРѕ РёР· СЃРїРёСЃРєР°
         else if (temp->element_ == element) {
             Logger::log("Checking element '" + std::string(1, temp->element_) + "': Deleting.\n", DEBUG, indent + 1);
             deleteElement(index);
             index--;
         }
-        // Иначе пропускаем элемент
+        // РРЅР°С‡Рµ РїСЂРѕРїСѓСЃРєР°РµРј СЌР»РµРјРµРЅС‚
         else {
             Logger::log("Checking element '" + std::string(1, temp->element_) + "': Skip.\n", DEBUG, indent + 1);
         }
@@ -164,15 +164,15 @@ void HierarchicalList::deleteElements(const ListType& element, int indent) {
 std::string HierarchicalList::getListString() {
     std::string result = "(";
 
-    // Пробегаемся по элементам списка
+    // РџСЂРѕР±РµРіР°РµРјСЃСЏ РїРѕ СЌР»РµРјРµРЅС‚Р°Рј СЃРїРёСЃРєР°
     for (size_t i = 0; i < getSize(); i++) {
         Node* node = getNode(i);
 
-        // Если элемент - не подсписок, то добавляем его в строку
+        // Р•СЃР»Рё СЌР»РµРјРµРЅС‚ - РЅРµ РїРѕРґСЃРїРёСЃРѕРє, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј РµРіРѕ РІ СЃС‚СЂРѕРєСѓ
         if (node->sublist_ == nullptr) {
             result += node->element_;
         } 
-        // Иначе получаем скобочную запись подсписка и добавляем ее к строке
+        // РРЅР°С‡Рµ РїРѕР»СѓС‡Р°РµРј СЃРєРѕР±РѕС‡РЅСѓСЋ Р·Р°РїРёСЃСЊ РїРѕРґСЃРїРёСЃРєР° Рё РґРѕР±Р°РІР»СЏРµРј РµРµ Рє СЃС‚СЂРѕРєРµ
         else {
             result += node->sublist_->getListString();
         }
@@ -185,7 +185,7 @@ std::string HierarchicalList::getListString() {
 HierarchicalList::~HierarchicalList() {
     Node* temp = head_;
 
-    // Очищаем память всех элементов списка и его подсписков
+    // РћС‡РёС‰Р°РµРј РїР°РјСЏС‚СЊ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР° Рё РµРіРѕ РїРѕРґСЃРїРёСЃРєРѕРІ
     while (temp != nullptr) {
         Node* next = temp->next_;
         delete temp->sublist_;

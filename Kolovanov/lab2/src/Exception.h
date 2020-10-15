@@ -5,7 +5,7 @@
 
 
 class Exception {
-    const std::string error_; // Cообщение ошибки
+    const std::string error_; // CРѕРѕР±С‰РµРЅРёРµ РѕС€РёР±РєРё
 
 public:
     Exception(const std::string& error);

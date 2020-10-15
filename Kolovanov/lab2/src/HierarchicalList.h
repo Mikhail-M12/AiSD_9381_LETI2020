@@ -8,9 +8,9 @@ typedef char ListType;
 
 
 class HierarchicalList {
-    struct Node;            // Элемент иерархического списка
-    Node* head_ = nullptr;  // Голова списка
-    size_t size_ = 0;       // Размер списка
+    struct Node;            // Р­Р»РµРјРµРЅС‚ РёРµСЂР°СЂС…РёС‡РµСЃРєРѕРіРѕ СЃРїРёСЃРєР°
+    Node* head_ = nullptr;  // Р“РѕР»РѕРІР° СЃРїРёСЃРєР°
+    size_t size_ = 0;       // Р Р°Р·РјРµСЂ СЃРїРёСЃРєР°
 
     Node* getNode(size_t index);
 
@@ -27,10 +27,10 @@ public:
 
 
 struct HierarchicalList::Node {
-    ListType element_;                      // Значение элемента
-    Node* next_ = nullptr;                  // Следующий элемент
-    Node* previous_ = nullptr;              // Предыдущий элемент
-    HierarchicalList* sublist_ = nullptr;   // Подсписок
+    ListType element_;                      // Р—РЅР°С‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р°
+    Node* next_ = nullptr;                  // РЎР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚
+    Node* previous_ = nullptr;              // РџСЂРµРґС‹РґСѓС‰РёР№ СЌР»РµРјРµРЅС‚
+    HierarchicalList* sublist_ = nullptr;   // РџРѕРґСЃРїРёСЃРѕРє
 };
 
 
