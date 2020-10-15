@@ -16,39 +16,39 @@ cargo* new_mass(string& str);
 void clean_memory(binKor* bk);
 void clean_memory(shoulder* pl);
 void clean_memory(cargo* mass);
-short Length(const binKor* bk);
-short Length(const shoulder* bk, int num);
-short Length(const cargo* bk, int num);
+short length(const binKor* bk);
+short length(const shoulder* pl, int num, int tab);
+short length(const cargo* mass);
 
 struct cargo{
-    bool tag; // false - m, true - bk
-    int m;
-    binKor *bk;
+    bool tag; // =false, если груз является гирькой; =true, если груз является коромыслом
+    int m;   //масса гирьки
+    binKor *bk; //указатель на бинарное коромысло (=nullptr, если груз - гирька) 
 };
 
 struct shoulder{
-    int l;
-    cargo* mass;
+    int len; //длина плеча
+    cargo* mass; //указатель на груз
 };
 
 struct binKor{
-    shoulder *pl1;
-    shoulder *pl2;
+    shoulder *pl1; //указатели на первое и
+    shoulder *pl2; // второе плечи коромысла
 };
 
 //Считывание и сохранение
 binKor* new_bk(string& str) {
     binKor* bk = new binKor;
-    if(str[0] == '(' && str[1] == '(') {
-        str.erase(0, 2);
-        bk->pl1 = new_pl(str);
+    if(str[0] == '(' && str[1] == '(') { //При нахождении двух подряд идущих скобок 
+        str.erase(0, 2);		 
+        bk->pl1 = new_pl(str);		 //создаётся первое плечо
     }else{
         cout << "ERROR\n";
         exit(0);
     }
-    if(str[0] == '(' && str[1] != '('){
+    if(str[0] == '(' && str[1] != '('){ //При нахождении одной скобки
         str.erase(0, 1);
-        bk->pl2 = new_pl(str);
+        bk->pl2 = new_pl(str);		//создаётся второе плечо
     }else{
         cout << "ERROR\n";
         exit(0);
@@ -58,28 +58,28 @@ binKor* new_bk(string& str) {
 
 shoulder* new_pl(string& str){
     shoulder* pl = new shoulder;
-    pl->l = atoi(str.c_str());
+    pl->len = atoi(str.c_str()); //сохранение длины плеча
     if(isdigit(str[0]))
-        str.erase(0, log10(pl->l) + 1);
+        str.erase(0, log10(pl->len) + 1); //удаление из строки считанной длины
     else{
         cout << "ERROR\n";
         exit(0);
     }
     while(str[0] == ' ')
-        str.erase(0, 1);
+        str.erase(0, 1); //удаление пробелов
     pl->mass = new_mass(str);
     return pl;
 }
 
 cargo* new_mass(string& str){
     cargo* mass = new cargo;
-    if(str[0] == '(') {
+    if(str[0] == '(') {      //Если встречается скобка, груз становится бинарным коромыслом
         mass->tag = true;
         mass->bk = new_bk(str);
-    }else if(isdigit(str[0])){
+    }else if(isdigit(str[0])){ //Если находится число, оно сохраняется в качестве массы гирьки
         mass->tag = false;
         mass->m = atoi(str.c_str());
-        str.erase(0, log10(mass->m)+1);
+        str.erase(0, log10(mass->m)+1); //Удаление из строки считанной массы
     }else{
         cout << "ERROR\n";
         exit(0);
@@ -107,43 +107,37 @@ void clean_memory(cargo* mass){
     delete mass;
 }
 
-//Нахождение суммарной длин всех плеч бинарных коромысел
-short Length(const binKor* bk){
-    int tab = global_tab;
+//Нахождение суммарной длины всех плеч бинарных коромысел
+short length(const binKor* bk){
+    int tab = global_tab++; 
     for(int i = 0; i<tab; i++)
         cout << "\t";
-    cout << "Вызов функции Length(bk" << tab << ")\n";
-    short len = Length(bk->pl1, tab+1);
-    len+=Length(bk->pl2,tab+1);
-    for(int i = 0; i<tab; i++)
+    tab++;
+    cout << "Нахождение длины коромысла № " << tab << "\n";
+    short len = length(bk->pl1, 1, tab); 	//Нахождение суммы длин первого и
+    len+=length(bk->pl2, 2, tab);		//второго плеч
+    for(int i = 0; i<tab-1; i++)
         cout << "\t";
-    cout << "Завершение функции Length(bk" << tab << ")\n";
+    cout << "Длина коромысла № " << tab << " найдена\n";
     return len;
 }
 
-short Length(const shoulder* pl, int num){
-    for(int i = 0; i<num; i++)
+short length(const shoulder* pl, int num, int tab){
+    for(int i = 0; i<tab; i++)
         cout << "\t";
-    cout << "Вызов функции Length(pl" << num << ")\n";
-    short len = Length(pl->mass, num+1) + pl->l;
-    for(int i = 0; i<num; i++)
+    cout << "Нахождение длины плеча № " << tab << "." << num << "\n";
+    short len = length(pl->mass) + pl->len;
+    for(int i = 0; i<tab; i++)
         cout << "\t";
-    cout << "Завершение функции Length(pl" << num << ")\n";
+    cout << "Длина плеча № " << tab << "." << num << " найдена\n";
     return len;
 }
 
-short Length(const cargo* mass, int num){
-    for(int i = 0; i<num; i++)
-        cout << "\t";
-    cout << "Вызов функции Length(mass" << num << ")\n";
+short length(const cargo* mass){
     short len = 0;
     if(mass->tag) {
-        global_tab = num+1;
-        len += Length(mass->bk);
+        len += length(mass->bk);
     }
-    for(int i = 0; i<num; i++)
-        cout << "\t";
-    cout << "Завершение функции Length(mass" << num << ")\n";
     return len;
 }
 
@@ -175,7 +169,7 @@ int main(){
         return 0;
     }
     binKor* bk = new_bk(str);
-    cout << Length(bk) << '\n';
+    cout << length(bk) << '\n';
     clean_memory(bk);
     return 0;
 }
