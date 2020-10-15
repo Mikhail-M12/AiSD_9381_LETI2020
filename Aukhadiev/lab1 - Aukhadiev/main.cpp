@@ -54,7 +54,7 @@ public:
         matrix[b-1][a-1] = 1; //обозначающими, что путь между элементами существует
     }
 
-    bool find_road(int a, int b, int tab){
+    bool findRoad(int a, int b, int tab){
         if(a == b){		//Если искомый путь равен конечному
             return true;	//возвращается true
         }
@@ -66,7 +66,7 @@ public:
                 for (int i = 0; i < tab; i++) //Вывод табуляции для наглядности
                     cout << "\t";	      //глубины рекурсии
                 cout << "from " << a + 1 << " to " << j + 1 << '\n';
-                res |= find_road(j, b, tab + 1); //рекурсивный вызов функции
+                res |= findRoad(j, b, tab + 1); //рекурсивный вызов функции
                 for (int i = 0; i < tab; i++)
                     cout << "\t";
                 cout << "Путь через " << a+1 << " и " << j+1 << " проверен\n";
@@ -77,7 +77,7 @@ public:
         return res;
     }
 
-    bool read_file(string file_name, int& a, int& b){
+    bool readFile(string file_name, int& a, int& b){
         ifstream input_file(file_name);
         if (!input_file.is_open()) {
             cerr << "Не удалось открыть файл\n" << endl;
@@ -123,11 +123,11 @@ int main(){
         std::cout << "Введите имя файла\n";
         string file_name;
         cin >> file_name;
-        if(!graph->read_file(file_name, a, b))
+        if(!graph->readFile(file_name, a, b))
             return 0;
     }
     int tab = 0;
-    if(graph->find_road(a-1, b-1, tab))
+    if(graph->findRoad(a-1, b-1, tab))
         std::cout << "Путь найден\n";
     else
         std::cout << "Путь не найден\n";
