@@ -1,6 +1,7 @@
-#Запуск программы
+# Запуск программы
 
 Программа компилировалась в среде Microsoft Visual Studio 2019 Community.
+
 Требования: Microsoft Visual C++ Redistributable 2015-2019
 
 Список доступных опций:
@@ -13,6 +14,9 @@
 Пример использования программы:
 
 C:\Users\kolov\source\repos\ALG2\Debug>lab2.exe
+
 C:\Users\kolov\source\repos\ALG2\Debug>lab2.exe -h
+
 C:\Users\kolov\source\repos\ALG2\Debug>lab2.exe -f
+
 C:\Users\kolov\source\repos\ALG2\Debug>lab2.exe -t -s
