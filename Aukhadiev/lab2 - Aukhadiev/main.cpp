@@ -118,7 +118,7 @@ short length(const binKor* bk){
     len+=length(bk->pl2, 2, tab);		//второго плеч
     for(int i = 0; i<tab-1; i++)
         cout << "\t";
-    cout << "Длина коромысла № " << tab << " найдена\n";
+    cout << "Длина коромысла № " << tab << " найдена = " << len << '\n';
     return len;
 }
 
@@ -129,7 +129,7 @@ short length(const shoulder* pl, int num, int tab){
     short len = length(pl->mass) + pl->len;
     for(int i = 0; i<tab; i++)
         cout << "\t";
-    cout << "Длина плеча № " << tab << "." << num << " найдена\n";
+    cout << "Длина плеча № " << tab << "." << num << " = " << len << "\n";
     return len;
 }
 
@@ -159,6 +159,7 @@ int main(){
             return 0;
         }
         getline(file, str);
+cout << str << "\n";
         file.close();
     }else{
         cin.ignore();
@@ -169,7 +170,9 @@ int main(){
         return 0;
     }
     binKor* bk = new_bk(str);
-    cout << length(bk) << '\n';
+	short result = length(bk);
+    cout << "Суммарная длина всех плеч: " << result << '\n';
     clean_memory(bk);
     return 0;
 }
+
