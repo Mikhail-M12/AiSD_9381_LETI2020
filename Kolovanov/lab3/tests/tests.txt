@@ -1,0 +1,14 @@
+(|invalid|invalid
+)|invalid|invalid
+(a)x|invalid|invalid
+x(a)|invalid|invalid
+(a((x)|invalid|invalid
+(a(x)))|invalid|invalid
+()|0|0
+(a)|0|0
+(a (b) (c))|1|2
+(a (b))|1|1
+(a (b) (a (b) (c)))|2|6
+(f (f (f)) (f (f)))|2|6
+(a (a (B) (a (B))) (a (a (B) (c)) (a (B) (c))))|3|25
+(A (B (C (D) (E (F) (G))) (H (I) (H))) (K))|4|26
