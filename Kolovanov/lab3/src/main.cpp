@@ -15,23 +15,23 @@ void printHelp() {
 }
 
 std::string getCurrentDateTime() {
-    time_t timestamp; // Временная метка
-    tm timeinfo;      // Структура с информацией о времени
+    time_t timestamp; // Р’СЂРµРјРµРЅРЅР°СЏ РјРµС‚РєР°
+    tm timeinfo;      // РЎС‚СЂСѓРєС‚СѓСЂР° СЃ РёРЅС„РѕСЂРјР°С†РёРµР№ Рѕ РІСЂРµРјРµРЅРё
     char buffer[80] = { '\0' };
 
-    time(&timestamp); // Получение временной метки
-    localtime_s(&timeinfo, &timestamp); // Получение информации о времени
+    time(&timestamp); // РџРѕР»СѓС‡РµРЅРёРµ РІСЂРµРјРµРЅРЅРѕР№ РјРµС‚РєРё
+    localtime_s(&timeinfo, &timestamp); // РџРѕР»СѓС‡РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РІСЂРµРјРµРЅРё
     strftime(buffer, sizeof(buffer), "%d-%m-%y_%H-%M-%S", &timeinfo);
 
     return std::string(buffer);
 }
 
 void test(const std::string& path) {
-    size_t testCount = 0; // Общее количество тестов
-    size_t successTestCount = 0; // Колчество успешных тестов
+    size_t testCount = 0; // РћР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚РµСЃС‚РѕРІ
+    size_t successTestCount = 0; // РљРѕР»С‡РµСЃС‚РІРѕ СѓСЃРїРµС€РЅС‹С… С‚РµСЃС‚РѕРІ
     std::ifstream file(path);
 
-    // Проверка на то, что файл был открыт
+    // РџСЂРѕРІРµСЂРєР° РЅР° С‚Рѕ, С‡С‚Рѕ С„Р°Р№Р» Р±С‹Р» РѕС‚РєСЂС‹С‚
     if (!file.is_open()) {
         Logger::log("Cannot open file: " + path + "\n");
         return;
@@ -39,31 +39,31 @@ void test(const std::string& path) {
 
     Logger::log("File with tests: " + path + "\n");
 
-    while (!file.eof()) { // Пока не пройдемся по всем строкам файла
+    while (!file.eof()) { // РџРѕРєР° РЅРµ РїСЂРѕР№РґРµРјСЃСЏ РїРѕ РІСЃРµРј СЃС‚СЂРѕРєР°Рј С„Р°Р№Р»Р°
         std::string line, result1, result2;
         std::getline(file, line);
 
-        // Поиск и проверка разделтеля
+        // РџРѕРёСЃРє Рё РїСЂРѕРІРµСЂРєР° СЂР°Р·РґРµР»С‚РµР»СЏ
         size_t separatorIndex1 = line.find('|');
         size_t separatorIndex2 = line.rfind('|');
         if (separatorIndex1 != -1 && separatorIndex2 != -1 && separatorIndex1 != separatorIndex2) {
-            std::string expression = line.substr(0, separatorIndex1); // Входная строка
-            std::string correctResult1 = line.substr(separatorIndex1 + 1, separatorIndex2 - separatorIndex1 - 1); // Корректный результат теста 1
-            std::string correctResult2 = line.substr(separatorIndex2 + 1); // Корректный результат теста 2
+            std::string expression = line.substr(0, separatorIndex1); // Р’С…РѕРґРЅР°СЏ СЃС‚СЂРѕРєР°
+            std::string correctResult1 = line.substr(separatorIndex1 + 1, separatorIndex2 - separatorIndex1 - 1); // РљРѕСЂСЂРµРєС‚РЅС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚Р° 1
+            std::string correctResult2 = line.substr(separatorIndex2 + 1); // РљРѕСЂСЂРµРєС‚РЅС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚Р° 2
 
             const char* end = expression.c_str();
             BinaryTree<char> tree(end);
 
-            // Проверка на корректность скобочной записи списка
+            // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ СЃРєРѕР±РѕС‡РЅРѕР№ Р·Р°РїРёСЃРё СЃРїРёСЃРєР°
             if (*end != ')' || *(end + 1) != '\0' || expression.length() < 2) {
-                result1 = "invalid"; // Результат теста 1
-                result2 = "invalid"; // Результат теста 2
+                result1 = "invalid"; // Р РµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚Р° 1
+                result2 = "invalid"; // Р РµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚Р° 2
             } else {
-                result1 = std::to_string(tree.getMaximumDepth()); // Результат теста 1
-                result2 = std::to_string(tree.getInternalPathLength()); // Результат теста 2
+                result1 = std::to_string(tree.getMaximumDepth()); // Р РµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚Р° 1
+                result2 = std::to_string(tree.getInternalPathLength()); // Р РµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚Р° 2
             }
 
-            // Вывод результатов теста
+            // Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ С‚РµСЃС‚Р°
             if (result1 == correctResult1 && result2 == correctResult2) {
                 successTestCount++;
                 Logger::log("\n[Test #" + std::to_string(++testCount) + " OK]\n");
@@ -85,11 +85,11 @@ int main(int argc, char* argv[]) {
     bool isTesting = false;
     bool isSilentMode = false;
 
-    // Создание и настройка логгера
+    // РЎРѕР·РґР°РЅРёРµ Рё РЅР°СЃС‚СЂРѕР№РєР° Р»РѕРіРіРµСЂР°
     Logger& logger = Logger::getInstance();
     logger.setFileOutput("logs\\" + getCurrentDateTime() + ".txt");
 
-    // Обработка аргументов командной строки
+    // РћР±СЂР°Р±РѕС‚РєР° Р°СЂРіСѓРјРµРЅС‚РѕРІ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
     if (argc > 0) {
         for (int i = 1; i < argc; i++) {
             if (strcmp(argv[i], "-f") == 0) {
@@ -112,20 +112,20 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Установка тихого режима
+    // РЈСЃС‚Р°РЅРѕРІРєР° С‚РёС…РѕРіРѕ СЂРµР¶РёРјР°
     logger.setSilentMode(isSilentMode);
 
-    // Тестирование алгоритма при помощи набора тестов
+    // РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ Р°Р»РіРѕСЂРёС‚РјР° РїСЂРё РїРѕРјРѕС‰Рё РЅР°Р±РѕСЂР° С‚РµСЃС‚РѕРІ
     if (isTesting) {
         test("tests\\tests.txt");
         return 0;
     }
 
-    // Ввод выражения из файла
+    // Р’РІРѕРґ РІС‹СЂР°Р¶РµРЅРёСЏ РёР· С„Р°Р№Р»Р°
     if (isFromFile) {
         std::fstream file("input.txt");
 
-        // Проверка на то, что файл был открыт
+        // РџСЂРѕРІРµСЂРєР° РЅР° С‚Рѕ, С‡С‚Рѕ С„Р°Р№Р» Р±С‹Р» РѕС‚РєСЂС‹С‚
         if (!file.is_open()) {
             Logger::log("Cannot open file: input.txt\n");
             return 0;
@@ -135,18 +135,18 @@ int main(int argc, char* argv[]) {
         Logger::log("Expression from file: " + expression + "\n");
 
     }
-    // Ввод выражения с клавиатуры
+    // Р’РІРѕРґ РІС‹СЂР°Р¶РµРЅРёСЏ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹
     else {
         std::cout << "[Enter binary tree expression] ";
         std::getline(std::cin, expression);
         Logger::log("Entered binary tree expression: " + expression + "\n");
     }
 
-    // Создание бинарного дерева
+    // РЎРѕР·РґР°РЅРёРµ Р±РёРЅР°СЂРЅРѕРіРѕ РґРµСЂРµРІР°
     const char* end = expression.c_str();
     BinaryTree<char> tree(end);
 
-    // Проверка на корректность скобочной записи списка
+    // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ СЃРєРѕР±РѕС‡РЅРѕР№ Р·Р°РїРёСЃРё СЃРїРёСЃРєР°
     if (*end != ')' || *(end + 1) != '\0' || expression.length() < 2) {
         Logger::log("Invalid binary tree expression.\n");
         return 0;
@@ -154,11 +154,11 @@ int main(int argc, char* argv[]) {
 
     Logger::log("Created binary tree: " + tree.getString() + "\n\n");
 
-    // Получение результатов
+    // РџРѕР»СѓС‡РµРЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
     size_t maximumDepth = tree.getMaximumDepth();
     size_t internalPathLength = tree.getInternalPathLength();
 
-    // Вывод результата работы программы
+    // Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚Р° СЂР°Р±РѕС‚С‹ РїСЂРѕРіСЂР°РјРјС‹
     Logger::log("Binary tree maximum depth: " + std::to_string(maximumDepth) + "\n");
     Logger::log("Binary tree internal path length: " + std::to_string(internalPathLength) + "\n");
 

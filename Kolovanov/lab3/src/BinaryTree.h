@@ -9,9 +9,9 @@
 template <typename T>
 class BinaryTree {
 private:
-    T element;                    // Значение узла дерева
-    BinaryTree* right = nullptr;  // Правое поддерево
-    BinaryTree* left = nullptr;   // Левое поддерево
+    T element;                    // Р—РЅР°С‡РµРЅРёРµ СѓР·Р»Р° РґРµСЂРµРІР°
+    BinaryTree* right = nullptr;  // РџСЂР°РІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
+    BinaryTree* left = nullptr;   // Р›РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
 
 public:
     BinaryTree() = default;
@@ -24,11 +24,11 @@ public:
 
 template <>
 BinaryTree<char>::BinaryTree(const char*& character): element('\0') {
-    // Если скобочная запись не начинается с '(', то выходим
+    // Р•СЃР»Рё СЃРєРѕР±РѕС‡РЅР°СЏ Р·Р°РїРёСЃСЊ РЅРµ РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ '(', С‚Рѕ РІС‹С…РѕРґРёРј
     if (*character == '(') {
         character++;
 
-        // Если нам встречается значение узла дерева, то записываем его в узел, иначе выходим из конструктора
+        // Р•СЃР»Рё РЅР°Рј РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ СѓР·Р»Р° РґРµСЂРµРІР°, С‚Рѕ Р·Р°РїРёСЃС‹РІР°РµРј РµРіРѕ РІ СѓР·РµР», РёРЅР°С‡Рµ РІС‹С…РѕРґРёРј РёР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
         if (*character != '(' && *character != ')' && *character != ' ' && *character != '\0') {
             element = *character;
             character++;
@@ -36,32 +36,32 @@ BinaryTree<char>::BinaryTree(const char*& character): element('\0') {
             return;
         }
 
-        // Если встречается пробел, то идем на следующий символ
+        // Р•СЃР»Рё РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ РїСЂРѕР±РµР», С‚Рѕ РёРґРµРј РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЃРёРјРІРѕР»
         if (*character == ' ') {
             character++;
         }
 
-        // Если встречается '(', то создаем левое поддерево
+        // Р•СЃР»Рё РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ '(', С‚Рѕ СЃРѕР·РґР°РµРј Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
         if (*character == '(') {
             left = new BinaryTree(character);
 
-            // Если успешно считали левое поддерево, то идем далее, иначе выходим из конструктора
+            // Р•СЃР»Рё СѓСЃРїРµС€РЅРѕ СЃС‡РёС‚Р°Р»Рё Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ, С‚Рѕ РёРґРµРј РґР°Р»РµРµ, РёРЅР°С‡Рµ РІС‹С…РѕРґРёРј РёР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
             if (*character == ')') {
                 character++;
             } else {
                 return;
             }
 
-            // Если встречается пробел, то идем на следующий символ
+            // Р•СЃР»Рё РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ РїСЂРѕР±РµР», С‚Рѕ РёРґРµРј РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЃРёРјРІРѕР»
             if (*character == ' ') {
                 character++;
             }
 
-            // Если встречается '(', то создаем правое поддерево
+            // Р•СЃР»Рё РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ '(', С‚Рѕ СЃРѕР·РґР°РµРј РїСЂР°РІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
             if (*character == '(') {
                 right = new BinaryTree(character);
 
-                // Если успешно считали левое поддерево, то идем далее, иначе выходим из конструктора
+                // Р•СЃР»Рё СѓСЃРїРµС€РЅРѕ СЃС‡РёС‚Р°Р»Рё Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ, С‚Рѕ РёРґРµРј РґР°Р»РµРµ, РёРЅР°С‡Рµ РІС‹С…РѕРґРёРј РёР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
                 if (*character == ')') {
                     character++;
                 } else {
@@ -75,22 +75,22 @@ BinaryTree<char>::BinaryTree(const char*& character): element('\0') {
 template <typename T>
 size_t BinaryTree<T>::getMaximumDepth(int depth) {
     Logger::log("Calling method getMaximumDepth() for binary tree " + getString() + ":\n", DEBUG, depth);
-    size_t rightDepth = 0; // Глубина правого поддерева
-    size_t leftDepth = 0; // Глубина левого поддерева
+    size_t rightDepth = 0; // Р“Р»СѓР±РёРЅР° РїСЂР°РІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
+    size_t leftDepth = 0; // Р“Р»СѓР±РёРЅР° Р»РµРІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
 
-    // Если у узла есть левое поддерево
+    // Р•СЃР»Рё Сѓ СѓР·Р»Р° РµСЃС‚СЊ Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
     if (left != nullptr) {
         Logger::log("Right binary subtree:\n", DEBUG, depth);
-        leftDepth = left->getMaximumDepth(depth + 1) + 1; // Получаем глубину левого поддерева и к ней прибавляем 1 (для учета теукщего узла)
+        leftDepth = left->getMaximumDepth(depth + 1) + 1; // РџРѕР»СѓС‡Р°РµРј РіР»СѓР±РёРЅСѓ Р»РµРІРѕРіРѕ РїРѕРґРґРµСЂРµРІР° Рё Рє РЅРµР№ РїСЂРёР±Р°РІР»СЏРµРј 1 (РґР»СЏ СѓС‡РµС‚Р° С‚РµСѓРєС‰РµРіРѕ СѓР·Р»Р°)
     }
 
-    // Если у узла есть правое поддерево
+    // Р•СЃР»Рё Сѓ СѓР·Р»Р° РµСЃС‚СЊ РїСЂР°РІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
     if (right != nullptr) {
         Logger::log("Left binary subtree:\n", DEBUG, depth);
-        rightDepth = right->getMaximumDepth(depth + 1) + 1; // Получаем глубину правого поддерева и к ней прибавляем 1 (для учета теукщего узла)
+        rightDepth = right->getMaximumDepth(depth + 1) + 1; // РџРѕР»СѓС‡Р°РµРј РіР»СѓР±РёРЅСѓ РїСЂР°РІРѕРіРѕ РїРѕРґРґРµСЂРµРІР° Рё Рє РЅРµР№ РїСЂРёР±Р°РІР»СЏРµРј 1 (РґР»СЏ СѓС‡РµС‚Р° С‚РµСѓРєС‰РµРіРѕ СѓР·Р»Р°)
     }
 
-    // Возвращаем наибольшую глубину дерева
+    // Р’РѕР·РІСЂР°С‰Р°РµРј РЅР°РёР±РѕР»СЊС€СѓСЋ РіР»СѓР±РёРЅСѓ РґРµСЂРµРІР°
     if (rightDepth > leftDepth) {
         Logger::log("Method getMaximumDepth() for binary tree " + getString() + " finished: Maximum depth: " + std::to_string(rightDepth) + "\n\n", DEBUG, depth);
         return rightDepth;
@@ -103,37 +103,37 @@ size_t BinaryTree<T>::getMaximumDepth(int depth) {
 template <typename T>
 size_t BinaryTree<T>::getInternalPathLength(int depth) {
     Logger::log("Calling method getInternalPathLength() for binary tree " + getString() + ":\n", DEBUG, depth);
-    size_t leftLength = 0; // Длина правого поддерева
-    size_t rigthLength = 0; // Длина левого поддерева
+    size_t leftLength = 0; // Р”Р»РёРЅР° РїСЂР°РІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
+    size_t rigthLength = 0; // Р”Р»РёРЅР° Р»РµРІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
 
-    // Если у узла есть левое поддерево
+    // Р•СЃР»Рё Сѓ СѓР·Р»Р° РµСЃС‚СЊ Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
     if (left != nullptr) {
         Logger::log("Right binary subtree:\n", DEBUG, depth);
-        leftLength = left->getInternalPathLength(depth + 1); // Получаем внутренний путь левого поддерева
+        leftLength = left->getInternalPathLength(depth + 1); // РџРѕР»СѓС‡Р°РµРј РІРЅСѓС‚СЂРµРЅРЅРёР№ РїСѓС‚СЊ Р»РµРІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
     }
 
-    // Если у узла есть правое поддерево
+    // Р•СЃР»Рё Сѓ СѓР·Р»Р° РµСЃС‚СЊ РїСЂР°РІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
     if (right != nullptr) {
         Logger::log("Left binary subtree:\n", DEBUG, depth);
-        rigthLength = right->getInternalPathLength(depth + 1); // Получаем внутренний путь правого поддерева
+        rigthLength = right->getInternalPathLength(depth + 1); // РџРѕР»СѓС‡Р°РµРј РІРЅСѓС‚СЂРµРЅРЅРёР№ РїСѓС‚СЊ РїСЂР°РІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
     }
 
     Logger::log("Method getInternalPathLength() for binary tree " + getString() + " finished: Internal path length: " + std::to_string(leftLength + rigthLength + depth) + "\n\n", DEBUG, depth);
-    return leftLength + rigthLength + depth; // Возвращаем внутренний путь правого, левого поддерева и глубину данного узла для получения внутрннего пути данного дерева 
+    return leftLength + rigthLength + depth; // Р’РѕР·РІСЂР°С‰Р°РµРј РІРЅСѓС‚СЂРµРЅРЅРёР№ РїСѓС‚СЊ РїСЂР°РІРѕРіРѕ, Р»РµРІРѕРіРѕ РїРѕРґРґРµСЂРµРІР° Рё РіР»СѓР±РёРЅСѓ РґР°РЅРЅРѕРіРѕ СѓР·Р»Р° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РІРЅСѓС‚СЂРЅРЅРµРіРѕ РїСѓС‚Рё РґР°РЅРЅРѕРіРѕ РґРµСЂРµРІР° 
 }
 
 template <>
 std::string BinaryTree<char>::getString() {
     std::string result = "(";
 
-    result += std::string(1, element); // Записыаем значение узла
+    result += std::string(1, element); // Р—Р°РїРёСЃС‹Р°РµРј Р·РЅР°С‡РµРЅРёРµ СѓР·Р»Р°
 
-    // Если левое поддерево не пусто, то записываем скобочную запись левого поддерева
+    // Р•СЃР»Рё Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ РЅРµ РїСѓСЃС‚Рѕ, С‚Рѕ Р·Р°РїРёСЃС‹РІР°РµРј СЃРєРѕР±РѕС‡РЅСѓСЋ Р·Р°РїРёСЃСЊ Р»РµРІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
     if (left != nullptr) {
         result += left->getString();
     }
 
-    // Если правое поддерево не пусто, то записываем скобочную запись правого поддерева
+    // Р•СЃР»Рё РїСЂР°РІРѕРµ РїРѕРґРґРµСЂРµРІРѕ РЅРµ РїСѓСЃС‚Рѕ, С‚Рѕ Р·Р°РїРёСЃС‹РІР°РµРј СЃРєРѕР±РѕС‡РЅСѓСЋ Р·Р°РїРёСЃСЊ РїСЂР°РІРѕРіРѕ РїРѕРґРґРµСЂРµРІР°
     if (right != nullptr) {
         result += right->getString();
     }
