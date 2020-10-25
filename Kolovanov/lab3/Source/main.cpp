@@ -51,13 +51,17 @@ void test(const std::string& path) {
             std::string correctResult1 = line.substr(separatorIndex1 + 1, separatorIndex2 - separatorIndex1 - 1); // Корректный результат теста 1
             std::string correctResult2 = line.substr(separatorIndex2 + 1); // Корректный результат теста 2
 
+            BinaryTree<char> tree;
             const char* end = expression.c_str();
-            BinaryTree<char> tree(end);
+            bool correct = tree.createFromString(end);
 
             // Проверка на корректность скобочной записи списка
-            if (*end != ')' || *(end + 1) != '\0' || expression.length() < 2) {
+            if (*end != '\0' || !correct) {
                 result1 = "invalid"; // Результат теста 1
                 result2 = "invalid"; // Результат теста 2
+            } else if (tree.isEmpty()) {
+                result1 = "empty";
+                result2 = "empty";
             } else {
                 result1 = std::to_string(tree.getMaximumDepth()); // Результат теста 1
                 result2 = std::to_string(tree.getInternalPathLength()); // Результат теста 2
@@ -70,13 +74,14 @@ void test(const std::string& path) {
             } else {
                 Logger::log("\n[Test #" + std::to_string(++testCount) + " WRONG]\n");
             }
+
             Logger::log("Input binary tree: " + expression + "\n");
             Logger::log("Correct result: Maximum depth = " + correctResult1 + " and internal path length = " + correctResult2 + "\n");
             Logger::log("Test result: Maximum depth = " + result1 + " and internal path length = " + result2 + "\n");
         }
     }
 
-    Logger::log("Passed tests: " + std::to_string(successTestCount) + "/" + std::to_string(testCount) + "\n");
+    Logger::log("\nPassed tests: " + std::to_string(successTestCount) + "/" + std::to_string(testCount) + "\n");
 }
 
 int main(int argc, char* argv[]) {
@@ -87,7 +92,7 @@ int main(int argc, char* argv[]) {
 
     // Создание и настройка логгера
     Logger& logger = Logger::getInstance();
-    logger.setFileOutput("logs\\" + getCurrentDateTime() + ".txt");
+    logger.setFileOutput("Logs\\" + getCurrentDateTime() + ".txt");
 
     // Обработка аргументов командной строки
     if (argc > 0) {
@@ -117,7 +122,7 @@ int main(int argc, char* argv[]) {
 
     // Тестирование алгоритма при помощи набора тестов
     if (isTesting) {
-        test("tests\\tests.txt");
+        test("Tests\\tests.txt");
         return 0;
     }
 
@@ -141,14 +146,18 @@ int main(int argc, char* argv[]) {
         std::getline(std::cin, expression);
         Logger::log("Entered binary tree expression: " + expression + "\n");
     }
-
+    
     // Создание бинарного дерева
+    BinaryTree<char> tree;
     const char* end = expression.c_str();
-    BinaryTree<char> tree(end);
+    bool correct = tree.createFromString(end);
 
     // Проверка на корректность скобочной записи списка
-    if (*end != ')' || *(end + 1) != '\0' || expression.length() < 2) {
+    if (*end != '\0' || !correct) {
         Logger::log("Invalid binary tree expression.\n");
+        return 0;
+    } else if (tree.isEmpty()) {
+        Logger::log("Binary tree is empty.\n");
         return 0;
     }
 

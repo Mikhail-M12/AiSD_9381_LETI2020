@@ -9,67 +9,107 @@
 template <typename T>
 class BinaryTree {
 private:
-    T element;                    // Значение узла дерева
+    T element;                    // Корень дерева
     BinaryTree* right = nullptr;  // Правое поддерево
     BinaryTree* left = nullptr;   // Левое поддерево
 
 public:
-    BinaryTree() = default;
-    BinaryTree(const char*& character);
+    BinaryTree();
+    bool createFromString(const char*& character);
+    bool isEmpty();
     size_t getMaximumDepth(int depth = 0);
     size_t getInternalPathLength(int depth = 0);
     std::string getString();
     ~BinaryTree();
 };
 
+template<>
+inline BinaryTree<char>::BinaryTree(): element('\0') {}
+
 template <>
-BinaryTree<char>::BinaryTree(const char*& character): element('\0') {
-    // Если скобочная запись не начинается с '(', то выходим
+bool BinaryTree<char>::createFromString(const char*& character) {
+    // Если скобочная запись начинается с '\', то это пуcтое БД
+    if (*character == '/') {
+        character++;
+        return true;
+    }
+
+    // Если скобочная запись начинается с '(', то это непустое БД
     if (*character == '(') {
         character++;
 
-        // Если нам встречается значение узла дерева, то записываем его в узел, иначе выходим из конструктора
-        if (*character != '(' && *character != ')' && *character != ' ' && *character != '\0') {
+        // Если нам встречается значение узла дерева, то записываем его в узел
+        if (*character != '(' && *character != ')' && *character != '/' && *character != ' ' && *character != '\0') {
             element = *character;
             character++;
         } else {
-            return;
+            return false;
         }
 
-        // Если встречается пробел, то идем на следующий символ
+        // Если встречаем пробел, то пропускаем его
         if (*character == ' ') {
             character++;
         }
+        // Если встречаем конец скобочной записи, то выходим
+        else if (*character == ')') {
+            character++;
+            return true;
+        }
 
-        // Если встречается '(', то создаем левое поддерево
-        if (*character == '(') {
-            left = new BinaryTree(character);
+        // Создаем левое поддерево
+        if (*character != '/') {
+            left = new BinaryTree;
+            bool correct = left->createFromString(character);
 
-            // Если успешно считали левое поддерево, то идем далее, иначе выходим из конструктора
-            if (*character == ')') {
-                character++;
-            } else {
-                return;
+            // Если не удалось корректно считать скобочную запись, то выходим
+            if (!correct) {
+                return false;
             }
 
-            // Если встречается пробел, то идем на следующий символ
-            if (*character == ' ') {
-                character++;
+        } else {
+            character++;
+        }
+
+        // Если встречаем пробел, то пропускаем его
+        if (*character == ' ') {
+            character++;
+        } 
+        // Если встречаем конец скобочной записи, то выходим
+        else if (*character == ')') {
+            character++;
+            return true;
+        }
+
+        // Создаем правое поддерево
+        if (*character != '/') {
+            right = new BinaryTree;
+            bool correct = right->createFromString(character);
+
+            // Если не удалось корректно считать скобочную запись, то выходим
+            if (!correct) {
+                return false;
             }
 
-            // Если встречается '(', то создаем правое поддерево
-            if (*character == '(') {
-                right = new BinaryTree(character);
+        } else {
+            character++;
+        }
 
-                // Если успешно считали левое поддерево, то идем далее, иначе выходим из конструктора
-                if (*character == ')') {
-                    character++;
-                } else {
-                    return;
-                }
-            }
+        // Если встречаем конец скобочной записи, то выходим
+        if (*character == ')') {
+            character++;
+            return true;
         }
     }
+
+    return false;
+}
+
+template<>
+inline bool BinaryTree<char>::isEmpty() {
+    if (right == nullptr && left == nullptr && element == '\0') {
+        return true;
+    }
+    return false;
 }
 
 template <typename T>
@@ -128,14 +168,18 @@ std::string BinaryTree<char>::getString() {
 
     result += std::string(1, element); // Записыаем значение узла
 
-    // Если левое поддерево не пусто, то записываем скобочную запись левого поддерева
+    // Если левое поддерево не пусто, то добавляем его скобочную запись, иначе добавляем скобочную запись пустого БД
     if (left != nullptr) {
         result += left->getString();
+    } else {
+        result += "/";
     }
 
-    // Если правое поддерево не пусто, то записываем скобочную запись правого поддерева
+    // Если правое поддерево не пусто, то добавляем его скобочную запись, иначе добавляем скобочную запись пустого БД
     if (right != nullptr) {
         result += right->getString();
+    } else {
+        result += "/";
     }
 
     return result + ")";
