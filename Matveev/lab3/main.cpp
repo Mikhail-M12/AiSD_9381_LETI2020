@@ -117,12 +117,22 @@ public:
         return BinTree<Elem>::consBT(key, leftNode, rightNode); // генерация узла
     }
 
-    static void printLPK (BinTree<Elem>* node, std::ostream & out) // вывод в лпк-формате
+    static void getLPK (BinTree<Elem>* node, std::string & result, std::ostream & out, int n) // вывод в лпк-формате
     {
         if (!BinTree<Elem>::isNull(node)) {
-            printLPK (node->getLeft(), out);
-            printLPK (node->getRight(), out);
-            out << node->rootBT();
+            printIndent( n, out);
+            out << "Начало обхода левого поддерева. Текущий корень: (" << node->rootBT() <<")\n";
+            getLPK(node->getLeft(), result, out, n + 1);
+            printIndent( n, out);
+            out << "Конец обхода левого поддерева\n";
+            printIndent( n, out);
+            out << "Начало обхода правого поддерева. Текущий корень: (" << node->rootBT() << ")\n";
+            getLPK(node->getRight(), result, out, n + 1);
+            printIndent( n, out);
+            out << "Конец обхода правого поддерева\n";
+            printIndent( n, out);
+            out << "Добавление члена в ЛПК-запись: (" << node->rootBT() << ")\n";
+            result += node->rootBT();
         }
     }
 
@@ -158,6 +168,7 @@ int main(){
     BinTree <char> * tree; // корень БД
     string formatKLP;
     string formatLKP;
+    string formatLPK;
     int keyMover = 0;
     int n = 0;
     char info;
@@ -222,9 +233,9 @@ int main(){
     tree =  BinTree <char>::restoreBT(formatKLP, formatLKP, keyMover, out, n); // восстановление БД по КЛП и ЛКП видам записи
     out <<"\nВосстановленное дерево:\n";
     BinTree <char>::printPKL(tree, 1, out); // вывод на экран БД
-    out << "\nЗапись в ЛПК-виде:\n(";
-    BinTree <char>::printLPK(tree, out); // вывод в лпк формате
-    out <<")\n";
+    out << "\nОбход дерева в порядке ЛПК:\n";
+    BinTree<char>::getLPK(tree, formatLPK, out, 0);
+    out << "\nЛПК-запись дерева: (" << formatLPK <<")\n"; // вывод в лпк-формате
     BinTree <char>::destroy(tree); // освобождение памяти
     file::outFile.close();
     return 0;
