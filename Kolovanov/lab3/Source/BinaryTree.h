@@ -28,6 +28,12 @@ inline BinaryTree<char>::BinaryTree(): element('\0') {}
 
 template <>
 bool BinaryTree<char>::createFromString(const char*& character) {
+	// Очищаем поддеревья (в случае, если до вызова метода дерево уже использовалось)
+    delete right;
+    delete left;
+    right = nullptr;
+    left = nullptr;
+	
     // Если скобочная запись начинается с '\', то это пуcтое БД
     if (*character == '/') {
         character++;
