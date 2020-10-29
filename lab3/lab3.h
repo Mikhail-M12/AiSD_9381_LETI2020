@@ -5,18 +5,22 @@
 #ifndef LAB3_LAB3_H
 #define LAB3_LAB3_H
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <fstream>
+
 
 #define equal_Z2(i, k) !((i&1)^(k&1))
-#define rep(i, n) for(int i = 0; i < n; i++)
 
 
 typedef char Data;
 const int MaxNodes = 5000;
 using namespace std;
+
 class Node {
 public:
-    Data data = NULL;
+    Data data = {};
     int count = -1;
 };
 
@@ -26,13 +30,13 @@ public:
 
     Node a[MaxNodes];
 
-    void insert(Node x) ;
+    void insert(Node x);
 
-    int find(Node x) ;
+    int find(Node x);
 
     void read_str(string &s);
 
-    void read_BT(string s) ;
+    void read_BT(string s);
 
     void print();
 
@@ -43,4 +47,5 @@ public:
 private:
     int count_nodes = 0;
 };
+
 #endif //LAB3_LAB3_H

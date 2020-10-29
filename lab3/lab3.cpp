@@ -151,23 +151,28 @@ void BT::read_str(string &s) {
 
 int32_t main() {
     char f;
-    cout << "0 - консоль, 1 - файл, 2 - запустить тесты\n";
+    cout << "0 - console, 1 - file, 2 - run tests\n";
     cin >> f;
     if(f == '2'){
         Test::runall();
         exit(0);
     }
     if (f == '1') {
-        freopen("../Test/input.txt", "r", stdin);
-        freopen("../Test/output.txt", "w", stdout);
-    } else cout << "Введите строку :\n";
+        freopen("Test/input.txt", "r", stdin);
+        freopen("Test/output.txt", "w", stdout);
+    } else cout << "Enter string :\n";
     BT bintree;
     string s;
     bintree.read_str(s);
     bintree.read_BT(s);
     bintree.print();
     bintree.print_leaf();
-    cout << "Введите глубину, на которой посчитать количество узлов :\n";
+    cout << "Enter depth :\n";
     int k; cin >> k;
     bintree.count_edges(k);
+    if(f == '0') system("pause");
+    if(f== '1'){
+        fclose(stdin);
+        fclose(stdout);
+    }
 }

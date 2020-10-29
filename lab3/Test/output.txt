@@ -6,5 +6,6 @@ Depth : 5, nodes : 7
                      5                                          
 
 Printing leaves : 9 1 5 , number of leaves : 3
-Введите глубину, на которой посчитать количество узлов :
+Enter depth :
+Press any key to continue . . . 
 Printing nodes on depth 3 : 1 4 , number of nodes : 2

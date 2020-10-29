@@ -4,6 +4,7 @@
 
 #include "Test.h"
 #include "../lab3.h"
+
 void Test::test1() {
     BT bintree;
     string s = "8 2 9 4 1 7 5";
