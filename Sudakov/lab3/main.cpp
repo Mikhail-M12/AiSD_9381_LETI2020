@@ -14,6 +14,7 @@ public:
     bool created = false; // создан ли элемент по этому индексу в бинарном дереве поиска
 
     Node(int x) : value(x), count(0) {};
+
     Node() : value(0), count(0) {};
 
     friend ostream &operator<<(ostream &output, const Node &node);
@@ -23,6 +24,7 @@ public:
  * Перегружненный оператор вывода элемента в строковой поток.
  * @param output output ссылка на поток
  * @param node  объект класса элемента
+ * @return output - ссылка на строковой поток вывода
  */
 ostream &operator<<(ostream &output, const Node &node) {
     output << "(" << node.value << ", " << node.count << " ) ";
@@ -131,6 +133,13 @@ void BST::insert(Node node) {
 
 }
 
+bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
 
 void BST::print() {
     for (int i = 1; i <= currentSize; i++) {
@@ -145,7 +154,7 @@ int main() {
     cin >> f;
     if (f == 1) {
         freopen("input.txt", "r", stdin);
-    } else cout << "Введите строку :\n";
+    } else cout << "Введите строку чисел:\n";
     char c;
     cin >> c;
     string input;
@@ -153,11 +162,16 @@ int main() {
     input = c + input;
     std::stringstream iss(input);
 
-    int number;
+    string numberString;
     std::vector<int> treeNumbers;
-    while (iss >> number)
-        treeNumbers.push_back(number);
-
+    while (iss >> numberString) {
+        if (is_number(numberString))
+            treeNumbers.push_back(stoi(numberString));
+        else {
+            cout << "Некорректный ввод!\n";
+            return 0;
+        }
+    }
     BST tree(treeNumbers);
     tree.print();
     return 0;
