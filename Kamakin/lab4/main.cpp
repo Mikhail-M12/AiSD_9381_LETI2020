@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <fstream>
 
 #define RED_COLOR "\033[1;31m"
