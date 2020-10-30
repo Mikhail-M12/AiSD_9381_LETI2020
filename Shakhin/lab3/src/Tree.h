@@ -9,6 +9,7 @@
 class BinaryTree{
 public:
     explicit BinaryTree(string& str);
+    bool isErr() const;
     bool checkBST(); 
     bool checkPiramid();
     ~BinaryTree();
@@ -24,7 +25,7 @@ private:
     bool checkBst_right(Node* node, int min = MIN, int max = MAX, int indent = 0);
 
     bool checkPiramid_leaf(Node* node, int max, int indent);
-
+    bool errorFlag = false;
 };
 
 

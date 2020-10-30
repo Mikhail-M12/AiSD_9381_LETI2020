@@ -14,6 +14,12 @@ Write-Host "test 7"
 ./aisd_lb3  -f tests/test7.txt
 Write-Host "test 8"
 ./aisd_lb3 -f tests/test8.txt
-
-
+Write-Host "test 9"
+./aisd_lb3 -f tests/test9.txt
+Write-Host "test 10"
+./aisd_lb3 -f tests/test10.txt
+Write-Host "test 11"
+./aisd_lb3 -f tests/test11.txt
+Write-Host "test 12"
+./aisd_lb3 -f tests/test12.txt
 
