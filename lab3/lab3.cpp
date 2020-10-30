@@ -2,6 +2,7 @@
 #include "Test/Test.h"
 /**
  * функция добавления узла в дерево
+ * (спускаемся вниз пока не стретим пустоту, туда и добавим наш узел)
  * @param Node x
  */
 void BT::insert(Node x) {
@@ -10,6 +11,7 @@ void BT::insert(Node x) {
         count_nodes++;
         mx_dep = 1;
         a[1] = x;
+        print();
         return;
     }
     while (true) {
@@ -23,6 +25,7 @@ void BT::insert(Node x) {
                 a[right] = x;
                 count_nodes++;
                 mx_dep = max(mx_dep, dep + 1);
+                print();
                 return;
             }
         } else if (a[root].data > x.data) {
@@ -33,18 +36,20 @@ void BT::insert(Node x) {
                 a[left] = x;
                 count_nodes++;
                 mx_dep = max(mx_dep, dep + 1);
+                print();
                 return;
             }
         } else if (a[root].data == x.data) {
             a[root].count++;
+            print();
             return;
         }
     }
 }
 /**
- * функция находящая элемент в дереве
+ * функция находящая элемент в дереве(опускаемся пока не встретим элемент или не закончится дерево)
  * @param Node x
- * @return
+ * @return индекс элемента в массиве и -1,если не нашел
  */
 int BT::find(Node x) {
     int root = 0;
@@ -64,10 +69,10 @@ int BT::find(Node x) {
 
 /**
  * функция создающая дерево из строки
+ * считываем посимвольно строку и добавляем с помощью insert() новый узел
  * @param string s
  */
 void BT::read_BT(string s) {
-
     int i = 0, count = 1;
     while (s[i] == ' ')i++;
     int k = i;
@@ -79,21 +84,21 @@ void BT::read_BT(string s) {
         if (equal_Z2(i, k)) {
             Node x = {s[i], 1};
             insert(x);
-            count++;
+            //count++;
         }
     }
-    count_nodes = count;
+    //count_nodes = count;
 }
 /**
  * функция вывода дерева
  */
 void BT::print() {
     int dep = 0, k = 1, z = 1, p = 1, it = 1;
-    while (dep <= mx_dep) {
+    while (dep <= mx_dep + 1) {
         z *= 2;
         dep++;
     }
-    cout << "Depth : " << mx_dep << ", nodes : " << count_nodes - 1 << '\n';
+    cout << "Depth : " << mx_dep << ", nodes : " << count_nodes << '\n';
     for (int i = 1; i <= mx_dep; i++) {
         p = 1, k *= 2;
         if (i == 1) k = 1;
@@ -114,6 +119,7 @@ void BT::print() {
 }
 /**
  * функция подсчета и вывода листов дерева
+ * (спускаемся пока справа и слева не будет NULL --> это лист)
  */
 void BT::print_leaf() {
     int count_leaf = 0;
@@ -127,6 +133,7 @@ void BT::print_leaf() {
 }
 /**
  * функция подсчета и вывода узлов на глубине dep
+ * узлы на глубине dep расположены в массиве между индексами 2^(dep+1) и 2^dep, собственно проходимся по ним и смотрим
  * @param int dep
  */
 void BT::count_edges(int dep) {
@@ -167,10 +174,10 @@ int32_t main() {
     bintree.read_BT(s);
     bintree.print();
     bintree.print_leaf();
-    cout << "Enter depth :\n";
+    if(f !='1')cout << "Enter depth :\n";
     int k; cin >> k;
     bintree.count_edges(k);
-    if(f == '0') system("pause");
+    system("pause");
     if(f== '1'){
         fclose(stdin);
         fclose(stdout);

@@ -1,10 +1,20 @@
-Depth : 5, nodes : 8
-                                8                               
-                     2                    9                     
-            1           4                       a               
-                            7                                   
-                     5                                          
+Depth : 1, nodes : 1
+    8   
 
-Printing leaves : 1 a 5 , number of leaves : 3
-Enter depth :
-Printing nodes on depth 3 : 1 4 a , number of nodes : 3
+Depth : 2, nodes : 2
+        8       
+     2          
+
+Depth : 3, nodes : 3
+                8               
+          2                     
+            3                   
+
+Depth : 3, nodes : 3
+                8               
+          2                     
+            3                   
+
+Printing leaves : 3 , number of leaves : 1
+Press any key to continue . . . 
+Printing nodes on depth 3 : 3 , number of nodes : 1
