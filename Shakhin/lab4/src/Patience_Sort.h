@@ -32,26 +32,26 @@ void patienceSort(std::vector<T>&array, int size, int(*comparator)(const T&, con
     int arrStackSize = stacksArray.size();
     cout << "Check all elements  of array and push them to stacks" << endl;
     for (int i = 1; i < size; i++) {
+        cout<<"\n-----------------------------------------\n"<<"Array elem " << array[i]<<endl;
         for (int j = 0; j < arrStackSize; j++) { // проверяем все стэки
             // если текущий элемент меньше чем значение в стэке
             if (comparator(array[i], stacksArray[j].top()) == -1 || comparator(array[i], stacksArray[j].top()) == 0) {
-                cout << "\n-----------------------------------------\n"
-                     << "Array elem " << array[i] << "\n" << array[i]
-                     << " <= " << "Stack(" << j << ") top: " << stacksArray[j].top()
+                cout<< array[i]<< " <= " << "Stack(" << j+1 << ") top: " << stacksArray[j].top()
                      << "\n" << "Array elem pushed to the Stack(" << j+1 << ")"
                      << "\n--------------------------------------------" << endl;
                 stacksArray[j].push(array[i]);
                 pushFlag = true;
                 break;
-            } else continue;
+            } else {
+                cout<< array[i]<<" > " << "Stack(" << j+1 << ") top: " << stacksArray[j].top()<<endl;
+            }
         }
         if (!pushFlag) {
             std::stack<T> buffer; // создаём новый стэк и добавляем его вправо.
             stacksArray.push_back(buffer);
             arrStackSize = stacksArray.size();
             stacksArray[arrStackSize - 1].push(array[i]);
-            cout << "\n----------------------------------------------\n"
-                 << "Array elem " << array[i] << "\n" << array[i] << " > tops of all stacks\n"
+            cout<< array[i] << " > tops of all stacks\n"
                  << "Create new stack and add it to the right\n" << "new stack top: "
                  << stacksArray[arrStackSize - 1].top()
                  << "\n-------------------------------------------" << endl;
@@ -120,7 +120,7 @@ void patienceSort(std::vector<T>&array, int size, int(*comparator)(const T&, con
             }
             if(!buttomRow.empty()) { // поиск нового элемента для ниэнего ряда.
                 cout << "-----------------------------------------------\n"
-                        "Find new left element in stacks tops\n";
+                        "Find new left element is stacks tops\n";
                 int len = arrStackSize - buttomRow.size();
                 for (int s = 0; s < len; s++) {
                     if (!stacksArray[s].empty()) {
