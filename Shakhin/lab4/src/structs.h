@@ -4,6 +4,9 @@
 #define AISD_LB3_STRUCTS_H
 
 #include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stack>
 #include <string>
 #include <cstring>
 #include <unistd.h>
