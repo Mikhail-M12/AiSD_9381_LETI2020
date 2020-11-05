@@ -1,0 +1,24 @@
+Available actions:
+
+  1) Read array from console.
+  2) Read array from file.
+  3) Generate a random array.
+  4) Exit.
+
+Choose one of the actions: Enter array size: 
+Unsorted array:
+-973 -450 208 -204 -726 -299 -317 -211 -73 919 
+
+Sorted array:
+-973 -726 -450 -317 -299 -211 -204 -73 208 919 
+
+Cycle sort algorithm sorted the array correctly.
+
+Available actions:
+
+  1) Read array from console.
+  2) Read array from file.
+  3) Generate a random array.
+  4) Exit.
+
+Choose one of the actions: 
