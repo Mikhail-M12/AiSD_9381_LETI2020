@@ -8,12 +8,25 @@
 #include "Logger.h"
 #include <Windows.h>
 
+void printHelp() {
+    std::cout << "List of available options:\n";
+    std::cout << "    -s    Enable silent mode.\n";
+    std::cout << "    -h    Print help.\n";
+    std::cout << "\n";
+}
+
+void clearInput() {
+    // РЈРґР°Р»СЏРµРј РёР· РїРѕС‚РѕРєР° РЅРµСЃС‡РёС‚Р°РЅРЅС‹Рµ СЃРёРјРІРѕР»С‹
+    std::cin.clear();
+    while (std::cin.get() != '\n');
+}
+
 template<typename T>
 void printArray(T* array, int size, MessageType type = COMMON, int indent = 0, int cycleStart = -1, int position = -1, bool isEmpty = false, int index = -1) {
     Logger::log("", type, indent);
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    // Выводим элементы массива при помощи логгера
+    // Р’С‹РІРѕРґРёРј СЌР»РµРјРµРЅС‚С‹ РјР°СЃСЃРёРІР° РїСЂРё РїРѕРјРѕС‰Рё Р»РѕРіРіРµСЂР°
     for (int i = 0; i < size; i++) {
         if (i == position && i == cycleStart) {
             SetConsoleTextAttribute(hConsole, (WORD)((5 << 4) | 3));
@@ -53,13 +66,13 @@ void cycleSort(T* array, int size) {
     Logger::log("\nCycle sorting start.\n");
 
     for (int cycleStart = 0; cycleStart < size; cycleStart++) {
-        int position = cycleStart;              // Индекс текущего элемента в массиве
-        T value = std::move(array[cycleStart]); // Значение текущего элемента
+        int position = cycleStart;              // РРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° РІ РјР°СЃСЃРёРІРµ
+        T value = std::move(array[cycleStart]); // Р—РЅР°С‡РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
 
         Logger::log("\n[Outer loop iteration #" + std::to_string(cycleStart) + "]\n", DEBUG);
         Logger::log("Finding a place for an array element '" + std::to_string(value) + "':\n", DEBUG, 1);
 
-        // Находим новую позицию для текущего элемента
+        // РќР°С…РѕРґРёРј РЅРѕРІСѓСЋ РїРѕР·РёС†РёСЋ РґР»СЏ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
         for (int i = cycleStart + 1; i < size; i++) {
             printArray(array, size, DEBUG, 2, cycleStart, position, false, i);
             if (array[i] < value) {
@@ -69,9 +82,9 @@ void cycleSort(T* array, int size) {
         printArray(array, size, DEBUG, 2, cycleStart, position, false);
         Logger::log("\n", DEBUG);
 
-        // Если новую позицию занимает другой элеменет
+        // Р•СЃР»Рё РЅРѕРІСѓСЋ РїРѕР·РёС†РёСЋ Р·Р°РЅРёРјР°РµС‚ РґСЂСѓРіРѕР№ СЌР»РµРјРµРЅРµС‚
         if (position != cycleStart) {
-            // Пропускаем равные по значению элементы
+            // РџСЂРѕРїСѓСЃРєР°РµРј СЂР°РІРЅС‹Рµ РїРѕ Р·РЅР°С‡РµРЅРёСЋ СЌР»РµРјРµРЅС‚С‹
             while (value == array[position]) {
                 Logger::log("Skipping elements with the same value: '" + std::to_string(array[position]) + "' with index " + std::to_string(position) + ".\n", DEBUG, 1);
                 position++;
@@ -80,17 +93,17 @@ void cycleSort(T* array, int size) {
             Logger::log("A new position was found for element '" + std::to_string(value) + "' with index " + std::to_string(cycleStart) + ": index " + std::to_string(position) + ".\n", DEBUG, 1);
             Logger::log("Placing element '" + std::to_string(value) + "' instead element '" + std::to_string(array[position]) + "' with index " + std::to_string(position) + ":\n", DEBUG, 1);
 
-            // Меняем значения текущего элемента и элемента, который стоит на новой позиции текущего элемента
+            // РњРµРЅСЏРµРј Р·РЅР°С‡РµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° Рё СЌР»РµРјРµРЅС‚Р°, РєРѕС‚РѕСЂС‹Р№ СЃС‚РѕРёС‚ РЅР° РЅРѕРІРѕР№ РїРѕР·РёС†РёРё С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
             std::swap(array[position], value);
 
-            // Ищем новую позицию для нового текущего элемента 
+            // РС‰РµРј РЅРѕРІСѓСЋ РїРѕР·РёС†РёСЋ РґР»СЏ РЅРѕРІРѕРіРѕ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° 
             while (position != cycleStart) {
                 printArray(array, size, DEBUG, 2, cycleStart, position, true);
                 Logger::log("\n", DEBUG);
                 Logger::log("Finding a place for an array element '" + std::to_string(value) + "':\n", DEBUG, 1);
                 position = cycleStart;
 
-                // Находим новую позицию для текущего элемента
+                // РќР°С…РѕРґРёРј РЅРѕРІСѓСЋ РїРѕР·РёС†РёСЋ РґР»СЏ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
                 for (int i = cycleStart + 1; i < size; i++) {
                     printArray(array, size, DEBUG, 2, cycleStart, position, true, i);
                     if (array[i] < value) {
@@ -100,7 +113,7 @@ void cycleSort(T* array, int size) {
                 printArray(array, size, DEBUG, 2, cycleStart, position, true);
                 Logger::log("\n", DEBUG);
 
-                // Пропускаем равные по значению элементы
+                // РџСЂРѕРїСѓСЃРєР°РµРј СЂР°РІРЅС‹Рµ РїРѕ Р·РЅР°С‡РµРЅРёСЋ СЌР»РµРјРµРЅС‚С‹
                 while (value == array[position]) {
                     Logger::log("Skipping elements with the same value: '" + std::to_string(array[position]) + "' with index " + std::to_string(position) + ".\n", DEBUG, 1);
                     position++;
@@ -111,7 +124,7 @@ void cycleSort(T* array, int size) {
                     Logger::log("Placing element '" + std::to_string(value) + "' instead element '" + std::to_string(array[position]) + "' with index " + std::to_string(position) + ":\n", DEBUG, 1);
                 }
 
-                // Меняем значения текущего элемента и элемента, который стоит на новой позиции текущего элемента
+                // РњРµРЅСЏРµРј Р·РЅР°С‡РµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° Рё СЌР»РµРјРµРЅС‚Р°, РєРѕС‚РѕСЂС‹Р№ СЃС‚РѕРёС‚ РЅР° РЅРѕРІРѕР№ РїРѕР·РёС†РёРё С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
                 std::swap(array[position], value);
             }
 
@@ -123,22 +136,14 @@ void cycleSort(T* array, int size) {
             Logger::log("Placing element on index " + std::to_string(position) + ":\n", DEBUG, 1);
             printArray(array, size, DEBUG, 2, cycleStart, position, false);
         }
+
+        if (size <= 10 && !Logger::getInstance().getSilentMode()) {
+            Logger::log("\nOuter loop iteration #" + std::to_string(cycleStart) + " is over. Press 'Enter' to move to the next iteration...\n", DEBUG);
+            std::cin.get();
+        }
     }
 
     Logger::log("\nCycle sorting end.\n");
-}
-
-void printHelp() {
-    std::cout << "List of available options:\n";
-    std::cout << "    -s    Enable silent mode.\n";
-    std::cout << "    -h    Print help.\n";
-    std::cout << "\n";
-}
-
-void clearInput() {
-    // Удаляем из потока несчитанные символы
-    std::cin.clear();
-    while (std::cin.get() != '\n');
 }
 
 int main(int argc, char* argv[]) {
@@ -146,10 +151,10 @@ int main(int argc, char* argv[]) {
     bool isSilentMode = false;
     Logger& logger = Logger::getInstance();
 
-    // Настройка файла вывода сообщений логгера
+    // РќР°СЃС‚СЂРѕР№РєР° С„Р°Р№Р»Р° РІС‹РІРѕРґР° СЃРѕРѕР±С‰РµРЅРёР№ Р»РѕРіРіРµСЂР°
     logger.setFileOutput("logs\\" + Logger::getCurrentDateTime() + ".txt");
 
-    // Обработка аргументов командной строки
+    // РћР±СЂР°Р±РѕС‚РєР° Р°СЂРіСѓРјРµРЅС‚РѕРІ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
     if (argc > 0) {
         for (int i = 1; i < argc; i++) {
             if (strcmp(argv[i], "-s") == 0) {
@@ -164,23 +169,34 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Установка тихого режима логгера
+    // РЈСЃС‚Р°РЅРѕРІРєР° С‚РёС…РѕРіРѕ СЂРµР¶РёРјР° Р»РѕРіРіРµСЂР°
     logger.setSilentMode(isSilentMode);
 
     while (isLoopEnabled) {
-        // Считывание выбора действия пользователя
-        Logger::log("Available actions:\n\n  1) Read array from console.\n  2) Read array from file.\n  3) Generate a random array.\n  4) Exit.\n\nChoose one of the actions: ");
+        // РЎС‡РёС‚С‹РІР°РЅРёРµ РІС‹Р±РѕСЂР° РґРµР№СЃС‚РІРёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+        Logger::log("Available actions:\n\n  1) Read array from console.\n  2) Read array from file.\n  3) Generate a random array.\n  4) Enable output of intermediate data.\n  5) Disable output of intermediate data.\n  6) Exit.\n\nChoose one of the actions: ");
         int action = -1;
         std::cin >> action;
 
-        while (action < 1 || action > 4) {
+        while (action < 1 || action > 6) {
             clearInput();
             Logger::log("Incorrect action. Select the action again: ");
             std::cin >> action;
         }
 
-        if (action == 4) {
+        if (action == 6) {
             isLoopEnabled = false;
+            continue;
+        }
+
+        if (action == 4) {
+            isSilentMode = false;
+            logger.setSilentMode(isSilentMode);
+            continue;
+        }
+        else if (action == 5) {
+            isSilentMode = true;
+            logger.setSilentMode(isSilentMode);
             continue;
         }
 
@@ -188,7 +204,7 @@ int main(int argc, char* argv[]) {
         int* array(nullptr);
 
         if (action == 1 || action == 3) {
-            // Считывание размера массива
+            // РЎС‡РёС‚С‹РІР°РЅРёРµ СЂР°Р·РјРµСЂР° РјР°СЃСЃРёРІР°
             Logger::log("Enter array size: ");
             std::cin >> arraySize;
 
@@ -200,37 +216,38 @@ int main(int argc, char* argv[]) {
 
             array = new int[arraySize];
 
-            // Считываем значения массива с консоли
+            // РЎС‡РёС‚С‹РІР°РµРј Р·РЅР°С‡РµРЅРёСЏ РјР°СЃСЃРёРІР° СЃ РєРѕРЅСЃРѕР»Рё
             if (action == 1) {
                 for (int i = 0; i < arraySize; i++) {
                     std::cin >> array[i];
 
-                    // Пропускаем некорректные значения
+                    // РџСЂРѕРїСѓСЃРєР°РµРј РЅРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
                     if (std::cin.fail()) {
                         clearInput();
                         i--;
                     }
                 }
+                clearInput();
             }
-            // Рандомная генерация значений массива
+            // Р Р°РЅРґРѕРјРЅР°СЏ РіРµРЅРµСЂР°С†РёСЏ Р·РЅР°С‡РµРЅРёР№ РјР°СЃСЃРёРІР°
             else {
                 srand(time(nullptr));
                 for (int i = 0; i < arraySize; i++) {
-                    array[i] = rand() % 2001 - 1000; // Генерируем числа от -1000 до 1000
+                    array[i] = rand() % 2001 - 1000; // Р“РµРЅРµСЂРёСЂСѓРµРј С‡РёСЃР»Р° РѕС‚ -1000 РґРѕ 1000
                 }
             }
         }
-        // Ввод с файла
+        // Р’РІРѕРґ СЃ С„Р°Р№Р»Р°
         else { 
             std::ifstream file("input.txt");
 
-            // Если файл не удалось открыть
+            // Р•СЃР»Рё С„Р°Р№Р» РЅРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ
             if (!file.is_open()) {
                 Logger::log("Cannot open file: input.txt\n");
                 continue;
             }
 
-            // Считываем размер массива из файла
+            // РЎС‡РёС‚С‹РІР°РµРј СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР° РёР· С„Р°Р№Р»Р°
             file >> arraySize;
 
             if (arraySize <= 0) {
@@ -240,27 +257,27 @@ int main(int argc, char* argv[]) {
 
             array = new int[arraySize];
 
-            // Считываем значения массива из файла
+            // РЎС‡РёС‚С‹РІР°РµРј Р·РЅР°С‡РµРЅРёСЏ РјР°СЃСЃРёРІР° РёР· С„Р°Р№Р»Р°
             for (int i = 0; i < arraySize; i++) {
                 file >> array[i];
             }
         }
 
-        // Создаем копию неотсортированного массива
+        // РЎРѕР·РґР°РµРј РєРѕРїРёСЋ РЅРµРѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅРѕРіРѕ РјР°СЃСЃРёРІР°
         std::vector<int> arrayCopy(arraySize);
         for (int i = 0; i < arraySize; i++) {
             arrayCopy[i] = array[i];
         }
 
-        // Выводим неотсортированный массив
+        // Р’С‹РІРѕРґРёРј РЅРµРѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹Р№ РјР°СЃСЃРёРІ
         Logger::log("\nUnsorted array:\n");
         printArray(array, arraySize);
 
-        // Сортируем массивы
+        // РЎРѕСЂС‚РёСЂСѓРµРј РјР°СЃСЃРёРІС‹
         cycleSort(array, arraySize);
         std::sort(arrayCopy.begin(), arrayCopy.end());
 
-        // Проверяем правильность сортировки
+        // РџСЂРѕРІРµСЂСЏРµРј РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ СЃРѕСЂС‚РёСЂРѕРІРєРё
         bool correct = true;
         for (int i = 0; i < arraySize; i++) {
             if (array[i] != arrayCopy[i]) {
@@ -269,11 +286,11 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        // Выводим отсортированный массив
+        // Р’С‹РІРѕРґРёРј РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹Р№ РјР°СЃСЃРёРІ
         Logger::log("\nSorted array:\n");
         printArray(array, arraySize);
 
-        // Выводим результат тестирования
+        // Р’С‹РІРѕРґРёРј СЂРµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
         if (correct) {
             Logger::log("\nCycle sort algorithm sorted the array correctly.\n\n");
         } else {

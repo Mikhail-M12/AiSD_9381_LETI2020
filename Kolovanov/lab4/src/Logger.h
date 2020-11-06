@@ -11,11 +11,11 @@ enum MessageType {
 
 
 class Logger {
-    int indentSize_ = 4;        // Размер отступа
-    bool silentMode_ = false;   // Тихий режим
-    bool fileOutput_ = false;   // Вывод сообщений в файл
-    std::string filePath_;      // Путь к выходному файлу
-    std::ofstream file_;        // Дескриптор выходного файла
+    int indentSize_ = 4;        // Р Р°Р·РјРµСЂ РѕС‚СЃС‚СѓРїР°
+    bool silentMode_ = false;   // РўРёС…РёР№ СЂРµР¶РёРј
+    bool fileOutput_ = false;   // Р’С‹РІРѕРґ СЃРѕРѕР±С‰РµРЅРёР№ РІ С„Р°Р№Р»
+    std::string filePath_;      // РџСѓС‚СЊ Рє РІС‹С…РѕРґРЅРѕРјСѓ С„Р°Р№Р»Сѓ
+    std::ofstream file_;        // Р”РµСЃРєСЂРёРїС‚РѕСЂ РІС‹С…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р°
 
     Logger() = default;
     Logger(const Logger&) = delete;
@@ -29,6 +29,7 @@ public:
     static void log(const std::string& message, MessageType type = COMMON, int indents = 0);
     static std::string getCurrentDateTime();
     void setSilentMode(bool value);
+    bool getSilentMode();
     void setFileOutput(const std::string& filePath);
 };
 

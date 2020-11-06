@@ -11,6 +11,10 @@ void Logger::setSilentMode(bool value) {
     silentMode_ = value;
 }
 
+bool Logger::getSilentMode() {
+    return silentMode_;
+}
+
 void Logger::setFileOutput(const std::string& filePath) {
     file_.close();
     file_.open(filePath);
