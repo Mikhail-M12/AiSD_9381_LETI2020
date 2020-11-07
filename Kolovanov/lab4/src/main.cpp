@@ -139,7 +139,7 @@ void cycleSort(T* array, int size) {
 
         if (size <= 10 && !Logger::getInstance().getSilentMode()) {
             Logger::log("\nOuter loop iteration #" + std::to_string(cycleStart) + " is over. Press 'Enter' to move to the next iteration...\n", DEBUG);
-            std::cin.get();
+            clearInput();
         }
     }
 
@@ -173,8 +173,25 @@ int main(int argc, char* argv[]) {
     logger.setSilentMode(isSilentMode);
 
     while (isLoopEnabled) {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
         // Считывание выбора действия пользователя
-        Logger::log("Available actions:\n\n  1) Read array from console.\n  2) Read array from file.\n  3) Generate a random array.\n  4) Enable output of intermediate data.\n  5) Disable output of intermediate data.\n  6) Exit.\n\nChoose one of the actions: ");
+        Logger::log("Available actions:\n\n  1) Read array from console.\n  2) Read array from file.\n  3) Generate a random array.\n");
+
+        if (!isSilentMode) {
+            SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 2));
+        }
+        Logger::log("  4) Enable output of intermediate data.\n");
+        SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 7));
+
+        if (isSilentMode) {
+            SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 2));
+        }
+        Logger::log("  5) Disable output of intermediate data.\n");
+        SetConsoleTextAttribute(hConsole, (WORD)((0 << 4) | 7));
+
+        Logger::log("  6) Exit.\n\nChoose one of the actions: ");
+
         int action = -1;
         std::cin >> action;
 
@@ -192,11 +209,13 @@ int main(int argc, char* argv[]) {
         if (action == 4) {
             isSilentMode = false;
             logger.setSilentMode(isSilentMode);
+            Logger::log("Intermediate data output enabled.\n");
             continue;
         }
         else if (action == 5) {
             isSilentMode = true;
             logger.setSilentMode(isSilentMode);
+            Logger::log("Intermediate data output disabled.\n");
             continue;
         }
 
@@ -218,6 +237,8 @@ int main(int argc, char* argv[]) {
 
             // Считываем значения массива с консоли
             if (action == 1) {
+                Logger::log("Enter array:\n");
+
                 for (int i = 0; i < arraySize; i++) {
                     std::cin >> array[i];
 
@@ -227,7 +248,6 @@ int main(int argc, char* argv[]) {
                         i--;
                     }
                 }
-                clearInput();
             }
             // Рандомная генерация значений массива
             else {
@@ -236,6 +256,8 @@ int main(int argc, char* argv[]) {
                     array[i] = rand() % 2001 - 1000; // Генерируем числа от -1000 до 1000
                 }
             }
+
+            clearInput();
         }
         // Ввод с файла
         else { 
