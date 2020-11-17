@@ -1,0 +1,15 @@
+Print the size of array?
+Print type of array (1 - int, 2 - double, 3 - char)
+Print array
+Iteration 1
+Array :: 0 0 0 
+Iteration 2
+Array :: 0 0 0 
+Iteration 3
+Array :: 0 0 0 
+Iteration 4
+Array :: 0 0 0 
+
+Printing sorted array      :: 0 0 0 
+Printing std::sorted array :: 0 0 0 
+Arrays are the same
