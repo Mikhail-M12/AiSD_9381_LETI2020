@@ -1,0 +1,12 @@
+Printing the order of joining nodes :: 
+1(1)
+Code of symbols in alphabet order :: 
+1(0) 
+
+Code of symbols in numeric order :: 
+1(0) 
+
+Encrypted message :: 
+0
+
+Length ::1
