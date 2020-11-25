@@ -1,0 +1,32 @@
+входные данные:
+(a (b c))
+
+выходные данные:
+(input)
+(a(bc))
+
+
+(creation of element)(first element of list)[a]
+(creation of element)(moving to the lower level)
+(creation of element)(first element of list)[b]
+(creation of element)[c]
+(creation of element)(deleting an extra element)(sublist finished)
+(creation of element)(deleting an extra element)(sublist finished)
+
+
+(hierarchical list)
+(a (b c))
+
+(creation of element)(creation of element)[a]
+(creation of element)(creation of element)[b]
+(creation of element)(creation of element)[c]
+(creation of element)(deleting an extra element)(sublist finished)
+
+(linear list)
+(a b c)
+
+(deleting of hierarchical list)
+(del)[c]
+(del)[b]
+(del)[ ]
+(del)[a]

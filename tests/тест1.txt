@@ -1,0 +1,13 @@
+входные данные:
+()
+
+выходные данные:
+(input)
+()
+
+(list is empty)
+
+(hierarchical list)
+()
+
+(list is empty)
