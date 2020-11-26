@@ -6,7 +6,7 @@
 
 class ShannonFanoDecoder {
 private:
-	BinaryTree<char>* tree_ = nullptr;	// Дерево Шеннона-Фано
+	BinaryTree<char>* tree_ = nullptr;	// Р”РµСЂРµРІРѕ РЁРµРЅРЅРѕРЅР°-Р¤Р°РЅРѕ
 
 public:
 	ShannonFanoDecoder(const std::string& expression);

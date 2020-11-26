@@ -7,8 +7,8 @@
 
 class ShannonFanoEncoder: public Encoder {
 private:
-	BinaryTree<char>* tree_ = nullptr;	// Дерево Шеннона-Фано
-	CharacterCodes codes_;				// Коды символов алфавита
+	BinaryTree<char>* tree_ = nullptr;	// Р”РµСЂРµРІРѕ РЁРµРЅРЅРѕРЅР°-Р¤Р°РЅРѕ
+	CharacterCodes codes_;				// РљРѕРґС‹ СЃРёРјРІРѕР»РѕРІ Р°Р»С„Р°РІРёС‚Р°
 
 	BinaryTree<char>* calculateCharactersTreeAndCodes(CharactersFrequency& frequency, CharacterCodes& codes, BitSequence& path);
 

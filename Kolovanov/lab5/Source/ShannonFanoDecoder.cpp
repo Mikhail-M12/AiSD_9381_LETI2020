@@ -6,18 +6,18 @@ std::string ShannonFanoDecoder::decodeText(BitSequence& sequence) {
 	std::stringstream characterStream;
 	BinaryTree<char>* subtree = tree_;
 	
-	// Ïðîõîä ïî áèòàì çàêîäèðîâàííîãî òåêñòà
+	// ÐŸÑ€Ð¾Ñ…Ð¾Ð´ Ð¿Ð¾ Ð±Ð¸Ñ‚Ð°Ð¼ Ð·Ð°ÐºÐ¾Ð´Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ð³Ð¾ Ñ‚ÐµÐºÑÑ‚Ð°
 	for (auto bit : sequence) {
 		Logger::log(std::to_string(bit), MessageType::Debug);
 
-		// Â çàâèñèìîñòè îò çíà÷åíèÿ áèòà ïðîèñõîäèò ïåðåõîä ëèáî â ïðàâîå ïîääåðåâî, ëèáî â ëåâîå ïîääåðåâî
+		// Ð’ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚Ð¸ Ð¾Ñ‚ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð±Ð¸Ñ‚Ð° Ð¿Ñ€Ð¾Ð¸ÑÑ…Ð¾Ð´Ð¸Ñ‚ Ð¿ÐµÑ€ÐµÑ…Ð¾Ð´ Ð»Ð¸Ð±Ð¾ Ð² Ð¿Ñ€Ð°Ð²Ð¾Ðµ Ð¿Ð¾Ð´Ð´ÐµÑ€ÐµÐ²Ð¾, Ð»Ð¸Ð±Ð¾ Ð² Ð»ÐµÐ²Ð¾Ðµ Ð¿Ð¾Ð´Ð´ÐµÑ€ÐµÐ²Ð¾
 		if (bit) {
 			subtree = subtree->getRightSubtree();
 		} else {
 			subtree = subtree->getLeftSubtree();
 		}
 		
-		// Åñëè äîñòãíóò ëèñò äåðåâà (î÷åðåäíîé ñèìâîë òåêñòà), òî îí äîáàâëÿåòñÿ â òåêñò, è ïðîèñõîäèò ïåðåõîä â êîðåíü äåðåâà
+		// Ð•ÑÐ»Ð¸ Ð´Ð¾ÑÑ‚Ð³Ð½ÑƒÑ‚ Ð»Ð¸ÑÑ‚ Ð´ÐµÑ€ÐµÐ²Ð° (Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð½Ð¾Ð¹ ÑÐ¸Ð¼Ð²Ð¾Ð» Ñ‚ÐµÐºÑÑ‚Ð°), Ñ‚Ð¾ Ð¾Ð½ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÑ‚ÑÑ Ð² Ñ‚ÐµÐºÑÑ‚, Ð¸ Ð¿Ñ€Ð¾Ð¸ÑÑ…Ð¾Ð´Ð¸Ñ‚ Ð¿ÐµÑ€ÐµÑ…Ð¾Ð´ Ð² ÐºÐ¾Ñ€ÐµÐ½ÑŒ Ð´ÐµÑ€ÐµÐ²Ð°
 		if (subtree->isLeaf()) {
 			Logger::log(" -> '" + std::string(1, subtree->getElement()) + "'\n", MessageType::Debug);
 			characterStream << subtree->getElement();

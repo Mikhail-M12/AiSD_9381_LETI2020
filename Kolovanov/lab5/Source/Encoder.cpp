@@ -6,7 +6,7 @@ CharactersFrequency Encoder::calculateTextCharacterFrequencies(const std::string
 	frequencies_.clear();
 	Logger::log("\nCounting the frequency of characters in text...\n", MessageType::Debug);
 
-	// Ïðîáåãàåìñÿ ïî ñèìâîëàì òåêñòà è ñ÷èòàåì èõ
+	// ÐŸÑ€Ð¾Ð±ÐµÐ³Ð°ÐµÐ¼ÑÑ Ð¿Ð¾ ÑÐ¸Ð¼Ð²Ð¾Ð»Ð°Ð¼ Ñ‚ÐµÐºÑÑ‚Ð° Ð¸ ÑÑ‡Ð¸Ñ‚Ð°ÐµÐ¼ Ð¸Ñ…
 	for (auto symbol : text) {
 		size_t position = 0;
 		bool inData = false;
@@ -27,7 +27,7 @@ CharactersFrequency Encoder::calculateTextCharacterFrequencies(const std::string
 		}
 	}
 
-	// Ñîðòèðóåì ÷àñòîòû ïî óáûâàíèþ ñ ó÷åòîì ëåêñåãðàôè÷åñêîãî ïîðÿäêà
+	// Ð¡Ð¾Ñ€Ñ‚Ð¸Ñ€ÑƒÐµÐ¼ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ñ‹ Ð¿Ð¾ ÑƒÐ±Ñ‹Ð²Ð°Ð½Ð¸ÑŽ Ñ ÑƒÑ‡ÐµÑ‚Ð¾Ð¼ Ð»ÐµÐºÑÐµÐ³Ñ€Ð°Ñ„Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð¿Ð¾Ñ€ÑÐ´ÐºÐ°
 	std::sort(frequencies_.begin(), frequencies_.end(), [](const CharacterFrequency& f1, const CharacterFrequency& f2) {
 		if (f1.second != f2.second) {
 			return f1.second > f2.second;

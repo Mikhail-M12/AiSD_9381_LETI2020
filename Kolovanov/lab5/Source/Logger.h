@@ -7,10 +7,10 @@
 
 
 class Logger {
-    int indentSize_ = 4;        // Размер отступа
-    bool debugMode_ = false;    // Режим вывода отладочных сообщений
-    bool fileOutput_ = false;   // Вывод сообщений в файл
-    std::ofstream file_;        // Дескриптор выходного файла
+    int indentSize_ = 4;        // Р Р°Р·РјРµСЂ РѕС‚СЃС‚СѓРїР°
+    bool debugMode_ = false;    // Р РµР¶РёРј РІС‹РІРѕРґР° РѕС‚Р»Р°РґРѕС‡РЅС‹С… СЃРѕРѕР±С‰РµРЅРёР№
+    bool fileOutput_ = false;   // Р’С‹РІРѕРґ СЃРѕРѕР±С‰РµРЅРёР№ РІ С„Р°Р№Р»
+    std::ofstream file_;        // Р”РµСЃРєСЂРёРїС‚РѕСЂ РІС‹С…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р°
 
     Logger() = default;
     Logger(const Logger&) = delete;

@@ -6,15 +6,15 @@
 #include <map>
 #include "BinaryTree.h"
 
-typedef std::vector<bool> BitSequence;							// Последовательность бит - вектор значений типа bool (true - 1, false - 0)
-typedef std::pair<char, size_t> CharacterFrequency;				// Частота символа - пара из значения символа и его частоты (количество вхождений в текст)
-typedef std::vector<CharacterFrequency> CharactersFrequency;	// Частота символов - вектор частоты символов
-typedef std::map<char, BitSequence> CharacterCodes;				// Коды символов - словарь, ключ которого соответствуют символу, а значение - коду этого символа
+typedef std::vector<bool> BitSequence;							// РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ Р±РёС‚ - РІРµРєС‚РѕСЂ Р·РЅР°С‡РµРЅРёР№ С‚РёРїР° bool (true - 1, false - 0)
+typedef std::pair<char, size_t> CharacterFrequency;				// Р§Р°СЃС‚РѕС‚Р° СЃРёРјРІРѕР»Р° - РїР°СЂР° РёР· Р·РЅР°С‡РµРЅРёСЏ СЃРёРјРІРѕР»Р° Рё РµРіРѕ С‡Р°СЃС‚РѕС‚С‹ (РєРѕР»РёС‡РµСЃС‚РІРѕ РІС…РѕР¶РґРµРЅРёР№ РІ С‚РµРєСЃС‚)
+typedef std::vector<CharacterFrequency> CharactersFrequency;	// Р§Р°СЃС‚РѕС‚Р° СЃРёРјРІРѕР»РѕРІ - РІРµРєС‚РѕСЂ С‡Р°СЃС‚РѕС‚С‹ СЃРёРјРІРѕР»РѕРІ
+typedef std::map<char, BitSequence> CharacterCodes;				// РљРѕРґС‹ СЃРёРјРІРѕР»РѕРІ - СЃР»РѕРІР°СЂСЊ, РєР»СЋС‡ РєРѕС‚РѕСЂРѕРіРѕ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‚ СЃРёРјРІРѕР»Сѓ, Р° Р·РЅР°С‡РµРЅРёРµ - РєРѕРґСѓ СЌС‚РѕРіРѕ СЃРёРјРІРѕР»Р°
 
 
 class Encoder {
 protected:
-	CharactersFrequency frequencies_;	// Частота символов в тексте
+	CharactersFrequency frequencies_;	// Р§Р°СЃС‚РѕС‚Р° СЃРёРјРІРѕР»РѕРІ РІ С‚РµРєСЃС‚Рµ
 
 public:
 	CharactersFrequency getCharacterFrequencies();

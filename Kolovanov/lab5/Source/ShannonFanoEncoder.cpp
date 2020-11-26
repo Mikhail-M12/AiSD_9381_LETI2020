@@ -15,12 +15,12 @@ BinaryTree<char>* ShannonFanoEncoder::calculateCharactersTreeAndCodes(Characters
 		pathString += std::to_string(path[i]);
 	}
 
-	// Если кодировать нечего - то возвращается пустое дерево
+	// Р•СЃР»Рё РєРѕРґРёСЂРѕРІР°С‚СЊ РЅРµС‡РµРіРѕ - С‚Рѕ РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ РїСѓСЃС‚РѕРµ РґРµСЂРµРІРѕ
 	if (frequency.size() == 0) {
 		return tree;
 	}
-	// Если в списке частоты символов осталось одно значение, то происходит присваивание текущему узлу дерева символа
-	// и добавление кода текущего символа в массив кодов символов алфавита
+	// Р•СЃР»Рё РІ СЃРїРёСЃРєРµ С‡Р°СЃС‚РѕС‚С‹ СЃРёРјРІРѕР»РѕРІ РѕСЃС‚Р°Р»РѕСЃСЊ РѕРґРЅРѕ Р·РЅР°С‡РµРЅРёРµ, С‚Рѕ РїСЂРѕРёСЃС…РѕРґРёС‚ РїСЂРёСЃРІР°РёРІР°РЅРёРµ С‚РµРєСѓС‰РµРјСѓ СѓР·Р»Сѓ РґРµСЂРµРІР° СЃРёРјРІРѕР»Р°
+	// Рё РґРѕР±Р°РІР»РµРЅРёРµ РєРѕРґР° С‚РµРєСѓС‰РµРіРѕ СЃРёРјРІРѕР»Р° РІ РјР°СЃСЃРёРІ РєРѕРґРѕРІ СЃРёРјРІРѕР»РѕРІ Р°Р»С„Р°РІРёС‚Р°
 	else if (frequency.size() == 1) {
 		if (path.size() == 0) {
 			path.push_back(false);
@@ -33,7 +33,7 @@ BinaryTree<char>* ShannonFanoEncoder::calculateCharactersTreeAndCodes(Characters
 		}
 		return tree;
 	}
-	// Если в списке частоты символов осталось более одного значение, то происходит разделение этого списка на два
+	// Р•СЃР»Рё РІ СЃРїРёСЃРєРµ С‡Р°СЃС‚РѕС‚С‹ СЃРёРјРІРѕР»РѕРІ РѕСЃС‚Р°Р»РѕСЃСЊ Р±РѕР»РµРµ РѕРґРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёРµ, С‚Рѕ РїСЂРѕРёСЃС…РѕРґРёС‚ СЂР°Р·РґРµР»РµРЅРёРµ СЌС‚РѕРіРѕ СЃРїРёСЃРєР° РЅР° РґРІР°
 	else {
 		size_t middleIndex = 0;
 		long long leftSum = 0;
@@ -43,7 +43,7 @@ BinaryTree<char>* ShannonFanoEncoder::calculateCharactersTreeAndCodes(Characters
 			rightSum += frequency[i].second;
 		}
 
-		// Находим такой k, при котором различие между суммой частот двух списков минимально 
+		// РќР°С…РѕРґРёРј С‚Р°РєРѕР№ k, РїСЂРё РєРѕС‚РѕСЂРѕРј СЂР°Р·Р»РёС‡РёРµ РјРµР¶РґСѓ СЃСѓРјРјРѕР№ С‡Р°СЃС‚РѕС‚ РґРІСѓС… СЃРїРёСЃРєРѕРІ РјРёРЅРёРјР°Р»СЊРЅРѕ 
 		for (size_t k = 0; k < frequency.size(); k++) {
 			leftSum += frequency[k].second;
 			rightSum -= frequency[k].second;
@@ -54,7 +54,7 @@ BinaryTree<char>* ShannonFanoEncoder::calculateCharactersTreeAndCodes(Characters
 			}
 		}
 
-		// Заполняем левый и правый подсписки списка
+		// Р—Р°РїРѕР»РЅСЏРµРј Р»РµРІС‹Р№ Рё РїСЂР°РІС‹Р№ РїРѕРґСЃРїРёСЃРєРё СЃРїРёСЃРєР°
 		for (size_t i = 0; i <= middleIndex; i++) {
 			left.push_back(frequency[i]);
 		}
@@ -78,18 +78,18 @@ BinaryTree<char>* ShannonFanoEncoder::calculateCharactersTreeAndCodes(Characters
 		Logger::log("(" + std::to_string(rightSum) + ")\n", MessageType::Debug);
 	}
 
-	// Если правая сумма меньше левой, то меняем их местами
+	// Р•СЃР»Рё РїСЂР°РІР°СЏ СЃСѓРјРјР° РјРµРЅСЊС€Рµ Р»РµРІРѕР№, С‚Рѕ РјРµРЅСЏРµРј РёС… РјРµСЃС‚Р°РјРё
 	if (minDelta < 0) {
 		std::swap(left, right);
 	}
 
-	// Создаем левое поддерево
+	// РЎРѕР·РґР°РµРј Р»РµРІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
 	Logger::log("Creating left subtree (" + pathString + "0):\n", MessageType::Debug, path.size());
 	path.push_back(false);
 	tree->setLeftSubtree(calculateCharactersTreeAndCodes(left, codes, path));
 	path.pop_back();
 
-	// Создаем правое поддерево
+	// РЎРѕР·РґР°РµРј РїСЂР°РІРѕРµ РїРѕРґРґРµСЂРµРІРѕ
 	Logger::log("Creating right subtree (" + pathString + "1):\n", MessageType::Debug, path.size());
 	path.push_back(true);
 	tree->setRightSubtree(calculateCharactersTreeAndCodes(right, codes, path));
@@ -109,17 +109,17 @@ CharacterCodes ShannonFanoEncoder::getCharacterCodes() {
 BitSequence ShannonFanoEncoder::encodeText(const std::string& text) {
 	BitSequence encodedText;
 
-	// Получаем частоту символов текста
+	// РџРѕР»СѓС‡Р°РµРј С‡Р°СЃС‚РѕС‚Сѓ СЃРёРјРІРѕР»РѕРІ С‚РµРєСЃС‚Р°
 	calculateTextCharacterFrequencies(text);
 
-	// Строим дерево Шеннона-Фано
+	// РЎС‚СЂРѕРёРј РґРµСЂРµРІРѕ РЁРµРЅРЅРѕРЅР°-Р¤Р°РЅРѕ
 	Logger::log("\nBuilding Shennon-Fano tree...\n", MessageType::Debug);
 	delete tree_;
 	tree_ = calculateCharactersTreeAndCodes(frequencies_, codes_, encodedText);
 	encodedText.clear();
 
 	Logger::log("\nReplace text characters with their codes:\n", MessageType::Debug);
-	// Пробегаемся по символам текста и кодируем их
+	// РџСЂРѕР±РµРіР°РµРјСЃСЏ РїРѕ СЃРёРјРІРѕР»Р°Рј С‚РµРєСЃС‚Р° Рё РєРѕРґРёСЂСѓРµРј РёС…
 	for (auto character : text) {
 		std::stringstream codeString;
 		BitSequence& code = codes_[character];

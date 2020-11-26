@@ -7,7 +7,7 @@
 #include "ShannonFanoDecoder.h"
 
 void clearInput() {
-	// Удаляем из потока несчитанные символы до перевода на новую строку, включая его
+	// РЈРґР°Р»СЏРµРј РёР· РїРѕС‚РѕРєР° РЅРµСЃС‡РёС‚Р°РЅРЅС‹Рµ СЃРёРјРІРѕР»С‹ РґРѕ РїРµСЂРµРІРѕРґР° РЅР° РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ, РІРєР»СЋС‡Р°СЏ РµРіРѕ
 	std::cin.clear();
     while (std::cin.get() != '\n');
 }
@@ -17,18 +17,18 @@ int main() {
 	bool isDebugMode = true;
 	Logger& logger = Logger::getInstance();
 
-	// Настройка русского языка
+	// РќР°СЃС‚СЂРѕР№РєР° СЂСѓСЃСЃРєРѕРіРѕ СЏР·С‹РєР°
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	// Настройка файла вывода сообщений логгера и режима вывода промежуточных данных
+	// РќР°СЃС‚СЂРѕР№РєР° С„Р°Р№Р»Р° РІС‹РІРѕРґР° СЃРѕРѕР±С‰РµРЅРёР№ Р»РѕРіРіРµСЂР° Рё СЂРµР¶РёРјР° РІС‹РІРѕРґР° РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹С… РґР°РЅРЅС‹С…
 	logger.setOutputFile("Logs\\" + Logger::getCurrentDateTime() + ".log");
     logger.setDebugMode(true);
 
     while (isLoopEnabled) {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-        // Считывание выбора действия пользователя
+        // РЎС‡РёС‚С‹РІР°РЅРёРµ РІС‹Р±РѕСЂР° РґРµР№СЃС‚РІРёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
         Logger::log("\nAvailable actions:\n\n  1) Encode text (input from console).\n  2) Encode text (input from file).\n  3) Decode text (input from file).\n");
 
         if (isDebugMode) {
@@ -58,11 +58,11 @@ int main() {
 
         Logger::log("Choosed action: " + std::to_string(action) + "\n\n");
 
-        // Кодирование текста
+        // РљРѕРґРёСЂРѕРІР°РЅРёРµ С‚РµРєСЃС‚Р°
         if (action == 1 || action == 2) {
             std::stringstream text;
 
-            // Считывание текста с консоли
+            // РЎС‡РёС‚С‹РІР°РЅРёРµ С‚РµРєСЃС‚Р° СЃ РєРѕРЅСЃРѕР»Рё
             if (action == 1) {
                 std::string line;
                 std::cout << "Enter text: ";
@@ -72,11 +72,11 @@ int main() {
 
                 Logger::log("Entered text: " + text.str() + "\n\n");
             }
-            // Считывание текста с файла
+            // РЎС‡РёС‚С‹РІР°РЅРёРµ С‚РµРєСЃС‚Р° СЃ С„Р°Р№Р»Р°
             else {
                 std::ifstream inputFile("input_text.txt");
 
-                // Если файл не удалось открыть
+                // Р•СЃР»Рё С„Р°Р№Р» РЅРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ
                 if (!inputFile.is_open()) {
                     Logger::log("Cannot open file: input_text.txt\n");
                     continue;
@@ -91,14 +91,14 @@ int main() {
                 Logger::log("Reading text from file 'input_text.txt'...\n[Text from file]\n" + text.str() + "\n");
             }
 
-            ShannonFanoEncoder encoder;     // Декодировщик
-            const BinaryTree<char>* tree;   // Дерево Шеннона-Фано
-            CharacterCodes characterCodes;  // Коды символов
-            BitSequence encodedText;        // Последовательность бит закодированного текста
+            ShannonFanoEncoder encoder;     // Р”РµРєРѕРґРёСЂРѕРІС‰РёРє
+            const BinaryTree<char>* tree;   // Р”РµСЂРµРІРѕ РЁРµРЅРЅРѕРЅР°-Р¤Р°РЅРѕ
+            CharacterCodes characterCodes;  // РљРѕРґС‹ СЃРёРјРІРѕР»РѕРІ
+            BitSequence encodedText;        // РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ Р±РёС‚ Р·Р°РєРѕРґРёСЂРѕРІР°РЅРЅРѕРіРѕ С‚РµРєСЃС‚Р°
 
             Logger::log("Encoding text started...\n");
 
-            // Кодирование текста
+            // РљРѕРґРёСЂРѕРІР°РЅРёРµ С‚РµРєСЃС‚Р°
             encodedText = encoder.encodeText(text.str());
             tree = encoder.getTree();
             characterCodes = encoder.getCharacterCodes();
@@ -110,10 +110,10 @@ int main() {
             }
             Logger::log("\n\nSaving encoded text to file 'encoded_text.txt'.\n");
 
-            // Сохранение результата в файл
+            // РЎРѕС…СЂР°РЅРµРЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚Р° РІ С„Р°Р№Р»
             std::ofstream outputFile("encoded_text.txt");
 
-            // Если файл не удалось открыть
+            // Р•СЃР»Рё С„Р°Р№Р» РЅРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ
             if (!outputFile.is_open()) {
                 Logger::log("Cannot open file: encoded_text.txt\n");
                 continue;
@@ -126,11 +126,11 @@ int main() {
             }
 
         }
-        // Декодирование текста
+        // Р”РµРєРѕРґРёСЂРѕРІР°РЅРёРµ С‚РµРєСЃС‚Р°
         else if (action == 3) {
             std::ifstream inputFile("encoded_text.txt");
 
-            // Если файл не удалось открыть
+            // Р•СЃР»Рё С„Р°Р№Р» РЅРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ
             if (!inputFile.is_open()) {
                 Logger::log("Cannot open file: encoded_text.txt\n");
                 continue;
@@ -139,7 +139,7 @@ int main() {
             std::string line("()");
             std::stringstream expression;
 
-            // Считываем строки, содержащие скобочную запись дерева Шеннона-Фано
+            // РЎС‡РёС‚С‹РІР°РµРј СЃС‚СЂРѕРєРё, СЃРѕРґРµСЂР¶Р°С‰РёРµ СЃРєРѕР±РѕС‡РЅСѓСЋ Р·Р°РїРёСЃСЊ РґРµСЂРµРІР° РЁРµРЅРЅРѕРЅР°-Р¤Р°РЅРѕ
             while (line != "") {
                 std::getline(inputFile, line);
                 expression << line << "\n";
@@ -148,7 +148,7 @@ int main() {
 
             ShannonFanoDecoder decoder(expression.str());
             BitSequence encodedText;
-            std::getline(inputFile, line); // Считываем строку, содержащую последовательность бит закодированного текста
+            std::getline(inputFile, line); // РЎС‡РёС‚С‹РІР°РµРј СЃС‚СЂРѕРєСѓ, СЃРѕРґРµСЂР¶Р°С‰СѓСЋ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ Р±РёС‚ Р·Р°РєРѕРґРёСЂРѕРІР°РЅРЅРѕРіРѕ С‚РµРєСЃС‚Р°
             Logger::log("[Encoded text] " + line + "\n\n");
 
             for (auto character : line) {
@@ -161,17 +161,17 @@ int main() {
 
             Logger::log("Decoding text started...\n");
 
-            // Декодирование текста
+            // Р”РµРєРѕРґРёСЂРѕРІР°РЅРёРµ С‚РµРєСЃС‚Р°
             std::string decodedText = decoder.decodeText(encodedText);
 
             Logger::log("Decoding text finished.\n\n");
             Logger::log("[Decoded text]\n" + decodedText + "\n\n");
             Logger::log("Saving decoded text to file 'decoded_text.txt'.\n");
 
-            // Сохранение результата в файл
+            // РЎРѕС…СЂР°РЅРµРЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚Р° РІ С„Р°Р№Р»
             std::ofstream outputFile("decoded_text.txt");
             
-            // Если файл не удалось открыть
+            // Р•СЃР»Рё С„Р°Р№Р» РЅРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ
             if (!outputFile.is_open()) {
                 Logger::log("Cannot open file: decoded_text.txt\n");
                 continue;
@@ -180,12 +180,12 @@ int main() {
             outputFile << decodedText;
 
         } else if (action == 4 || action == 5) {
-            // Включение режима отладки (вывода промежуточной информации)
+            // Р’РєР»СЋС‡РµРЅРёРµ СЂРµР¶РёРјР° РѕС‚Р»Р°РґРєРё (РІС‹РІРѕРґР° РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё)
             if (action == 4) {
                 isDebugMode = true;
                 Logger::log("Intermediate data output enabled.\n");
             }
-            // Отключение режима отладки (вывода промежуточной информации)
+            // РћС‚РєР»СЋС‡РµРЅРёРµ СЂРµР¶РёРјР° РѕС‚Р»Р°РґРєРё (РІС‹РІРѕРґР° РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё)
             else {
                 isDebugMode = false;
                 Logger::log("Intermediate data output disabled.\n");
@@ -193,7 +193,7 @@ int main() {
             logger.setDebugMode(isDebugMode);
 
         } else {
-            // Выход из программы
+            // Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹
             isLoopEnabled = false;
         }
     }
