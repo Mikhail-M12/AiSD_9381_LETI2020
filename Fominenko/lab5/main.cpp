@@ -111,7 +111,10 @@ void solve() {
     }
     int number = 0;
     priority_queue<Node *, vector<Node *>, compare> q;
-    for (auto[i, j] : m) {  //take char and create a node with it,put it in queue
+    //for (auto[i, j] : m) {  //take char and create a node with it,put it in queue
+    for (auto it=m.begin(); it!=m.end(); ++it){
+        auto i = it->first;
+        auto j = it->second;
         Node *x = new Node();
         x->num = number++;
         x->str.clear();
@@ -146,14 +149,20 @@ void solve() {
         mp[q.top()->str[0]] = '0';
     }
     cout << "Code of symbols in alphabet order :: \n";
-    for (auto[i, j] : mp) {
+    //for (auto[i, j] : mp) {
+    for (auto it=mp.begin(); it!=mp.end(); ++it){
+        auto i = it->first;
+        auto j = it->second;
         v.push_back(MyStruct(i, j));
         cout << i << '(' << j << ") ";
     }
     sort(all(v));
 
     cout << '\n' << "\nCode of symbols in numeric order :: \n";
-    for (auto[i, j] : v) {
+    //for (auto[i, j] : v) {
+    for (auto it=v.begin(); it!=v.end(); ++it){
+        auto i = it->key;
+        auto j = it->str;
         cout << i << '(' << j << ") ";
     }
     cout << "\n\nEncrypted message :: \n";
@@ -165,12 +174,13 @@ void solve() {
         cout << mp[p];
     }
 
-    cout << "\n\nLength ::"<< len;
+    cout << "\n\nLength :: "<< len << '\n';
 }
 
 int32_t main() {
-    freopen("../input.txt", "r", stdin);
-    freopen("../output.txt", "w", stdout);
+    //cout << "Input data is in file \"input.txt\" , output data - \"output.txt\"\n";
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
     solve();
     fclose(stdin);
     fclose(stdout);

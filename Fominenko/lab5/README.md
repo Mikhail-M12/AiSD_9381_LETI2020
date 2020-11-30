@@ -1,0 +1,1 @@
+Input data is in file \"input.txt\" , output data - \"output.txt\
