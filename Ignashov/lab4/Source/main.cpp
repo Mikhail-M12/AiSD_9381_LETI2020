@@ -78,16 +78,24 @@ int main() {
     string x;
     if(choose==0){
         getline(cin,x);
+        if(!std::atoi(x.c_str())){
+            cout << "Wrong input!";
+            return 0;
+        }
         while(!x.empty()){
             arr.push_back(std::atoi(x.c_str()));
             arr2.push_back(std::atoi(x.c_str()));
             getline(cin,x);
-        };
+        }
     }else {
         ifstream ff;
         ff.open("Lab4Input.txt");
         if (ff.is_open()) {
             getline(ff, x);
+            if(!std::atoi(x.c_str())){
+                cout << "Wrong input!";
+                return 0;
+            }
             while(!x.empty()){
                 arr.push_back(std::atoi(x.c_str()));
                 arr2.push_back(std::atoi(x.c_str()));
