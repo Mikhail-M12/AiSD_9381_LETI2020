@@ -20,12 +20,12 @@ struct s_expr{
     }node;
 };
 
-struct data_list{
+struct list_and_rez{
     LIST* list;
     int rez;
 };
 
-typedef struct data_list DATA_LIST;
+typedef struct list_and_rez LIST_AND_REZ;
 typedef struct two_ptr TWO_PTR;
 
 LIST* head(const LIST* s);

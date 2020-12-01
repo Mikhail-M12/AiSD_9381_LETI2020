@@ -13,7 +13,7 @@ int input_num(string message){
     return num;
 }
 
-void data_save(DATA_LIST* input_mass, int count_of_list){//сохранение данных в файл
+void data_save(LIST_AND_REZ* data_mass, int count_of_list){//сохранение данных в файл
     char* file_name = new char[256];
     cout<<"Введите имя файла сохранения\n";
     cin>>file_name;
@@ -21,18 +21,18 @@ void data_save(DATA_LIST* input_mass, int count_of_list){//сохранение 
     fstream output_file;
     output_file.open(file_name, fstream::out | fstream::app);//открытие или создание файла на запись
     for(int i=0;i<count_of_list;i++){
-    	write_list(input_mass[i].list, &output_file);
-	output_file<<" Глубина: "<<input_mass[i].rez<<'\n';
+    	write_list(data_mass[i].list, &output_file);
+	output_file<<" Глубина: "<<data_mass[i].rez<<'\n';
     }
     delete [] file_name;
     output_file.close();
 }
 
-void clear_memory(DATA_LIST* input_mass, int count_of_string){//функция очистки памяти
-    for(int i = 0; i<count_of_string; i++){
-        destroy(input_mass[i].list);
+void clear_memory(LIST_AND_REZ* data_mass, int count_of_list){//функция очистки памяти
+    for(int i = 0; i<count_of_list; i++){
+        destroy(data_mass[i].list);
     }
-    delete [] input_mass;
+    delete [] data_mass;
 }
 
 int rec_func_depth(LIST* list, int mid_depth){
@@ -54,27 +54,29 @@ int rec_func_depth(LIST* list, int mid_depth){
     }
 }
 
-int data_analis(DATA_LIST* input_mass, int count_of_list){
+int data_analis(LIST_AND_REZ* data_mass, int count_of_list){
     cout<<"------------------------------------------------------------------------------------------\nИсходные данные:\n";
     string dialog_text="\nВыберите дальнейшее действие:\n1 - сохранить данные в файл и продолжить\n2 - сохранить данные в файл и выйти\n3 - продолжить без сохранения\n4 - выйти без сохранения";
     for(int i = 0; i<count_of_list;i++){
-        write_list(input_mass[i].list, &cout);
+        write_list(data_mass[i].list, &cout);
         cout<<'\n';
     }
     cout<<"\nПромежуточные данные алгоритма:\n\n";
     for(int i = 0; i<count_of_list;i++){
 	cout<<"Рассчёт глубины для списка : ";
-	write_list(input_mass[i].list, &cout);
+	write_list(data_mass[i].list, &cout);
 	cout<<'\n';
-    	input_mass[i].rez = rec_func_depth(input_mass[i].list, 0);
-	cout<<"Итоговая глубина: "<<input_mass[i].rez<<"\n\n";
+    	data_mass[i].rez = rec_func_depth(data_mass[i].list, 0);
+	cout<<"Итоговая глубина: "<<data_mass[i].rez<<"\n\n";
     }
+    cout<<"Нажмите ENTER, чтобы продолжить";
+    getchar();
     while(1){
         switch (input_num(dialog_text)){ //выбор дальнейших действий пользователем
-	    case 1: data_save(input_mass, count_of_list);clear_memory(input_mass, count_of_list);return 1; break;//сохранение и очистка данных
-	    case 2: data_save(input_mass, count_of_list);clear_memory(input_mass, count_of_list);return 0; break;
-	    case 3: clear_memory(input_mass, count_of_list);return 1; break;
-	    case 4: clear_memory(input_mass, count_of_list);return 0; break;
+	    case 1: data_save(data_mass, count_of_list);clear_memory(data_mass, count_of_list);return 1; break;//сохранение и очистка данных
+	    case 2: data_save(data_mass, count_of_list);clear_memory(data_mass, count_of_list);return 0; break;
+	    case 3: clear_memory(data_mass, count_of_list);return 1; break;
+	    case 4: clear_memory(data_mass, count_of_list);return 0; break;
 	    default: cout<<"Команда не распознана!\n";break;
         }
     }
@@ -86,12 +88,12 @@ int console_input(){
     if (count_of_list<=0){
         return 1;
     }
-    DATA_LIST* input_mass = new DATA_LIST[count_of_list];
+    LIST_AND_REZ* data_mass = new LIST_AND_REZ[count_of_list];
     for(int i = 0; i<count_of_list; i++){
 	cout<<"Список "<<i+1<<": ";
-    	read_list(input_mass[i].list, nullptr, &cin);//считывание строки из консоли
+    	read_list(data_mass[i].list, nullptr, &cin);//считывание строки из консоли
     }
-    if(data_analis(input_mass, count_of_list)){//вызов функции анализа данных
+    if(data_analis(data_mass, count_of_list)){//вызов функции анализа данных
         return 1;
     }
     return 0;
@@ -118,33 +120,33 @@ int file_input(){
     delete [] file_name;
     int buff = 10;//буффер количества строк
     int file_end_flag = 1;//флаг конца файла
-    DATA_LIST* input_mass = new DATA_LIST[buff];
-    DATA_LIST* rezerv_mass;
+    LIST_AND_REZ* data_mass = new LIST_AND_REZ[buff];
+    LIST_AND_REZ* rezerv_data_mass;
     while(file_end_flag){
 	if(count_of_list==buff){//проверка на заполнение буффера
 	    buff+=10;
-	    rezerv_mass = new DATA_LIST[buff];
+	    rezerv_data_mass = new LIST_AND_REZ[buff];
 	    for(int i = 0;i<buff-10;i++){
-	    	rezerv_mass[i].list = input_mass[i].list;
+	    	rezerv_data_mass[i].list = data_mass[i].list;
 	    }
-	    delete [] input_mass;
-            input_mass = rezerv_mass;
-            rezerv_mass = nullptr;
+	    delete [] data_mass;
+            data_mass = rezerv_data_mass;
+            rezerv_data_mass = nullptr;
 	}
 	//считывание строки из файла
-	read_list(input_mass[count_of_list].list, &file_end_flag, &file_input);
+	read_list(data_mass[count_of_list].list, &file_end_flag, &file_input);
 	count_of_list++;
     }
     file_input.close();
-    delete input_mass[count_of_list-1].list;
-    if(data_analis(input_mass, count_of_list-1)){//вызов функции анализа данных
+    delete data_mass[count_of_list-1].list;
+    if(data_analis(data_mass, count_of_list-1)){//вызов функции анализа данных
         return 1;
     }
     return 0;
 }
 
 int main(){
-    string start_dialog = "\nВыберите способ ввода данных:\n1 - Ввод с консоли\n2 - Ввод из файла";
+    string start_dialog = "\nВыберите способ ввода данных:\n1 - Ввод с консоли\n2 - Ввод из файла\n3 - Выйти из программы";
     while(1){
 	switch(input_num(start_dialog)){
 	case 1:
@@ -158,6 +160,10 @@ int main(){
 	    if(!file_input()){
 	        return 0;
 	    }
+	    break;
+	case 3:
+	    cout<<"Выход из программы\n";
+	    return 0;
 	    break;
     	default:
     	    cout<<"Ответ некорректный!\n\n";

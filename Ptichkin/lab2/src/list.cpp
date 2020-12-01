@@ -1,6 +1,6 @@
 #include "list.h"
 
-LIST* head(const LIST* s){
+LIST* head(const LIST* s){//Функция возвращает указатель на голову списка, если он не атом
     if(s!=NULL){
     	if(!is_Atom(s)){
 	    return s->node.pair.hd;
@@ -16,7 +16,7 @@ LIST* head(const LIST* s){
     }
 }
 
-LIST* tail(const LIST* s){
+LIST* tail(const LIST* s){//Функция возвращает указатель на хвост списка, если он не атом
     if(s!=NULL){
         if(!is_Atom(s)){
             return s->node.pair.tl;
@@ -32,7 +32,7 @@ LIST* tail(const LIST* s){
     }
 }
 
-LIST* cons(LIST* h, LIST* t){
+LIST* cons(LIST* h, LIST* t){//Функция создаёт пару
     LIST* p;
     if(is_Atom(t)){
     	cerr<<"Error: cons(*,atom)\n";
@@ -53,14 +53,14 @@ LIST* cons(LIST* h, LIST* t){
     }
 }
 
-LIST* make_atom(const char x){
+LIST* make_atom(const char x){//Функция создания атома
     LIST* s = new LIST;
     s->tag = true;
     s->node.atom = x;
     return s;
 }
 
-bool is_Atom(const LIST* s){
+bool is_Atom(const LIST* s){//Функция проверки списка на атомарность
     if(s==NULL){
     	return false;
     }
@@ -69,11 +69,11 @@ bool is_Atom(const LIST* s){
     }
 }
 
-bool is_Null(const LIST* s){
+bool is_Null(const LIST* s){//Функция проверки списка на пустоту
     return s==NULL;
 }
 
-void destroy(LIST* s){
+void destroy(LIST* s){//Функция уничтожения элемента списка
     if(s!=NULL){
     	if(!is_Atom(s)){
 	    destroy(head(s));
@@ -83,7 +83,7 @@ void destroy(LIST* s){
     }
 }
 
-LIST* copy_list(const LIST* x){
+LIST* copy_list(const LIST* x){//Функция создания копии списка
     if(is_Null(x)){
     	return NULL;
     }
@@ -95,7 +95,7 @@ LIST* copy_list(const LIST* x){
     }
 }
 
-void write_list(const LIST* x, ostream* stream){
+void write_list(const LIST* x, ostream* stream){//Функция печати списка
     if(is_Null(x)){
     	*stream<<"()";
     }
@@ -109,14 +109,14 @@ void write_list(const LIST* x, ostream* stream){
     }
 }
 
-void write_seq(const LIST* x, ostream* stream){
+void write_seq(const LIST* x, ostream* stream){//Вспомогательная функция печати списка
     if(!is_Null(x)){
         write_list(head(x), stream);
 	write_seq(tail(x), stream);
     }
 }
 
-void read_list(LIST*& y, int* file_end_flag, istream* stream){
+void read_list(LIST*& y, int* file_end_flag, istream* stream){//Функция запуска рекурентной функции считывания списка
     char x;
     do stream->get(x);while(x==' ');
     if(stream->eof()){
@@ -133,7 +133,7 @@ void read_list(LIST*& y, int* file_end_flag, istream* stream){
     }
 }
 
-void read_s_expr(char prev, LIST*& y, istream* stream){
+void read_s_expr(char prev, LIST*& y, istream* stream){//Рекурсивная функция считывания списка
     if(prev==')'){
     	cerr<<"!List Error1"<<endl;
 	exit(1);
@@ -146,7 +146,7 @@ void read_s_expr(char prev, LIST*& y, istream* stream){
     }
 }
 
-void read_seq(LIST*& y, istream* stream){
+void read_seq(LIST*& y, istream* stream){//Рекурсивная функция считывания списка
     char x;
     LIST* p1;
     LIST* p2;
