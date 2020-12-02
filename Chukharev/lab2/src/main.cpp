@@ -24,7 +24,9 @@ struct List {
 };
 
 bool readExp(char prev, ListP& list, std::istream& stream); // Recursion reading (builds atoms)
-void output(ListP list); // Recursion output
+void output(ListP list, std::string &string); // Recursion output
+
+static auto space = 0;
 
 bool isAtom(ListP list) { // Check if an element is an atom
     if (!list)
@@ -104,24 +106,24 @@ bool readList(ListP &list, std::istream& stream) { // Start of the recursion
     return readExp(symbol, list, stream);
 }
 
-void outputRecursion(ListP list) { // Recursion output
+void outputRecursion(ListP list, std::string &string) { // Recursion output
     if (isNull(list))
         return;
 
-    output(getHead(list));
-    outputRecursion(getTail(list));
+    output(getHead(list), string);
+    outputRecursion(getTail(list), string);
 }
 
-void output(ListP list) { // Recursion output
+void output(ListP list, std::string &string) { // Recursion output
     if (isNull(list)) // Empty list is ()
-        std::cout << "()";
+        string += "()";
 
     else if (isAtom(list))
-        std::cout << list->Node.atom;
+        string += list->Node.atom;
     else {
-        std::cout << '(';
-        outputRecursion(list);
-        std::cout << ')';
+        string += '(';
+        outputRecursion(list, string);
+        string += ')';
     }
 }
 
@@ -137,40 +139,38 @@ void freeMemory(ListP list) {
     delete list;
 }
 
-void printSymbol(int amount, char symbol) {
-    for (auto i = 0; i < amount; i++)
-        std::cout << symbol;
+int getMin(int left, int right) {
+    return left > right ? right : left;
 }
 
-bool isMatch(ListP left, ListP right) {
-    static auto space = 0;
+bool isMatch(ListP left, ListP right, std::string &strLeft, std::string &strRight) {
+    space++;
+    auto length = getMin(strLeft.size(), strRight.size());
+    auto offset = space > length ? length : space;
+    std::cout << "The First list: " << strLeft.substr(offset, strLeft.size() - offset) <<
+                " and the second list: " << strRight.substr(offset, strRight.size() - offset) << '\n';
 
-    if ((isNull(left) && !isNull(right)) ||
-        (!isNull(left) && isNull(right))) {// if one of them is null and the second not then they don't have the same structure
-        printSymbol(space, ' ');
+    if (isNull(left) != isNull(right)) { // if one of them is null and the second not then they don't have the same structure
         space--;
         std::cout << "One node is null and the other not" << '\n';
         return false;
     }
 
     if (isAtom(left) != isAtom(right)) { // check for the atom in nodes
-        printSymbol(space, ' ');
         space--;
         std::cout << "One is atom and the other is not. Return" << '\n';
         return false;
     }
 
     if (isNull(left) && isNull(right)) { // if both are checked and no errors occurred then they have the same structure
-        printSymbol(space, ' ');
-        std::cout << "Probably correct, continue checking nodes" << '\n';
         space--;
+        std::cout << "Returning" << '\n';
         return true;
     }
 
-    printSymbol(space, ' ');
     std::cout << "Keep comparing in recursion" << '\n';
-    space++;
-    return isMatch(getTail(left), getTail(right)) && isMatch(getHead(left), getHead(right));
+    return isMatch(getTail(left), getTail(right), strLeft, strRight) &&
+                isMatch(getHead(left), getHead(right), strLeft, strRight);
 }
 
 int getAction() {
@@ -192,6 +192,8 @@ void execProgram() {
     ListP listB = nullptr;
     std::ifstream file;
     std::string fileName;
+    std::string first;
+    std::string second;
 
     while ((action = getAction()) != 3) {
         switch (action) {
@@ -229,16 +231,19 @@ void execProgram() {
                 return;
         }
 
-        std::cout << "The first list: ";
-        output(listA);
-        std::cout << '\n';
+        output(listA, first);
+        output(listB, second);
 
+        std::cout << "The first list: ";
+        std::cout << first;
+        std::cout << '\n';
         std::cout << "The second list: ";
-        output(listB);
+        std::cout << second;
         std::cout << '\n' << '\n';
 
+
         std::cout << "Start comparing" << '\n';
-        std::cout << (isMatch(listA, listB) ? GREEN "The lists match" :
+        std::cout << (isMatch(listA, listB, first, second) ? GREEN "The lists match" :
                       RED "The lists don't match") <<
                   RESET << '\n' << '\n';
 
@@ -253,4 +258,3 @@ int main() {
     execProgram();
     return 0;
 }
-
