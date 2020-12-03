@@ -138,17 +138,19 @@ void create_H_list(char* s, H_node* lst){   //функция создания И
   }
 } 
 
-L_node* H_list_to_linar(H_node* H_lst, L_node* L_lst){  // функция преобразования ИС в ЛС 
+L_node* H_list_to_linar(H_node* H_lst, L_node* L_lst, int tabs){  // функция преобразования ИС в ЛС 
   H_node* cur_H = H_lst->child;
   L_node* elem = NULL;
   L_node* cur_L = NULL;
   if (!cur_H){
+    for(int i=0;i<tabs;i++)printf("\t");
     printf("(list is empty)");
     return NULL;
   }
   if (!L_lst->prev){
     cur_L = (L_node*)malloc(sizeof(L_node));
-    printf("(creation of element)");
+    for(int i=0;i<tabs;i++)printf("\t");
+    printf("(creation of element LL)");
     cur_L->prev = L_lst;
     cur_L->next = NULL;
     cur_L->data = ' ';
@@ -158,10 +160,14 @@ L_node* H_list_to_linar(H_node* H_lst, L_node* L_lst){  // функция пре
     cur_L = L_lst;
 
   while(cur_H){
-   
+    printf("\n");
     if (cur_H->child){
-      cur_L = H_list_to_linar(cur_H, cur_L);
-
+      for(int i=0;i<tabs;i++)printf("\t");
+      printf("(moving to the lower level of hierarchical list)");
+      cur_L = H_list_to_linar(cur_H, cur_L, tabs+1);
+      printf("\n");
+      for(int i=0;i<tabs+1;i++)printf("\t");
+      printf("(hierarchical sublist finished)");
       if (cur_H->next){
         cur_H = cur_H->next;
         continue;
@@ -176,7 +182,8 @@ L_node* H_list_to_linar(H_node* H_lst, L_node* L_lst){  // функция пре
       cur_H = cur_H->next;
       continue;
     }
-    printf("[%c]\n", cur_L->data);
+    for(int i=0;i<tabs;i++)printf("\t");
+    printf("(copying data)[%c]", cur_L->data);
 
     if (cur_H){
       elem = cur_L; 
@@ -184,7 +191,8 @@ L_node* H_list_to_linar(H_node* H_lst, L_node* L_lst){  // функция пре
       cur_L->prev = elem;
       cur_L->next = NULL;
       cur_L->data = ' ';
-      printf("(creation of element)");
+      //for(int i=0;i<tabs;i++)printf("\t");
+      printf("(creation of element LL)");
       elem->next = cur_L;
     }
     else
@@ -195,7 +203,7 @@ L_node* H_list_to_linar(H_node* H_lst, L_node* L_lst){  // функция пре
   if (!L_lst->prev){
     cur_L->prev->next = NULL;
     free(cur_L);
-    printf("(deleting an extra element)(sublist finished)");
+    printf("\n(deleting an extra element)(sublist finished)");
   }
   return cur_L;
 }
@@ -288,6 +296,7 @@ int main(){
     FILE* f = fopen("answer.txt","w");
     fprintf(f, "(%c)", L_lst.data);
     fclose(f);
+    system("pause");
     return 0;
   }
 
@@ -298,7 +307,7 @@ int main(){
 
   printf("\n\n");
 
-  H_list_to_linar(&H_lst, &L_lst);    //преобразовать ИС в ЛС
+  H_list_to_linar(&H_lst, &L_lst,0);    //преобразовать ИС в ЛС
  
   printf("\n\n"); 
 

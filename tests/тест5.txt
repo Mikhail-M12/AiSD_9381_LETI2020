@@ -17,24 +17,21 @@
 (hierarchical list)
 (() (() ()) ())
 
-(creation of element)(creation of element)[ ]
-(creation of element)(creation of element)[ ]
-(creation of element)(creation of element)[ ]
-(creation of element)(creation of element)[ ]
-(creation of element)(deleting an extra element)(sublist finished)
+(creation of element LL)
+
+(moving to the lower level of hierarchical list)
+
+
+    (hierarchical sublist finished)
+
+(deleting an extra element)(sublist finished)
 
 (linear list)
-(() () () ())
+()
 
 (deleting of hierarchical list)
 (del)[ ]
 (del)[ ]
 (del)[ ]
-(del)[ ]
-(del)[ ]
-
-(deleting of linear list)
-(del)[ ]
-(del)[ ]
-(del)[ ]
+(del)[head]
 (del)[ ]

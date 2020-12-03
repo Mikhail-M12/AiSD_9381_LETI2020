@@ -5,7 +5,6 @@
 (input)
 (abc)
 
-
 (creation of element)(first element of list)[a]
 (creation of element)[b]
 (creation of element)[c]
@@ -15,15 +14,21 @@
 (hierarchical list)
 (a b c)
 
-(creation of element)(creation of element)[a]
-(creation of element)(creation of element)[b]
-(creation of element)(creation of element)[c]
-(creation of element)(deleting an extra element)(sublist finished)
+(creation of element LL)
+(copying data)[a](creation of element LL)
+(copying data)[b](creation of element LL)
+(copying data)[c](creation of element LL)
+(deleting an extra element)(sublist finished)
 
 (linear list)
 (a b c)
 
 (deleting of hierarchical list)
+(del)[c]
+(del)[b]
+(del)[a]
+
+(deleting of linear list)
 (del)[c]
 (del)[b]
 (del)[a]

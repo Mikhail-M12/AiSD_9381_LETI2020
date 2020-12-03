@@ -36,38 +36,55 @@
 (hierarchical list)
 ((a (b (c))) (((d) e) f) (g (h) i))
 
-(creation of element)(creation of element)[a]
-(creation of element)(creation of element)[b]
-(creation of element)(creation of element)[c]
-(creation of element)(creation of element)[d]
-(creation of element)(creation of element)[e]
-(creation of element)(creation of element)[f]
-(creation of element)(creation of element)[g]
-(creation of element)(creation of element)[h]
-(creation of element)(creation of element)[i]
-(creation of element)(deleting an extra element)(sublist finished)
+(creation of element LL)
+(moving to the lower level of hierarchical list)
+    (copying data)[a](creation of element LL)
+    (moving to the lower level of hierarchical list)
+        (copying data)[b](creation of element LL)
+        (moving to the lower level of hierarchical list)
+            (copying data)[c](creation of element LL)
+            (hierarchical sublist finished)
+        (hierarchical sublist finished)
+    (hierarchical sublist finished)
+(moving to the lower level of hierarchical list)
+    (moving to the lower level of hierarchical list)
+        (moving to the lower level of hierarchical list)
+            (copying data)[d](creation of element LL)
+            (hierarchical sublist finished)
+        (copying data)[e](creation of element LL)
+        (hierarchical sublist finished)
+    (copying data)[f](creation of element LL)
+    (hierarchical sublist finished)
+(moving to the lower level of hierarchical list)
+    (copying data)[g](creation of element LL)
+    (moving to the lower level of hierarchical list)
+        (copying data)[h](creation of element LL)
+        (hierarchical sublist finished)
+    (copying data)[i](creation of element LL)
+    (hierarchical sublist finished)
+(deleting an extra element)(sublist finished)
 
 (linear list)
 (a b c d e f g h i)
 
 (deleting of hierarchical list)
 (del)[c]
-(del)[ ]
+(del)[head]
 (del)[b]
-(del)[ ]
+(del)[head]
 (del)[a]
 (del)[d]
 (del)[e]
-(del)[ ]
+(del)[head]
 (del)[f]
-(del)[ ]
+(del)[head]
 (del)[h]
 (del)[i]
-(del)[ ]
+(del)[head]
 (del)[g]
-(del)[ ]
-(del)[ ]
-(del)[ ]
+(del)[head]
+(del)[head]
+(del)[head]
 
 (deleting of linear list)
 (del)[i]
