@@ -1,0 +1,11 @@
+входные данные:
+a
+
+выходные данные:
+(input)
+a
+
+(single atom)
+
+(linear list)
+(a)

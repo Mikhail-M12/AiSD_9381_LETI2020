@@ -4,12 +4,13 @@
 #include <windows.h>
 
 
-
 char* readsent() {					//функция посимвольного считывания строки из файла
 	int size = 10;
 	int n = 0;
   char a;
 	FILE* f = fopen("data.txt", "r");
+  if (!f)
+    return NULL;
 	char* sent = (char*)malloc(size * sizeof(char));
 	while ((sent[n] = fgetc(f)) != EOF ){
     if (sent[n] == ' ')
@@ -34,27 +35,51 @@ void shift(char* sent, int ind) {			//функция сдвига строки-�
 }
 
 
-typedef struct node{
-  struct node* next;   //следующий
-  struct node* prev;   //предыдущий
-  struct node* child;  //сын
+typedef struct H_node{
+  struct H_node* next;   //следующий
+  struct H_node* prev;   //предыдущий
+  struct H_node* child;  //сын
   char data;           //данные
   int isNull;          //пустой ли элемент
-}node;
+}H_node;
 
-void free_list(node* elem){  // функция освобождения памяти, отведенной под списки
+typedef struct L_node{
+  struct L_node* next;
+  struct L_node* prev;
+  char data;
+}L_node;
+
+void H_free_list(H_node* elem){  // функция освобождения памяти, отведенной под списки
   if (elem->child)
-    free_list(elem->child);
+    H_free_list(elem->child);
   if (elem->next)
-    free_list(elem->next);
+    H_free_list(elem->next);
+  if (elem->child)
+    printf("(del)[head]\n");
+  else
+    printf("(del)[%c]\n",elem->data);
+  free(elem);
+}
+
+void L_free_list(L_node* elem){
+  if (elem->next)
+    L_free_list(elem->next);
   printf("(del)[%c]\n",elem->data);
   free(elem);
 }
 
-void create_H_list(char* s, node* lst){   //функция создания ИС из строки
+void create_H_list(char* s, H_node* lst){   //функция создания ИС из строки
   char a = '1',b = '1';
-  node* current = NULL;
+  H_node* current = NULL;
   sscanf(s ,"%c%c", &a, &b);
+
+  if((a != '(')&&(a != '\n')){
+    lst->child = NULL;
+    lst->data = a;
+    printf("(single atom)\n");
+    return;
+  }
+
   if ((a == '(')&&(b == ')')){
     lst->child = NULL;
     printf("(list is empty)");
@@ -62,7 +87,7 @@ void create_H_list(char* s, node* lst){   //функция создания ИС
   }
   shift(s,1);
 
-  node* elem = (node*)malloc(sizeof(node));
+  H_node* elem = (H_node*)malloc(sizeof(H_node));
   elem->prev = NULL;
   elem->next = NULL;
   elem->child = NULL;
@@ -102,7 +127,7 @@ void create_H_list(char* s, node* lst){   //функция создания ИС
     current = elem;
     if (!current->child)
       printf("[%c]\n", current->data);
-    elem = (node*)malloc(sizeof(node));
+    elem = (H_node*)malloc(sizeof(H_node));
     elem->prev = current;
     elem->next = NULL;
     elem->child = NULL;
@@ -113,22 +138,20 @@ void create_H_list(char* s, node* lst){   //функция создания ИС
   }
 } 
 
-node* H_list_to_linar(node* H_lst, node* L_lst){  // функция преобразования ИС в ЛС 
-  node* cur_H = H_lst->child;
-  node* elem = NULL;
-  node* cur_L = NULL;
+L_node* H_list_to_linar(H_node* H_lst, L_node* L_lst){  // функция преобразования ИС в ЛС 
+  H_node* cur_H = H_lst->child;
+  L_node* elem = NULL;
+  L_node* cur_L = NULL;
   if (!cur_H){
     printf("(list is empty)");
     return NULL;
   }
   if (!L_lst->prev){
-    cur_L = (node*)malloc(sizeof(node));
+    cur_L = (L_node*)malloc(sizeof(L_node));
     printf("(creation of element)");
     cur_L->prev = L_lst;
     cur_L->next = NULL;
-    cur_L->child = NULL;
     cur_L->data = ' ';
-    cur_L->isNull = 0;
     L_lst->next = cur_L;
   }
   else
@@ -148,18 +171,19 @@ node* H_list_to_linar(node* H_lst, node* L_lst){  // функция преобр
     }
 
     cur_L->data = cur_H->data;
-    if (cur_H->isNull)
-      cur_L->isNull = 1;
-    printf("(creation of element)[%c]\n", cur_L->data);
+
+    if (cur_H->isNull){
+      cur_H = cur_H->next;
+      continue;
+    }
+    printf("[%c]\n", cur_L->data);
 
     if (cur_H){
       elem = cur_L; 
-      cur_L = (node*)malloc(sizeof(node));
+      cur_L = (L_node*)malloc(sizeof(L_node));
       cur_L->prev = elem;
       cur_L->next = NULL;
-      cur_L->child = NULL;
       cur_L->data = ' ';
-      cur_L->isNull = 0;
       printf("(creation of element)");
       elem->next = cur_L;
     }
@@ -176,14 +200,14 @@ node* H_list_to_linar(node* H_lst, node* L_lst){  // функция преобр
   return cur_L;
 }
 
-void print_H_list(node* lst){     // функция вывода ИС на экран
+void print_H_list(H_node* lst){     // функция вывода ИС на экран
 
   if (lst->child == NULL){
     printf("()");
     return;
   }
 
-  node* current = lst->child;
+  H_node* current = lst->child;
 
   printf("(");
   while (current){
@@ -205,26 +229,20 @@ void print_H_list(node* lst){     // функция вывода ИС на эк�
    printf(")");
 }
 
-void print_L_list(node* lst){           // функция вывода ЛС на экран и в файл
+void print_L_list(L_node* lst){           // функция вывода ЛС на экран и в файл
   FILE* f = fopen("answer.txt", "w");
   if (lst->next == NULL){
     printf("()");
     fprintf(f, "()");
     return;
   }
-  node* current = lst->next;
+  L_node* current = lst->next;
   printf("(");
   fprintf(f, "(");
   while (current){
-    if (!current->isNull){
-      printf("%c",current->data);
-      fprintf(f, "%c",current->data);
-    }
-    else{
-      printf("()");
-      fprintf(f, "()");
-    }
-    if (current->next){  
+    printf("%c", current->data);
+    fprintf(f,"%c", current->data);
+    if (current->next){
       printf(" ");
       fprintf(f, " ");
     }
@@ -238,19 +256,40 @@ void print_L_list(node* lst){           // функция вывода ЛС на
 
 int main(){
   char* s = readsent();         //считывание строки
+  if ((!s)||(s[0]=='\n')){
+    printf("The data file could not open, most likely it is missing.\nWe generously created it in the folder where the program is located.\nWe wrote down an example there, but you can write your own.");
+    FILE* f = fopen("data.txt","w");
+    fprintf(f, "(a b(c d) e)");
+    fclose(f);
+    s = readsent();
+  }
+
+  if(s[0]=='\n'){
+
+  }
+
   printf("\n(input)\n%s\n", s);
 
-  node H_lst;
+  H_node H_lst;
   H_lst.prev = NULL;
   H_lst.next = NULL;
   H_lst.child = NULL;
+  H_lst.data = ' ';
 
-  node L_lst;
+  L_node L_lst;
   L_lst.prev = NULL;
   L_lst.next = NULL;
-  L_lst.child = NULL;
 
   create_H_list(s, &H_lst);      //считывания ИЛ
+
+  if (H_lst.data != ' '){       // Одиночный атом
+    L_lst.data = H_lst.data;
+    printf("\n(linear list)\n(%c)\n",L_lst.data);
+    FILE* f = fopen("answer.txt","w");
+    fprintf(f, "(%c)", L_lst.data);
+    fclose(f);
+    return 0;
+  }
 
   printf("\n\n");
 
@@ -270,12 +309,12 @@ int main(){
   printf("\n\n"); 
   if (H_lst.child){
     printf("(deleting of hierarchical list)\n");
-    free_list(H_lst.child);
+    H_free_list(H_lst.child);
   }
   printf("\n");
   if (L_lst.next){
     printf("(deleting of linear list)\n");
-    free_list(L_lst.next);
+    L_free_list(L_lst.next);
   }
   system("pause");
   return 0;
