@@ -1,0 +1,73 @@
+входные данные:
+((a b c)(d e f)(g h i))
+
+выходные данные:
+(input)
+((abc)(def)(ghi))
+
+(creation of element)(first element of list)(moving to the lower level)
+(creation of element)(first element of list)[a]
+(creation of element)[b]
+(creation of element)[c]
+(creation of element)(deleting an extra element)(sublist finished)
+(creation of element)(moving to the lower level)
+(creation of element)(first element of list)[d]
+(creation of element)[e]
+(creation of element)[f]
+(creation of element)(deleting an extra element)(sublist finished)
+(creation of element)(moving to the lower level)
+(creation of element)(first element of list)[g]
+(creation of element)[h]
+(creation of element)[i]
+(creation of element)(deleting an extra element)(sublist finished)
+(creation of element)(deleting an extra element)(sublist finished)
+
+
+(hierarchical list)
+((a b c) (d e f) (g h i))
+
+(creation of element LL)
+(moving to the lower level of hierarchical list)
+    (copying data)[a](creation of element LL)
+    (copying data)[b](creation of element LL)
+    (copying data)[c](creation of element LL)
+    (hierarchical sublist finished)
+(moving to the lower level of hierarchical list)
+    (copying data)[d](creation of element LL)
+    (copying data)[e](creation of element LL)
+    (copying data)[f](creation of element LL)
+    (hierarchical sublist finished)
+(moving to the lower level of hierarchical list)
+    (copying data)[g](creation of element LL)
+    (copying data)[h](creation of element LL)
+    (copying data)[i](creation of element LL)
+    (hierarchical sublist finished)
+(deleting an extra element)(sublist finished)
+
+(linear list)
+(a b c d e f g h i)
+
+(deleting of hierarchical list)
+(del)[c]
+(del)[b]
+(del)[a]
+(del)[f]
+(del)[e]
+(del)[d]
+(del)[i]
+(del)[h]
+(del)[g]
+(del)[head]
+(del)[head]
+(del)[head]
+
+(deleting of linear list)
+(del)[i]
+(del)[h]
+(del)[g]
+(del)[f]
+(del)[e]
+(del)[d]
+(del)[c]
+(del)[b]
+(del)[a]
