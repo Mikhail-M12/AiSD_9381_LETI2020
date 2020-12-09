@@ -104,6 +104,7 @@ struct compare {
 void solve() {
     string s;
     getline(cin, s);
+    if(s.empty()) return ;
     map<char, int> m;
     for (char c : s) { //put chars into the map and calculate number of occurrences
         if (c != ' ')
@@ -178,10 +179,17 @@ void solve() {
 }
 
 int32_t main() {
-    //cout << "Input data is in file \"input.txt\" , output data - \"output.txt\"\n";
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    cout << "File input - 1, console - 0\n";
+    string s; getline(cin, s);
+    if(s[0] == '1') {
+        freopen("input.txt", "r", stdin);
+        freopen("output.txt", "w", stdout);
+    }
+    cout << "Enter your string\n";
     solve();
-    fclose(stdin);
-    fclose(stdout);
+    if (s[0] == '1') {
+        fclose(stdin);
+        fclose(stdout);
+    }
+    system("pause");
 }
