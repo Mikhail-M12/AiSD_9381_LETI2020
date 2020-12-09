@@ -24,7 +24,7 @@ Node* fillBdp(Node* p){   // заполнение БДП с консоли
     }
     for(int val : arr) {   //добавляем элементы из вектора в БДП
         p = p->insert(p, val);
-        cout << "\nДобавлен элемент " << val << '\n';
+        cout << "\n\033[31m Добавлен элемент " << val << "\033[0m\n";
         p->recTreePrint(p);
     }
     return p;
@@ -85,6 +85,8 @@ Node* foo(Node* p, int k){
         case 1:{
             cout << "\t\tВведите числа для построения дерева. \n";
             p = fillBdp(p);     //заполнение с консоли
+            cout << "\nПолучившееся дерево:\n";
+            p->print2DUtil(p, 0);
             break;
         }
 
@@ -93,6 +95,8 @@ Node* foo(Node* p, int k){
             cout << "Введите путь до файла.\n";
             cin >> name;
             p = fillBdpFile(p, name);      //заполнение с файла
+            cout << "\nПолучившееся дерево:\n";
+            p->print2DUtil(p, 0);
             break;
         }
 
@@ -129,13 +133,12 @@ int main() {
                 cin >> k;
                 int count = p->find(p, k);
                 if (count)
-                    cout << k << " содержится в дереве в количестве " << count << endl;
-                else {
-                    cout << k << " не входит в дерево." << endl;
-                    p = p->insert(p, k);
-                    cout << "Добавлен элемент " << k << endl;
-                    p->recTreePrint(p);
-                }
+                    cout << k << "\033[34m содержится в дереве в количестве " << count << "\033[0m\n";
+                else
+                    cout << k << "\033[34m не входит в дерево." << "\033[0m\n";
+                p = p->insert(p, k);
+                cout << "\033[31m Добавлен элемент " << k << "\033[0m\n";
+                p->recTreePrint(p);
                 break;
             }
             case 'b':
@@ -146,6 +149,7 @@ int main() {
                 break;
         }
     }
+    cout << endl;
     destroy(p);  //очистка дерева
     return 0;
 }
