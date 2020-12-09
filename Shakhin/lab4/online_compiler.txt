@@ -1,5 +1,0 @@
-Ссылка на онлайн компилятор
-https://onlinegdb.com/SksErieKw
-
-Ссылка на онлайн компилятор для запуска программы с данными из файла:
-https://onlinegdb.com/HkdYroetP
