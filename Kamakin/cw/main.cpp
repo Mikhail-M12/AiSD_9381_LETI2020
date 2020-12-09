@@ -10,7 +10,11 @@ void outputHelp(std::ostream &output) {
     output << "3. Open a file" << '\n';
     output << "4. Close the file and read from std::cin" << '\n';
     output << "5. Delete an element" << '\n';
-    output << "6. Exit" << '\n';
+    output << "6. Resize the hashmap" << '\n';
+    output << "7. Output the hashmap" << '\n';
+    output << "8. Set advanced hash function" << '\n';
+    output << "9. Set simple hash function" << '\n';
+    output << "10. Exit" << '\n';
     output << "Your action: ";
 }
 
@@ -45,39 +49,34 @@ void readString(std::istream &stream, std::string &string) {
 }
 
 int main() {
-    HashMap<std::string> table(10);
+    HashMap<std::string> table(10, std::make_shared<AdvancedState<std::string>>());
     int action;
+    int size;
 
     std::ifstream file; // file to read from
     std::string filePath; // path to the file
     std::string string; // input string
     std::vector<std::string> elements; // split input
+    std::map<std::string, int> count; // count elements
     std::istream *input = &std::cin; // input stream
 
-    while ((action = getAction(std::cin)) != 6) {
+    while ((action = getAction(std::cin)) != 10) {
 
         switch (action) {
             case 1:
                 readString(*input, string); // read input
                 elements = split(string, ' '); // split input
+                count = table.count(elements);
 
-                for (auto &i : elements) { // count the element
-                    std::cout << "Counting element (" << i << ")\n";
-                    auto count = table.count(i);
-                    std::cout << "Element (" << i << ") contains " << count << " times in the map" << '\n';
+                for (const auto &elem : count) {
+                    std::cout << "Elem (" << elem.first << ") contains " << elem.second << " times " << '\n';
                 }
 
                 break;
             case 2:
                 readString(*input, string); // read string
                 elements = split(string, ' '); // split input
-
-                for (auto &i : elements)  { // add elements
-                    std::cout << "Working with element (" << i << ")" << '\n';
-                    table.add(i);
-                    std::cout << "Element (" << i << ") successfully added to the hashmap" << '\n';
-                }
-
+                table.add(elements);
                 break;
             case 3:
                 std::cout << "Path to the file: ";
@@ -100,20 +99,32 @@ int main() {
             case 5:
                 readString(*input, string); // read input
                 elements = split(string, ' '); // split string
-
-                for (auto &i : elements) { // delete the element
-                    std::cout << "Working with element (" << i << ")" << '\n';
-                    table.remove(i);
-                }
+                table.remove(elements[0]);
                 break;
             case 6:
+                std::cout << "Input new size: ";
+                std::cin >> size;
+                table.resize(size);
+                break;
+            case 7:
+                std::cout << "The table is: " << '\n';
+                std::cout << table << '\n';
+                break;
+            case 8:
+                table.setState(std::make_shared<AdvancedState<std::string>>());
+                std::cout << "The hash function has been changed to advanced" << '\n';
+                break;
+            case 9:
+                table.setState(std::make_shared<SimpleState<std::string>>());
+                std::cout << "The hash function has been changed to simple" << '\n';
+                break;
+            case 10:
             default:
                 std::cout << "Exiting the program" << '\n';
                 return 0;
         }
 
-        std::cout << '\n' << "The table is: " << '\n';
-        std::cout << table << '\n'; // output table with operator
+        std::cout << '\n';
     }
 
     return 0;
