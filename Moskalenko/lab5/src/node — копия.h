@@ -2,6 +2,7 @@
 #define BDP_NODE_H
 #include <iostream>
 using namespace std;
+#define COUNT 5
 
 class Node {
     int key;  // значение элемента узла
@@ -20,6 +21,7 @@ public:
     Node* insertRoot(Node* p, int k);
     Node* getLeft();
     Node* getRight();
+    void print2DUtil(Node *root, int space);
     void recTreePrint(Node* p);
 };
 
