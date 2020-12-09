@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-template <typename T> class HashMap;
+template <typename T> class HashTable;
 
 /*
  * This is an abstract class for pattern "state".
@@ -14,7 +14,7 @@ template <typename T> class HashMap;
 template <typename T>
 class HashTableState {
 public:
-    virtual int hash(HashMap<T> &map, T value) = 0;
+    virtual int hash(HashTable<T> &map, T value) = 0;
     ~HashTableState() = default;
 };
 

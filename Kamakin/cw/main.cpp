@@ -49,7 +49,7 @@ void readString(std::istream &stream, std::string &string) {
 }
 
 int main() {
-    HashMap<std::string> table(10, std::make_shared<AdvancedState<std::string>>());
+    HashTable<std::string> table(10, std::make_shared<AdvancedState<std::string>>());
     int action;
     int size;
 

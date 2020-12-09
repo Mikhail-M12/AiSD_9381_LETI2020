@@ -7,7 +7,7 @@
 template <typename T>
 class SimpleState : public HashTableState<T> {
 public:
-    int hash(HashMap<T> &map, T value) override {
+    int hash(HashTable<T> &map, T value) override {
         return map.getHashSimple(value);
     }
 };

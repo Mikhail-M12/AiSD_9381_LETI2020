@@ -21,13 +21,13 @@
  */
 
 template <typename T>
-class HashMap {
+class HashTable {
     std::vector < std::list<T> > table_;
     std::shared_ptr< HashTableState<T> > state_; // smart pointer for an abstract class
     int size_;
 
 public:
-    explicit HashMap(int size, std::shared_ptr<HashTableState<T>> state) : size_(size), state_(state) {
+    explicit HashTable(int size, std::shared_ptr<HashTableState<T>> state) : size_(size), state_(state) {
         table_.resize(size_);
     }
 
@@ -37,7 +37,7 @@ public:
 
     // resize the hashmap and recalculate all hashes
     void resize(int newSize) {
-        HashMap<T> newMap(newSize, state_);
+        HashTable<T> newMap(newSize, state_);
 
         for (auto i = 0; i < size_; i++)
             for (auto elem : table_[i])
@@ -117,7 +117,7 @@ public:
         }
     }
 
-    friend std::ostream& operator<<(std::ostream &out, const HashMap<T> &table) { // output operator
+    friend std::ostream& operator<<(std::ostream &out, const HashTable<T> &table) { // output operator
         for (auto i = 0; i < table.size_; i++) {
             out << "Table[" << i << "] = ";
 
