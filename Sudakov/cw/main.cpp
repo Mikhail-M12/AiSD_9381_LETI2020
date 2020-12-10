@@ -267,9 +267,9 @@ Node *AVLTree::remove(Node *node, int key) {
         return nullptr;
     }
     if (key < node->getKey()) {
-        node->setLeft(removeMin(node->getLeft()));
+        node->setLeft(remove(node->getLeft(), key));
     } else if (key > node->getKey()) {
-        node->setRight(removeMin(node->getRight()));
+        node->setRight(remove(node->getRight(), key));
     } else { // key == node->getKey()
         Node *right = node->getRight();
         Node *left = node->getLeft();
@@ -354,7 +354,7 @@ void printMenu() {
 
 AVLTree *processUserInput(AVLTree *tree) {
     int f, userKey;
-    printMenu();
+   // printMenu();
     cin >> f;
     switch (f) {
         case 1:
