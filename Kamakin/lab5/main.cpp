@@ -131,6 +131,9 @@ int main() {
 
                 break;
             case 3:
+                if (file.is_open())
+                    file.close();
+
                 std::cout << "Path to the file: ";
                 std::cin >> filePath;
                 file.open(filePath);
