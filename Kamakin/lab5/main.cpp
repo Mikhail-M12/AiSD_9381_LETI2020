@@ -4,6 +4,10 @@
 #include <list>
 #include <fstream>
 
+#define GREEN_COLOR "\033[32m"
+#define BLUE_COLOR "\033[34m"
+#define RESET "\033[0m"
+
 template <typename T>
 class HashTable {
     std::vector < std::list<T> > table_;
@@ -41,7 +45,19 @@ public:
 
 private:
     int hash(T value) {
-        return value.size() % size_;
+        std::cout << "Calculating hash for (" << value << ")\n";
+        size_t hash = 0;
+
+        for (auto i = 0; i < value.size(); i++) {
+            std::cout << "Hash = 37 * " << hash << " + " << (int)value[i];
+            hash = 37 * hash + value[i]; // calculated based on the length
+            std::cout << " = " << hash << '\n';
+        }
+
+        std::cout << "Correcting hash = hash % size_ = " << hash << " % " << size_;
+        hash %= size_; // correct the hash
+        std::cout << " = " << hash << '\n';
+        return hash;
     }
 
 };
@@ -93,12 +109,14 @@ int main() {
     std::vector<std::string> elements;
     std::istream *input = &std::cin;
 
+    std::cout << BLUE_COLOR << "Reading from the console" << RESET << '\n';
     while ((action = getAction(std::cin)) != 5) {
 
         switch (action) {
             case 1:
                 readString(*input, string);
                 elements = split(string, ' ');
+                std::cout << "Length of the string = " << elements.size() << '\n';
 
                 for (auto &i : elements)
                     std::cout << i << " contains " << table.count(i) << " times in the table" << '\n';
@@ -107,7 +125,7 @@ int main() {
             case 2:
                 readString(*input, string);
                 elements = split(string, ' ');
-
+                std::cout << "Length of the string = " << elements.size() << '\n';
                 for (auto &i : elements)
                     table.add(i);
 
@@ -135,9 +153,15 @@ int main() {
                 return 0;
         }
 
+        if (file.is_open())
+            std::cout << GREEN_COLOR << "Reading from the file (" << filePath << ')' << RESET << '\n';
+        else
+            std::cout << BLUE_COLOR << "Reading from the console" << RESET << '\n';
+
         std::cout << '\n' << "The table is: " << '\n';
         std::cout << table << '\n';
     }
 
     return 0;
 }
+
