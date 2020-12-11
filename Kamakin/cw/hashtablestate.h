@@ -4,6 +4,8 @@
 #include <memory>
 #include <vector>
 
+using pOStream = std::ostream*;
+
 template <typename T> class HashTable;
 
 /*
@@ -14,8 +16,9 @@ template <typename T> class HashTable;
 template <typename T>
 class HashTableState {
 public:
-    virtual int hash(HashTable<T> &map, T value) = 0;
+    virtual int hash(HashTable<T> &map, T value, pOStream output) = 0;
     ~HashTableState() = default;
 };
 
 #endif //COURSEWORK_HASHTABLESTATE_H
+

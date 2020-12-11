@@ -1,6 +1,4 @@
-#include <string>
-#include <fstream>
-#include "hashtable.h"
+#include "hashtableoutput.h"
 
 // help for the user
 void outputHelp(std::ostream &output) {
@@ -27,7 +25,7 @@ int getAction(std::istream &input) {
     return action;
 }
 
-// splits str on delimiter delim
+// splits str on delimiter
 std::vector<std::string> split(const std::string &str, char delim) {
     std::vector<std::string> strings; // result
     size_t start;
@@ -49,7 +47,8 @@ void readString(std::istream &stream, std::string &string) {
 }
 
 int main() {
-    HashTable<std::string> table(10, std::make_shared<AdvancedState<std::string>>());
+    HashTable<std::string> table(10, std::make_shared<AdvancedState<std::string>>()); // hashtable
+    HashTableOutput<std::string> tableOutput (table, &std::cout); // output information about main methods of the hashtable
     int action;
     int size;
 
@@ -58,6 +57,7 @@ int main() {
     std::string string; // input string
     std::vector<std::string> elements; // split input
     std::map<std::string, int> count; // count elements
+
     std::istream *input = &std::cin; // input stream
 
     while ((action = getAction(std::cin)) != 10) {
@@ -66,7 +66,7 @@ int main() {
             case 1:
                 readString(*input, string); // read input
                 elements = split(string, ' '); // split input
-                count = table.count(elements);
+                count = tableOutput.count(elements);
 
                 for (const auto &elem : count) {
                     std::cout << "Elem (" << elem.first << ") contains " << elem.second << " times " << '\n';
@@ -76,9 +76,12 @@ int main() {
             case 2:
                 readString(*input, string); // read string
                 elements = split(string, ' '); // split input
-                table.add(elements);
+                tableOutput.add(elements);
                 break;
             case 3:
+                if (file.is_open())
+                    file.close();
+
                 std::cout << "Path to the file: ";
                 std::cin >> filePath; // read the file path
                 file.open(filePath); // open file
@@ -89,34 +92,42 @@ int main() {
                 }
 
                 input = &file; // change stream
+                std::cout << "Now reading from the file (" << filePath << ")\n";
                 break;
             case 4:
                 if (file.is_open()) // close file if it was open
                     file.close();
 
                 input = &std::cin; // change stream
+                std::cout << "Now reading from the console" << '\n';
                 break;
             case 5:
                 readString(*input, string); // read input
-                elements = split(string, ' '); // split string
-                table.remove(elements[0]);
+                tableOutput.remove(string);
+                std::cout << "\nAfter deleting: " << '\n';
+                tableOutput.printTable(std::cout);
                 break;
             case 6:
                 std::cout << "Input new size: ";
                 std::cin >> size;
-                table.resize(size);
+                table.resize(size, &std::cout);
+                tableOutput.printTable(std::cout);
                 break;
             case 7:
                 std::cout << "The table is: " << '\n';
-                std::cout << table << '\n';
+                std::cout << tableOutput << '\n';
                 break;
             case 8:
                 table.setState(std::make_shared<AdvancedState<std::string>>());
                 std::cout << "The hash function has been changed to advanced" << '\n';
+                std::cout << "The hash is now calculated as follows (iterating over the element):"
+                             " hash = 37 * hash (current) + element[i]" << '\n';
                 break;
             case 9:
                 table.setState(std::make_shared<SimpleState<std::string>>());
                 std::cout << "The hash function has been changed to simple" << '\n';
+                std::cout << "The hash is now calculated as follows (iterating over the element):"
+                             " hash += element[i]" << '\n';
                 break;
             case 10:
             default:
@@ -125,7 +136,12 @@ int main() {
         }
 
         std::cout << '\n';
+        if (file.is_open())
+            std::cout << GREEN_COLOR << "Reading from the file (" << filePath << ')' << RESET << '\n';
+        else
+            std::cout << BLUE_COLOR << "Reading from the console" << RESET << '\n';
     }
 
     return 0;
 }
+
