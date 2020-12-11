@@ -1,0 +1,417 @@
+File with tests: tests.txt
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('U', 'A') is called [deep=2]
+        Result: 'U' is not 'A'
+        Function isChar('U', '(') is called [deep=2]
+        Result: 'U' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('U', 'B') is called [deep=2]
+        Result: 'U' is not 'B'
+        Function isChar('U', '[') is called [deep=2]
+        Result: 'U' is not '['
+    Result: is not square
+[Test №1 OK] Result: 'UNCORRECT_DATA' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('[', 'A') is called [deep=2]
+        Result: '[' is not 'A'
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('[', 'B') is called [deep=2]
+        Result: '[' is not 'B'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isChar(']', '[') is called [deep=2]
+        Result: ']' is not '['
+    Result: is not square
+[Test №2 OK] Result: '[]' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar(')', '(') is called [deep=2]
+        Result: ')' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('(', 'B') is called [deep=2]
+        Result: '(' is not 'B'
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №3 OK] Result: '()' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('[', 'A') is called [deep=2]
+        Result: '[' is not 'A'
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('[', 'B') is called [deep=2]
+        Result: '[' is not 'B'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isChar('A', '[') is called [deep=2]
+        Result: 'A' is not '['
+    Result: is not square
+[Test №4 OK] Result: '[A]' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('B', '(') is called [deep=2]
+        Result: 'B' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('(', 'B') is called [deep=2]
+        Result: '(' is not 'B'
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №5 OK] Result: '(B)' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('[', 'A') is called [deep=2]
+        Result: '[' is not 'A'
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('[', 'B') is called [deep=2]
+        Result: '[' is not 'B'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isSquare() is called [deep=2]
+            Function isChar(']', 'B') is called [deep=3]
+            Result: ']' is not 'B'
+            Function isChar(']', '[') is called [deep=3]
+            Result: ']' is not '['
+        Result: is not square
+    Result: is not square
+[Test №6 OK] Result: '[[]()]' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('[', 'A') is called [deep=2]
+        Result: '[' is not 'A'
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('[', 'B') is called [deep=2]
+        Result: '[' is not 'B'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №7 OK] Result: '[()[]]' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isRound() is called [deep=2]
+            Function isChar(')', 'A') is called [deep=3]
+            Result: ')' is not 'A'
+            Function isChar(')', '(') is called [deep=3]
+            Result: ')' is not '('
+        Result: is not round
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('(', 'B') is called [deep=2]
+        Result: '(' is not 'B'
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №8 OK] Result: '(()[])' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('(', 'B') is called [deep=2]
+        Result: '(' is not 'B'
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №9 OK] Result: '([]())' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('[', 'A') is called [deep=2]
+        Result: '[' is not 'A'
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('[', 'B') is called [deep=2]
+        Result: '[' is not 'B'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isSquare() is called [deep=2]
+            Function isChar('A', 'B') is called [deep=3]
+            Result: 'A' is not 'B'
+            Function isChar('A', '[') is called [deep=3]
+            Result: 'A' is not '['
+        Result: is not square
+    Result: is not square
+[Test №10 OK] Result: '[[A](B)]' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('[', 'A') is called [deep=2]
+        Result: '[' is not 'A'
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('[', 'B') is called [deep=2]
+        Result: '[' is not 'B'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isSquare() is called [deep=2]
+            Function isChar('B', 'B') is called [deep=3]
+            Result: 'B' is 'B'
+        Result: 'B' is square
+        Function isChar(']', ']') is called [deep=2]
+        Result: ']' is ']'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isRound() is called [deep=2]
+            Function isChar('A', 'A') is called [deep=3]
+            Result: 'A' is 'A'
+        Result: 'A' is round
+        Function isChar(')', ')') is called [deep=2]
+        Result: ')' is ')'
+        Function isChar(']', ']') is called [deep=2]
+        Result: ']' is ']'
+    Result: '[[B](A)]' is square
+[Test №11 OK] Result: '[[B](A)]' is brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('[', 'A') is called [deep=2]
+        Result: '[' is not 'A'
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('[', 'B') is called [deep=2]
+        Result: '[' is not 'B'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №12 OK] Result: '[(A)[B]]' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('[', 'A') is called [deep=2]
+        Result: '[' is not 'A'
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('[', 'B') is called [deep=2]
+        Result: '[' is not 'B'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №13 OK] Result: '[(B)[A]]' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isRound() is called [deep=2]
+            Function isChar('A', 'A') is called [deep=3]
+            Result: 'A' is 'A'
+        Result: 'A' is round
+        Function isChar(')', ')') is called [deep=2]
+        Result: ')' is ')'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isSquare() is called [deep=2]
+            Function isChar('B', 'B') is called [deep=3]
+            Result: 'B' is 'B'
+        Result: 'B' is square
+        Function isChar(']', ']') is called [deep=2]
+        Result: ']' is ']'
+        Function isChar(')', ')') is called [deep=2]
+        Result: ')' is ')'
+    Result: '((A)[B])' is round
+[Test №14 OK] Result: '((A)[B])' is brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isRound() is called [deep=2]
+            Function isChar('B', 'A') is called [deep=3]
+            Result: 'B' is not 'A'
+            Function isChar('B', '(') is called [deep=3]
+            Result: 'B' is not '('
+        Result: is not round
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('(', 'B') is called [deep=2]
+        Result: '(' is not 'B'
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №15 OK] Result: '((B)[A])' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('(', 'B') is called [deep=2]
+        Result: '(' is not 'B'
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №16 OK] Result: '([A](B))' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('[', '(') is called [deep=2]
+        Result: '[' is not '('
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('(', 'B') is called [deep=2]
+        Result: '(' is not 'B'
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №17 OK] Result: '([B](A))' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isRound() is called [deep=2]
+            Function isChar('(', 'A') is called [deep=3]
+            Result: '(' is not 'A'
+            Function isChar('(', '(') is called [deep=3]
+            Result: '(' is '('
+            Function isChar('(', '(') is called [deep=3]
+            Result: '(' is '('
+            Function isRound() is called [deep=3]
+                Function isChar('B', 'A') is called [deep=4]
+                Result: 'B' is not 'A'
+                Function isChar('B', '(') is called [deep=4]
+                Result: 'B' is not '('
+            Result: is not round
+        Result: is not round
+    Result: is not round
+    Function isSquare() is called [deep=1]
+        Function isChar('(', 'B') is called [deep=2]
+        Result: '(' is not 'B'
+        Function isChar('(', '[') is called [deep=2]
+        Result: '(' is not '['
+    Result: is not square
+[Test №18 OK] Result: '((((B)[A]))[B])' is not brackets.
+
+Function isSquare() is called [deep=0]
+    Function isRound() is called [deep=1]
+        Function isChar('(', 'A') is called [deep=2]
+        Result: '(' is not 'A'
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isChar('(', '(') is called [deep=2]
+        Result: '(' is '('
+        Function isRound() is called [deep=2]
+            Function isChar('A', 'A') is called [deep=3]
+            Result: 'A' is 'A'
+        Result: 'A' is round
+        Function isChar(')', ')') is called [deep=2]
+        Result: ')' is ')'
+        Function isChar('[', '[') is called [deep=2]
+        Result: '[' is '['
+        Function isSquare() is called [deep=2]
+            Function isChar('[', 'B') is called [deep=3]
+            Result: '[' is not 'B'
+            Function isChar('[', '[') is called [deep=3]
+            Result: '[' is '['
+            Function isChar('[', '[') is called [deep=3]
+            Result: '[' is '['
+            Function isSquare() is called [deep=3]
+                Function isChar('B', 'B') is called [deep=4]
+                Result: 'B' is 'B'
+            Result: 'B' is square
+            Function isChar(']', ']') is called [deep=3]
+            Result: ']' is ']'
+            Function isChar('(', '(') is called [deep=3]
+            Result: '(' is '('
+            Function isRound() is called [deep=3]
+                Function isChar('A', 'A') is called [deep=4]
+                Result: 'A' is 'A'
+            Result: 'A' is round
+            Function isChar(')', ')') is called [deep=3]
+            Result: ')' is ')'
+            Function isChar(']', ']') is called [deep=3]
+            Result: ']' is ']'
+        Result: '[[B](A)]' is square
+        Function isChar(']', ']') is called [deep=2]
+        Result: ']' is ']'
+        Function isChar(')', ')') is called [deep=2]
+        Result: ')' is ')'
+    Result: '((A)[[[B](A)]])' is round
+[Test №19 OK] Result: '((A)[[[B](A)]])' is brackets.
+
+Passed tests: 19/19
