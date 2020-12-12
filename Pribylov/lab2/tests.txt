@@ -1,0 +1,27 @@
+(f)
+(f)
+
+(f(a))
+(f(a))
+
+a
+()
+
+(a)
+(a))
+
+ (a b (c d ( e ((f g())) hi)))
+(ab(cd(e((fg()))hi)))
+
+(ab((cd)(e((fg   ))hi)))
+(ab((cd)(e((fg(x)))hi)))
+
+(ab((cd)(e((fg x ))hi)))
+(ab((cd)(e((fg(x)))hi)))
+
+(ab((cd)(e((fg( )))hi)))
+(ab((cd)(e((fg(x)))hi)))
+   
+
+(ab((cd)(e((fg(x)))hi)))
+(ab((cd)(e((fg(x)))hi)))
