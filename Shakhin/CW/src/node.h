@@ -1,6 +1,5 @@
-#ifndef AISD_LB5_NODE_H
-#define AISD_LB5_NODE_H
-
+#ifndef NODE_H
+#define NODE_H
 
 class Node {
 private:
@@ -9,7 +8,7 @@ private:
     int amount;
     Node* left;
 public:
-    Node(): right(nullptr), data(0), left(nullptr), amount(0){}
+    Node(): right(nullptr), data(0), amount(0), left(nullptr){}
 
     Node* getLeft();
 
@@ -31,5 +30,4 @@ public:
 
 };
 
-
-#endif //AISD_LB5_NODE_H
+#endif // NODE_H
