@@ -5,7 +5,8 @@ enum typeOfError{//Перечисление с типами ошибки
     NOTREE,
     NOINPUT,
     BIGAMOUNT,
-    WRONGDELETE
+    WRONGDELETE,
+    TREEISCREATED
 };
 
 void error(typeOfError type){//Обработка ошибок
@@ -25,6 +26,9 @@ void error(typeOfError type){//Обработка ошибок
         case WRONGDELETE:
             QMessageBox::warning(nullptr, "Warning!","You've tried to delete an unexisting element or the head!");
             break;
+        case TREEISCREATED:
+            QMessageBox::warning(nullptr, "Warning!","Tree is already created, so use the Clear button!");
+            break;
     }
 }
 
@@ -37,6 +41,8 @@ ProgWindow::ProgWindow()
     findElemAddButton=new QPushButton("Add");
     whichElemDel=new QLineEdit;
     findElemDelButton=new QPushButton("Delete");
+    instructions=new QPushButton("Instructions");
+    clear=new QPushButton("Clear");
     calc=new QPushButton("Generate");
     treeScene = new VisualizeTree(maxn);
     view=new QGraphicsView;
@@ -62,6 +68,8 @@ ProgWindow::ProgWindow()
     layv->addWidget(loa);
     layv->addLayout(layh2);
     layv->addLayout(layh3);
+    layv->addWidget(clear);
+    layv->addWidget(instructions);
 
     QWidget* leftThing=new QWidget;
     leftThing->setLayout(layv);
@@ -76,6 +84,8 @@ ProgWindow::ProgWindow()
     connect(calc,SIGNAL(clicked()),this,SLOT(createTree()));
     connect(findElemAddButton,SIGNAL(clicked()),this,SLOT(addElem()));
     connect(findElemDelButton,SIGNAL(clicked()),this,SLOT(delElem()));
+    connect(instructions,SIGNAL(clicked()),this,SLOT(inst()));
+    connect(clear,SIGNAL(clicked()),this,SLOT(startNew()));
     connect(numOfLE,SIGNAL(textChanged(const QString &)),this,SLOT(addArray()));
 
     this->setLayout(layh4);
@@ -83,6 +93,10 @@ ProgWindow::ProgWindow()
 
 void ProgWindow::createTree()
 {
+    if(created){
+        error(TREEISCREATED);
+        return;
+    }
     if(numOfLEi==0){//Проверка на ошибку отсутствия ввода
         error(NOINPUT);
         if(head!=nullptr)
@@ -107,6 +121,7 @@ void ProgWindow::createTree()
     for(int i=1;i<numOfLEi;i++)
         head->addnew(amounts[i],i);
     treeScene->update(head,numOfLEi);
+    created=true;
 }
 
 void ProgWindow::delElem()
@@ -116,6 +131,7 @@ void ProgWindow::delElem()
         return;
     if(head==nullptr){//Проврека на ошибку отсутствия дерева
         error(NOTREE);
+        whichElemDel->setText("");
         return;
     }
     if(whichElemDel->text()=="0"){
@@ -123,11 +139,13 @@ void ProgWindow::delElem()
     }else{
         if(!(e=whichElemDel->text().toInt())){//Проверка на ошибку неверного ввода
             error(WRONGINPUT);
+            whichElemDel->setText("");
             return;
         }
     }
     if(head->delElem(e)==0){//Удаление
         error(WRONGDELETE);//Ошибка несуществующего элемента или удаление главного элемента
+        whichElemDel->setText("");
         return;
     }
     int tmpn=0;
@@ -135,6 +153,32 @@ void ProgWindow::delElem()
     head->reDepthAll(0);//Перерасчет глубины
     numOfLEi--;
     treeScene->update(head,numOfLEi);
+    whichElemDel->setText("");
+}
+
+void ProgWindow::inst()
+{
+    QMessageBox* instBox=new QMessageBox;
+    instBox->setWindowTitle("Instructions");
+    instBox->setText("1) В левой верхней строке указывается количество элементов в дереве, после чего ниже появится такое же количество полей для заполнения - сами элементы.\n"
+                     "2) Нажатие кнопки генерации приведет к созданию дерева в правой части окна программы.\n"
+                     "3) Внизу слева программы присутствует поле ввода добавляемого элемента и кнопка, добавляющая его. Ниже них поле ввода удаляемого элемента и кнопка, удаляющая его.\n"
+                     "4) Для полной очистки нажмите на кнопку Clear.");
+    instBox->exec();
+}
+
+void ProgWindow::startNew()
+{
+    if(created==false){
+        return;
+    }
+    created=false;
+    numOfLEi=0;
+    numOfLE->setText("");
+    if(head!=nullptr)
+        head->deleteTree();
+    head=nullptr;
+    treeScene->update(head,0);
 }
 
 void ProgWindow::addElem()
@@ -144,6 +188,7 @@ void ProgWindow::addElem()
         return;
     if(head==nullptr){//Проврека на ошибку отсутствия дерева
         error(NOTREE);
+        whichElemAdd->setText("");
         return;
     }
     if(whichElemAdd->text()=="0"){
@@ -151,11 +196,13 @@ void ProgWindow::addElem()
     }else
         if(!(e=whichElemAdd->text().toInt())){//Проверка на ошибку неверного ввода
             error(WRONGINPUT);
+            whichElemAdd->setText("");
             return;
         }
     head->addnew(e,numOfLEi);
     numOfLEi+=1;
     treeScene->update(head,numOfLEi);
+    whichElemAdd->setText("");
 }
 
 void ProgWindow::addArray()
@@ -208,16 +255,13 @@ LineOfAmounts::LineOfAmounts()
 void LineOfAmounts::resize(int k)
 {
     //Перерасчет количества отображаемых строк
-    if(k<n){
-        for(int i=0;i<k;i++){
-            arr[i]->setVisible(true);
-        }
-    }else{
-        for(int i=n;i<k;i++){
-            arr[i]->setVisible(true);
-
-        }
+    for(int i=0;i<maxn;i++){//Делаем невидимыми для пользователя все строки
+        arr[i]->setVisible(false);
     }
+    for(int i=0;i<k;i++){
+        arr[i]->setVisible(true);
+    }
+
     this->n=k;
 }
 

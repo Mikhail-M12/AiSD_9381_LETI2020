@@ -67,9 +67,9 @@ void VisualizeTree::update(Node* head, int numOfLeaves)
     for(int i=0;i<numOfLeaves;i++){//Для каждого элемента будем искать его место и значение
         pt pl = findPlace(head,i,0,0,pow(2,(head->maxdepth())),true);
         items[i]->setText(QString::number(pl.contains));
-        items[i]->setPos(pl.x*10,pl.y*10);
+        items[i]->setPos(pl.x*10,pl.y*30);
         if(i!=0){//Если 0 - рисовать линии наверх не надо
-            lineItems[i]->setLine(pl.x*10,pl.y*10,pl.xlast*10,pl.ylast*10);
+            lineItems[i]->setLine(pl.x*10,pl.y*30,pl.xlast*10,pl.ylast*30);
             lineItems[i]->setPen(Qt::DashLine);
             lineItems[i]->setVisible(true);
         }

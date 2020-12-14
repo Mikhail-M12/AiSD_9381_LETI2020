@@ -1,5 +1,5 @@
 #include "node.h"
-#include <iostream>
+
 Node::Node(int am, int depth, int elNum)
 {
     elemNum=elNum;
@@ -34,7 +34,6 @@ void Node::addnew(int x, int num)
 
 int Node::delElem(int x){
     bool onLeft;
-    std::cout<<this->a;
     if((left!=nullptr&&left->a==x)||(right!=nullptr&&right->a==x)){//С какой стороны элемент
         if(left!=nullptr&&left->a==x)
             onLeft=true;

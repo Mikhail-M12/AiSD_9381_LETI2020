@@ -11,7 +11,7 @@
 #include <QDesktopWidget>
 #include "visualizetree.h"
 
-const int maxn=100;
+const int maxn=50;
 
 class LineOfAmounts: public QScrollArea{
 private:
@@ -33,6 +33,7 @@ class ProgWindow: public QWidget
     Q_OBJECT
 private:
     Node* head=nullptr;//Главный элемент дерева
+    bool created=false;
     int numOfLEi=0;//Количество строк элементов
     int amounts[maxn];//массив элементов
 public:
@@ -48,6 +49,9 @@ public:
     QLineEdit* whichElemDel;
     QPushButton* findElemDelButton;
 
+    QPushButton* instructions;
+    QPushButton* clear;
+
     VisualizeTree* treeScene=nullptr;
     QGraphicsView* view;
 
@@ -56,6 +60,8 @@ public slots:
     void addArray();//Слот добавления массива элементов
     void createTree();//Слот создания дерева
     void delElem();//Слот удаления элемента
+    void inst();//Слот инструкций
+    void startNew();//Слот инструкций
 };
 
 #endif // PROGWINDOW_H

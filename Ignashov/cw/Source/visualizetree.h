@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include <QtMath>
 #include "node.h"
 
 class VisualizeTree: public QGraphicsScene
