@@ -13,6 +13,9 @@ int INOut::makeArr(std::vector<int>& arr, string res){
             }
             int n = getNum(res);
             arr.push_back(n);
+            if(res[0] ){
+                return 1;
+            }
             skip(res,1);
         }
         return 0;
@@ -35,6 +38,9 @@ int INOut::makeArrFile(std::vector<int>& arr, string filename){
         }
         int n = getNum(str);
         arr.push_back(n);
+        if(str[0] ){
+            return 1;
+        }
         skip(str, 1);
     }
     return 0;
