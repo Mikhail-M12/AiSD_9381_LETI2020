@@ -24,26 +24,37 @@ void MainWindow::on_open_clicked()
     if(path == nullptr)
         return;
     std::vector<int> arr;
-    scan->makeArrFile(arr, path.toLocal8Bit().constData());
-    if(tree) delete tree;
-    std::string str;
-    tree = new BinaryTree(arr, str);
-    ui->textBrowser->setText(QString::fromStdString(str));
-    view->updateGraphics(tree->getTree(), tree->getMaxDepth());
-    ui->gridLayout->addWidget(view);
+    if(scan->makeArrFile(arr, path.toLocal8Bit().constData())){
+        QMessageBox::critical(this, "Error", "incorect input");
+    }else{
+        if(tree) delete tree;
+        std::string str;
+        tree = new BinaryTree(arr, str);
+        ui->textBrowser->setText(QString::fromStdString(str));
+        view->updateGraphics(tree->getTree(), tree->getMaxDepth());
+        ui->gridLayout->addWidget(view);
+    }
 }
 
 void MainWindow::on_ok_clicked()
 {
-    QString path = ui->lineEdit->text();
-    std::vector<int> arr;
-    scan->makeArr(arr, path.toLocal8Bit().constData());
-    if(tree) delete tree;
-    std::string str;
-    tree = new BinaryTree(arr, str);
-    ui->textBrowser->setText(QString::fromStdString(str));
-    view->updateGraphics(tree->getTree(), tree->getMaxDepth());
-    ui->gridLayout->addWidget(view);
+    if(ui->lineEdit->isModified()){
+        QString path = ui->lineEdit->text();
+        if(!path.isEmpty()){
+            std::vector<int> arr;
+            if(scan->makeArr(arr, path.toLocal8Bit().constData())){
+                QMessageBox::critical(this, "Error", "incorect input");
+            }else{
+                if(tree) delete tree;
+                std::string str;
+                tree = new BinaryTree(arr, str);
+                ui->textBrowser->setText(QString::fromStdString(str));
+                view->updateGraphics(tree->getTree(), tree->getMaxDepth());
+                ui->gridLayout->addWidget(view);
+            }
+        }
+    }
+
 }
 
 void MainWindow::on_delete_2_clicked()
