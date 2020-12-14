@@ -13,6 +13,10 @@ int makeArr( std::vector<int>& arr, int option){
             }
             int n = getNum(res);
             arr.push_back(n);
+            if(res[0] != ' ' && !res.empty()){
+                cout<<"error\n";
+                return 1;
+            }
             skip(res,1);
         }
         return 0;
@@ -36,6 +40,10 @@ int makeArr( std::vector<int>& arr, int option){
             }
             int n = getNum(str);
             arr.push_back(n);
+            if(str[0] != ' ' && !str.empty()){
+                cout<<"error\n";
+                return 1;
+            }
             skip(str, 1);
         }
         return 0;
