@@ -10,7 +10,7 @@ using namespace binTree_modul;
 
 
 
-struct elem_code {//структура для хранения символла и соответствующего ему кода
+struct elem_code {
     char symbol;
     string code;
 };
@@ -18,7 +18,7 @@ struct elem_code {//структура для хранения символла 
 
 struct haffm_codes {
     vector<elem_code> codes; //вектор для хранения кодов символов при кодировании по Хаффману
-    char get_symbol(string code) {//декодирование строки
+    char get_symbol(string code) {
         for (vector<elem_code>::iterator it = codes.begin(); it != codes.end(); it++) {
             if ((*it).code == code) {
                 return (*it).symbol;
@@ -26,7 +26,7 @@ struct haffm_codes {
         }
         return '\0';
     };
-    string get_code(char symbol) {//поиск кода для символа
+    string get_code(char symbol) {
         for (vector<elem_code>::iterator it = codes.begin(); it != codes.end(); it++) {
             if ((*it).symbol == symbol) {
                 return (*it).code;
@@ -34,7 +34,7 @@ struct haffm_codes {
         }
         return "";
     };
-    void append(char symbol, string code) {//добавление символа и кода в codes
+    void append(char symbol, string code) {
         elem_code new_code;
         new_code.code = code;
         new_code.symbol = symbol;
@@ -52,7 +52,7 @@ struct haffm_codes {
                 result +=step_code;
                 cout << "\n" <<plain[i]<<"-" <<  step_code;
             }
-            else { 
+            else { //обработать ошибку
 
             }
         }
@@ -98,7 +98,7 @@ struct list
 haffm_codes h_codes;
 
 string code_of_elementFSH[50];//массив для хранения кодов символов по Шеннону
-
+bool isNumber(string s);
 void add(vector<list>& symbols, char s);
 void sort(vector<list>& symbols);
 void method_FSH(vector<list> smbl, int lenght, int start_of_search, int end_of_search, string Code, lisp& bin_t,int deep);
@@ -113,12 +113,24 @@ void codeHuffman(string& code, vector<list>& smbl, lisp bin_tree,int deep);
 const char* ar[] = { "peter piper picked a peck of pickled peppers", "the shells she sells are the sea-shore shells", "better than the bitter butter",
                      "i thought a thought", "sea-serpents swam the seven seas", "she sits she shines"};
 
+bool isNumber(string s){
+    for (int a = 0; a < s.length(); a++){
+        // Если в строке есть не цифровые символы, то это не число
+        if (s[a] != 45){ // Проверка на знак минус
+            if ((s[a] < 48) || (s[a] > 57))  return false;
+        }
+
+    }
+    // Если в строке только цифровые символы значит это число
+    return true;
+}
+
 
 int main()
 {
     setlocale(LC_ALL,"rus");
     ofstream fout("/home/ira/CLionProjects/AiSD_course_work/fout.txt");
-    unsigned int count_variant;
+    string count_variant;
     int action;
     bool exit = false;
     while (!exit)
@@ -128,13 +140,29 @@ int main()
         cout << "2.  Кодирование Фано - Шеннона и декодирование Хаффмана. " << endl;
         cout << "3.  Выход. \n ------------------" << endl;
         cin >> action;
+        int variants;
+        if((action!=1)&&(action!=2)&&(action!=3)){
+            cout<<"Введите 1, 2 или 3:)"<<endl;
+            action = 3;
+        }
         switch (action)
         {
             case 1:
 
                 cout << "Здравствуйте! Введите количество нужных вариантов: " << endl;
                 cin >> count_variant;
-                for (int i = 0; i < count_variant; i++)
+                if(isNumber(count_variant)) {
+                    variants = atoi(count_variant.c_str());
+                    if ((variants < 1) || (variants > 6)) {
+                        cout << "Введите число от 1 до 6:)" << endl;
+                        break;
+                    }
+                }
+                else{
+                    cout <<"Введите число от 1 до 6:)"<<endl;
+                    break;
+                }
+                for (int i = 0; i < variants; i++)
                 {
 
                     fout << "	ВАРИАНТ №" << i + 1 << endl
@@ -223,7 +251,18 @@ int main()
 
                 cout << "Здравствуйте! Введите количество нужных вариантов: " << endl;
                 cin >> count_variant;
-                for (int i = 0; i < count_variant; i++)
+                if(isNumber(count_variant)) {
+                    variants = atoi(count_variant.c_str());
+                    if ((variants < 1) || (variants > 6)) {
+                        cout << "Введите число от 1 до 6:)" << endl;
+                        break;
+                    }
+                }
+                else{
+                    cout <<"Введите число от 1 до 6:)"<<endl;
+                    break;
+                }
+                for (int i = 0; i < variants; i++)
                 {
                     string main_str = ar[i];
                     fout << "	ВАРИАНТ №" << i + 1 << endl
@@ -490,7 +529,7 @@ void search_of_min_element(vector<list>& smbl, list& elmn)//поиск элем�
 }
 
 
-void codeHuffman(string& code, vector<list>& smbl, lisp bin_tree,int deep)//создаем бинарное дерево кодов по Хаффману
+void codeHuffman(string& code, vector<list>& smbl, lisp bin_tree,int deep)//создаем бинарное деево кодов по Хаффману
 {
     if (isLeaf(bin_tree))//если дошли до листа, то в h.codes описываем символ и код
     {
