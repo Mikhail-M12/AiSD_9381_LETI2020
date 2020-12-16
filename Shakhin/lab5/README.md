@@ -1,5 +1,5 @@
 Сыллка на онлайн компилятор:
-https://onlinegdb.com/LWrYODiyL
+https://onlinegdb.com/BkCrCqvnD
 
 Инструкция:
 запустить программу
