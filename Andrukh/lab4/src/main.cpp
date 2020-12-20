@@ -16,7 +16,7 @@ struct array_list
     array_list(int start_capacity=1);
     T& operator[] (int index);
 
-    void push_back(int element);
+    void push_back(T element);
     int size();
 };
 template<typename T>
@@ -50,7 +50,7 @@ T& array_list<T>::operator[] (int index)  //функция позволяет о
 }
 
 template<typename T>
-void array_list<T>::push_back(int element) //добавление элемента в конец массива
+void array_list<T>::push_back(T element) //добавление элемента в конец массива
 {
     if (capacity == count)
     {
@@ -67,7 +67,7 @@ int array_list<T>::size() //получение длины списка
 
 
 template<typename T>
-string log(array_list<T> &list, int min, int max, int pivot, int depth) //функция для вывода промежуточного результата
+string log(array_list<T> &list, int min, int max, T pivot, int depth) //функция для вывода промежуточного результата
 {
     string s = ""; //строка для вывода промежуточных данных
     for (int i = 0; i < list.size(); i++)
@@ -88,13 +88,13 @@ void qsort3way(string& s, array_list<T>& list, int l, int r, int depth) //фун
     }
     int lt = l; // lt - индекс, по которому запишется очередное значение, меньше опорного
     int gt = r;  //gt - индекс, по которому запишется очередное значение, больше опорного
-    int pivot = list[l + (rand() % (r - l))];//опорный элемент генерируется рандомным образом
+    T pivot = list[l + (rand() % (r - l))];//опорный элемент генерируется рандомным образом
     int i = l; //проходим по массиву слева направо
     while (i <= gt)
     {
         if (list[i] < pivot)  //если значение меньше чем опорный элемент, записываем его по индексу lt, lt смещаем вправо
         {
-            int t = list[lt];
+            T t = list[lt];
             list[lt] = list[i];
             list[i] = t;
             lt += 1;
@@ -102,7 +102,7 @@ void qsort3way(string& s, array_list<T>& list, int l, int r, int depth) //фун
         }
         else if (list[i] > pivot)  //если значение больше чем опорный элемент, записываем его по индексу gt, gt смещаем влево
         {
-            int t = list[gt];
+            T t = list[gt];
             list[gt] = list[i];
             list[i] = t;
             gt -= 1;
@@ -142,8 +142,8 @@ int main() {
     }
     getline(file,input); //считываем строку из файла
     file.close();            //закрываем файл
-    array_list<int> list = array_list<int>();
-    int elem;
+    array_list<float> list = array_list<float>();
+    float elem;
     istringstream str(input);
     while(str >> elem) list.push_back(elem);
     cout << print_list(list);
