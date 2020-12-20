@@ -12,11 +12,9 @@ https://repl.it/join/ioxqovrh-andrexus23
 ● --type <arg> / -t <arg> - тип задания: <insert/insInRoot/delete> , где insert -
 обычная вставка, insInRoot - вставка в корень, delete - удаление элемента;
 ●
---outfile <arg> / -f <arg> - путь до файла в качестве <arg> (при отсутствии
-этого параметра следует вывод в консоль);
+--outfile <arg> / -f <arg> - путь до файла в качестве <arg> (при отсутствии этого параметра следует вывод в консоль);
 ● --help / -h - справка;
 ● --num <arg> / -n <arg> - количество заданий;
 
 
-Пример ввода: ./cw --size 3 --compl m --type insInRoot --outfile
-/home/andrey/result --num 5
+Пример ввода: ./cw --size 3 --compl m --type insInRoot --outfile /home/andrey/result --num 5
