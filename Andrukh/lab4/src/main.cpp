@@ -5,31 +5,30 @@
 #include <sstream>
 using  namespace std;
 
-
+template<typename T>
 struct array_list
 {
-    int* array;  //массив чисел
+    T* array;  //массив чисел
     int capacity;//размерность массива array
     int count; //количество непустых элементов массива array
 
     void resize(int new_capacity);
     array_list(int start_capacity=1);
-    int& operator[] (int index);
+    T& operator[] (int index);
 
     void push_back(int element);
     int size();
 };
-
-
-void array_list::resize(int new_capacity) //изменение размерности массива
+template<typename T>
+void array_list<T>::resize(int new_capacity) //изменение размерности массива
 {
-    int *arr = new int[count];
+    T *arr = new T[count];
     for (int i = 0; i < count; ++i)
     {
         arr[i] = array[i];  //переписываем значения массива в вспомогательный
     }
     delete [] array;         //удаляем старый массив
-    array = new int[new_capacity]; //выделяем массив нужного размера
+    array = new T[new_capacity]; //выделяем массив нужного размера
     for (int i = 0 ; i < count; ++i)
     {
         array[i] = arr[i];    //переписываем значения в нужный массив
@@ -37,21 +36,21 @@ void array_list::resize(int new_capacity) //изменение размерно�
     delete [] arr;        //очищаем память под вспомогательный массив
     capacity = new_capacity;    //изменяем поле класса - размерность массива
 }
-
-array_list::array_list(int start_capacity)  //создание списка чисел
+template<typename T>
+array_list<T>::array_list(int start_capacity)  //создание списка чисел
 {
     capacity = start_capacity;
     count = 0;
-    array = new int[capacity];
+    array = new T[capacity];
 }
-
-int& array_list::operator[] (int index)  //функция позволяет обращаться к элементам поля array через объект типа array_list по индексу
+template<typename T>
+T& array_list<T>::operator[] (int index)  //функция позволяет обращаться к элементам поля array через объект типа array_list по индексу
 {
     return array[index];
 }
 
-
-void array_list::push_back(int element) //добавление элемента в конец массива
+template<typename T>
+void array_list<T>::push_back(int element) //добавление элемента в конец массива
 {
     if (capacity == count)
     {
@@ -60,28 +59,28 @@ void array_list::push_back(int element) //добавление элемента 
     array[count] = element;  //вставляем элемент
     count++;
 }
-
-int array_list::size() //получение длины списка
+template<typename T>
+int array_list<T>::size() //получение длины списка
 {
     return count;
 }
 
 
-
-string log(array_list &list, int min, int max, int pivot, int depth) //функция для вывода промежуточного результата
+template<typename T>
+string log(array_list<T> &list, int min, int max, int pivot, int depth) //функция для вывода промежуточного результата
 {
     string s = ""; //строка для вывода промежуточных данных
     for (int i = 0; i < list.size(); i++)
     {
-        s += to_string(list[i]) + ' ';//добавлене элементов в строку
+        s += to_string(list[i]) + ' ';//вывод элементов
     }
     s += '\n';
-    s += " l:" + to_string(min) + " r:" + to_string(max) + " pivot: " + to_string(pivot) + " depth: " + to_string(depth) +"\n\n"; //добавляем к строке промежуточные сведения
+    s += "\tиндекс левого элемента: " + to_string(min) + "\n\tиндекс правого элемента: " + to_string(max) + "\n\tопорный элемент: " + to_string(pivot) + "\n\tглубина рекурсии: " + to_string(depth) +"\n\n"; //добавляем к строке промежуточные сведения
     return s;
 }
 
-
-void qsort3way(string& s, array_list& list, int l, int r, int depth) //функция трёхпутевой сортировки
+template<typename T>
+void qsort3way(string& s, array_list<T>& list, int l, int r, int depth) //функция трёхпутевой сортировки
 {
     if (l >= r)
     {
@@ -120,8 +119,8 @@ void qsort3way(string& s, array_list& list, int l, int r, int depth) //функ�
 
 
 
-
-std::string print_list(array_list& list)  //вывод итогового результата
+template<typename T>
+std::string print_list(array_list<T>& list)  //вывод итогового результата
 {
     string s;
     for (int i = 0; i < list.size(); i++)
@@ -143,15 +142,15 @@ int main() {
     }
     getline(file,input); //считываем строку из файла
     file.close();            //закрываем файл
-    array_list list = array_list();
+    array_list<int> list = array_list<int>();
     int elem;
     istringstream str(input);
     while(str >> elem) list.push_back(elem);
     cout << print_list(list);
-    cout << endl << "Executing algorithm..." << endl;
-    string s;            //строка для вывода промежуточных значений
+    cout << endl << "Работа алгоритма:" << endl;
+    string s;
     qsort3way(s, list, 0, list.size() - 1,0);
-    cout << "---LOG---" << endl << s << endl << "---END---" << endl;
-    cout << endl << "Result: " << endl << print_list(list) << endl;
+    cout << "Логгирование" << endl << s << endl << "Конец промежутоных значений" << endl;
+    cout << endl << "Ответ: " << endl << print_list(list) << endl;
     return 0;
 }
