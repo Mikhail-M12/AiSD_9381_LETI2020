@@ -1,0 +1,4 @@
+cw.exe
+cw.ilk
+cw.pdb
+9381_AISD_Avdeev_Ilya_lr5.pdf
