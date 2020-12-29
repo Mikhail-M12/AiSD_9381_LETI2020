@@ -5,6 +5,8 @@
 #define INVALID -1
 #define HOW_MANY_POSSIBLE_SYMBOLS 256 /* количество допустимых символов */
 
+int sum_len = 0;
+
 enum { ENCODE, DECODE }; 
 
 /* структура узла дерева */
@@ -220,7 +222,7 @@ unsigned char addCodeToBuffer(int *code, int codeSize, FILE *fp, unsigned char b
     for(int i = 0; i < codeSize;i++){
         printf("%i", code[i]);
     }
-    
+    sum_len+= codeSize;
     int i;
     for (i = 0; i < codeSize; i++) {
         unsigned char bit = ((char) code[i]) << (*bufferSize - 1);
@@ -437,6 +439,7 @@ int main(int argc, char *argv[]) {
     
     if (option == ENCODE) {
         encode(fp_in, fp_out);
+        printf("\n%i\n", sum_len);
         printf("\nThe file was encoded.\n");
     } else {
         decode(fp_in, fp_out);
