@@ -3,6 +3,8 @@
 #include <fstream>
 #include <conio.h>
 
+int fnum = 0;
+
 class RBtree
 {
 	struct node
@@ -31,6 +33,7 @@ public:
 	~RBtree();
 	void clear();
 	int find(int);
+	int findlog(int);
 	void insert(int);
 	void remove(int);
 	void print();
@@ -228,6 +231,37 @@ int RBtree::find(int value)
 		if (n->value == value)
 			i++;
 		n = n->value > value ? n->left : n->right;
+	}
+	return i;
+}
+
+int RBtree::findlog(int value)
+{
+	int f = 0;
+
+	node* n = tree_root;
+	int i = 0;
+	while (n)
+	{
+		std::cout << ++f << " -й запуск цикла\n";
+		std::cout << "находится в узле " << n->value << "\n";
+		if (n->value == value)
+		{
+			std::cout << "Элемента найден\n";
+			i++;
+		}
+		if (n->value > value)
+		{
+			std::cout << "Искомый элемент меньше, чем содержимое узла поэтому идет в ";
+			std::cout << "левый узел\n";
+			n = n->left;
+		}
+		else
+		{
+			std::cout << "Искомый элемент больше, чем содержимое узла поэтому идет в ";
+			std::cout << "правый узел\n";
+			n = n->right;
+		}
 	}
 	return i;
 }
@@ -449,12 +483,12 @@ int main()
 				lin >> n;
 				tree.insert(n);
 			}
-
 		default:
 			n = 0;
 			break;
 		}
 	}
+	lin.close();
 	n = 1;
 	if (exit != 27)
 	{
@@ -477,10 +511,10 @@ int main()
 			if (n == 0)
 			{
 				std::cout << "Закончить или найти 0?\n Y - выйти N = найти\n";
-				while (exit != 'y' && exit != 'n')
+				while (exit != 'y' && exit != 'n' && exit != 'L')
 					exit = _getch();
 			}
-			if (exit != 'y')
+			if (exit != 'y' && exit != 'L')
 			{
 				if (!tree.find(n))
 				{
@@ -496,11 +530,56 @@ int main()
 
 			if (exit == 'n')
 				n = 1;
-			exit = 0;
+			if (exit == 'L')
+				n = 0;
+			if(exit != 'L')
+				exit = 0;
 		}
 	}
 
-	lin.close();
+	if (exit == 'L')
+	{
+		std::cout << "ЗАПУЩЕН РЕЖИМ РАЗРАБОТЧИКА\n";
+		while (1)
+		{
+			std::cout << "Найти: \n";
+			std::cin >> cin;
+			system("cls");
+			if (isdigit(*cin))
+			{
+				n = atoi(cin);
+			}
+			else
+			{
+				std::cout << "Нужно ввести число, попробуйте еще\n";
+				continue;
+			}
+			if (n == 0)
+			{
+				std::cout << "Закончить или найти 0?\n Y - выйти N = найти\n";
+				while (exit != 'y' && exit != 'n')
+					exit = _getch();
+			}
+			if (exit != 'y')
+			{
+				if (!tree.findlog(n))
+				{
+					std::cout << "Числа в дереве нет, ввести его?\n Y - да N - нет\n";
+					while (*cin != 'y' && *cin != 'n')
+						*cin = _getch();
+					if (*cin == 'y')
+						tree.insert(n);
+				}
+				else
+					std::cout << "Число в дереве есть\n";
+			}
+
+			if (exit == 'y')
+			{
+				return 0;
+			}
+		}
+	}
 
 	getchar();
 	return 0;
