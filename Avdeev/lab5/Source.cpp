@@ -1,5 +1,6 @@
 #include <iostream>
 #include <time.h>
+#include <fstream>
 #include <conio.h>
 
 class RBtree
@@ -33,8 +34,8 @@ public:
 	void insert(int);		
 	void remove(int);		
 	void print();
+	int getsize() { return size; }
 };
-
 
 RBtree::RBtree()
 {
@@ -47,7 +48,6 @@ RBtree::~RBtree()
 	clear(tree_root);
 }
 
-
 RBtree::node* RBtree::make_node(int value)
 {
 	size++;
@@ -58,13 +58,11 @@ RBtree::node* RBtree::make_node(int value)
 	return n;
 }
 
-
 void RBtree::del_node(node* node)
 {
 	size--;
 	delete node;
 }
-
 
 void RBtree::clear(node* node)
 {
@@ -73,7 +71,6 @@ void RBtree::clear(node* node)
 	clear(node->right);
 	del_node(node);
 }
-
 
 RBtree::node* RBtree::rotate_left(node* n)
 {
@@ -84,7 +81,6 @@ RBtree::node* RBtree::rotate_left(node* n)
 	return right;
 }
 
-
 RBtree::node* RBtree::rotate_right(node* n)
 {
 	node* left = n->left;
@@ -93,7 +89,6 @@ RBtree::node* RBtree::rotate_right(node* n)
 	n->left = lright;
 	return left;
 }
-
 
 void RBtree::balance_insert(node** root)
 {
@@ -224,7 +219,6 @@ bool RBtree::balance_remove_case2(node** root)
 	return false;
 }
 
-
 int RBtree::find(int value)
 {
 	node* n = tree_root;
@@ -238,8 +232,6 @@ int RBtree::find(int value)
 	return i;
 }
 
-
-
 bool RBtree::insert(int value, node** root)
 {
 	node* n = *root;
@@ -252,8 +244,6 @@ bool RBtree::insert(int value, node** root)
 	}
 	return false;
 }
-
-
 
 bool RBtree::getmin(node** root, node** res)
 {
@@ -270,7 +260,6 @@ bool RBtree::getmin(node** root, node** res)
 	}
 	return false;
 }
-
 
 bool RBtree::remove(node** root, int value)
 {
@@ -307,7 +296,6 @@ bool RBtree::remove(node** root, int value)
 	return 0;
 }
 
-
 void RBtree::insert(int value)
 {
 	insert(value, &tree_root);
@@ -319,13 +307,11 @@ void RBtree::remove(int value)
 	remove(&tree_root, value);
 }
 
-
 void RBtree::clear()
 {
 	clear(tree_root);
 	tree_root = 0;
 }
-
 
 void RBtree::print_tree(node*& ptr, int u)
 {
@@ -358,52 +344,153 @@ void RBtree::print()
 
 int main()
 {
-	int n = 1, i;
+	int n = 1, c, j = 20;
+	char cin[10], exit = 0;
 	RBtree tree;
-
 	setlocale(LC_ALL, "ru");
 
-	srand(time(0));
-	switch (2)
+	std::cout << "Способ ввода из консоли 1, заполнить дерево случайными числами 2, ввести из файла 3\n";
+	std::cin >> cin;
+
+	while (exit != 27)
 	{
-	case 1:
-		while (n != NULL)
+		if (isdigit(*cin))
 		{
-			std::cin >> n;
-			tree.insert(n);
-		}
-		break;
-	case 2:
-		for (int i = 0; i < 20; i++)
-		{
-			n = rand() % 20 + rand() % 20;
-			tree.insert(n);
-		}
-		break;
-	default:
-		break;
-	}
-
-	tree.print();
-	while (1)
-	{
-
-		std::cout << "Найти элемент: ";
-		std::cin >> n;
-
-		std::cout << std::endl << tree.find(n) << std::endl;
-
-		std::cout << "Влючить его? y - да, n - закончить\n";
-		int k = _getch();
-		if (k == 'y')
-		{
-			tree.insert(n);
-			tree.print();
+			c = atoi(cin);
+			if ((c != 1) && (c != 2) && (c != 3))
+			{
+				std::cout << "нужно ввести 1 или 2 или 3, чтобы выйти из программы нужно нажать esc\n";
+				exit = _getch();
+				if (exit == 27)
+					break;
+			}
+			else
+				break;
+			std::cout << "Способ ввода из консоли 1, Заполнить дерево случайными числами 2\n";
+			std::cin >> cin;
+			continue;
 		}
 		else
-			break;
+		{
+			std::cout << "Нужно ввести число, попробуйте еще\n";
+			std::cin >> cin;
+		}
 	}
-	tree.clear();
+
+	if (exit != 27)
+		while (1)
+		{
+			if (c == 2)
+			{
+				std::cout << "сколько узлов создать?\n";
+				std::cin >> cin;
+				if (isdigit(*cin))
+				{
+					j = atoi(cin);
+					break;
+				}
+				else
+					std::cout << "Нужно ввести число, попробуйте еще\n";
+			}
+			else
+				break;
+		}
+
+	std::ifstream lin("lin.txt");
+	if (c == 3)
+		if (!lin.is_open())
+		{
+			std::cout << "Файл не открыт";
+			return -1;
+		}
+
+	srand(time(0));
+	while (n)
+	{
+		switch (c)
+		{
+		case 1:
+			std::cin >> cin;
+			if (isdigit(*cin))
+			{
+				n = atoi(cin);
+			}
+			else
+			{
+				std::cout << "Нужно ввести число, попробуйте еще\n";
+				continue;
+			}
+			while (n != NULL)
+			{
+				tree.insert(n);
+				std::cin >> cin;
+				if (isdigit(*cin))
+				{
+					n = atoi(cin);
+				}
+				else
+				{
+					std::cout << "Нужно ввести число, попробуйте еще\n";
+					continue;
+				}
+			}
+			break;
+		case 2:
+			while(tree.getsize() < j)
+			{
+				n = rand() % j + rand() % j;
+				tree.insert(n);
+			}
+			n = 0;
+			break;
+		case 3:
+			while (!lin.eof())
+			{
+				lin >> n;
+				tree.insert(n);
+			}
+			
+		default:
+			n = 0;
+			break;
+		}
+	}
+	n = 1;
+	
+	if (exit != 27)
+	{
+		
+		while (n)
+		{
+			tree.print();
+			std::cout << "Вставить: \n";
+			std::cin >> cin;
+			system("cls");
+			if (isdigit(*cin))
+			{
+				n = atoi(cin);
+			}
+			else
+			{
+				std::cout << "Нужно ввести число, попробуйте еще\n";
+				continue;
+			}
+			if (n == 0)
+			{
+				std::cout << "Закончить или ввести 0?\n Y - выйти N = ввести\n";
+				while (exit != 'y' && exit != 'n')
+					exit = _getch();
+			}
+
+			tree.insert(n);
+			
+			if (exit == 'n')
+				n = 1;
+			exit = 0;
+		}
+	}
+
+	lin.close();
 
 	getchar();
 	return 0;
