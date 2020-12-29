@@ -11,28 +11,28 @@ class RBtree
 		int value;
 		bool red;
 	};
-	node* tree_root;					
-	int size;					
+	node* tree_root;
+	int size;
 private:
-	node* make_node(int value);	
-	void del_node(node*);				
-	void clear(node*);				
-	node* rotate_right(node*);		
-	node* rotate_left(node*);		
-	void balance_insert(node**);	
-	bool balance_remove_case1(node**);		
+	node* make_node(int value);
+	void del_node(node*);
+	void clear(node*);
+	node* rotate_right(node*);
+	node* rotate_left(node*);
+	void balance_insert(node**);
+	bool balance_remove_case1(node**);
 	bool balance_remove_case2(node**);
-	bool insert(int, node**);			
-	bool getmin(node**, node**);	
-	bool remove(node**, int);			
+	bool insert(int, node**);
+	bool getmin(node**, node**);
+	bool remove(node**, int);
 	void print_tree(node*& ptr, int u);
 public:
 	RBtree();
 	~RBtree();
-	void clear();							
-	int find(int);			
-	void insert(int);		
-	void remove(int);		
+	void clear();
+	int find(int);
+	void insert(int);
+	void remove(int);
 	void print();
 	int getsize() { return size; }
 };
@@ -99,7 +99,7 @@ void RBtree::balance_insert(node** root)
 	right = node->right;
 	if (left && left->red)
 	{
-		lright = left->right;				
+		lright = left->right;
 		if (lright && lright->red)
 			left = node->left = rotate_left(left);
 		lleft = left->left;
@@ -108,7 +108,7 @@ void RBtree::balance_insert(node** root)
 			node->red = true;
 			left->red = false;
 			if (right && right->red)
-			{	
+			{
 				lleft->red = true;
 				right->red = false;
 				return;
@@ -117,10 +117,10 @@ void RBtree::balance_insert(node** root)
 			return;
 		}
 	}
-	
+
 	if (right && right->red)
 	{
-		lleft = right->left;				
+		lleft = right->left;
 		if (lleft && lleft->red)
 			right = node->right = rotate_right(right);
 		lright = right->right;
@@ -129,7 +129,7 @@ void RBtree::balance_insert(node** root)
 			node->red = true;
 			right->red = false;
 			if (left && left->red)
-			{	
+			{
 				lright->red = true;
 				left->red = false;
 				return;
@@ -150,7 +150,7 @@ bool RBtree::balance_remove_case1(node** root)
 		left->red = false; return false;
 	}
 	if (right && right->red)
-	{ 
+	{
 		n->red = true;
 		right->red = false;
 		n = *root = rotate_left(n);
@@ -164,16 +164,16 @@ bool RBtree::balance_remove_case1(node** root)
 	if (rright && rright->red) mask |= 2;
 	switch (mask)
 	{
-	case 0:		
+	case 0:
 		right->red = true;
 		return true;
 	case 1:
-	case 3:		
+	case 3:
 		right->red = true;
 		rright->red = false;
 		right = n->right = rotate_right(right);
 		rright = right->right;
-	case 2:		
+	case 2:
 		right->red = n->red;
 		rright->red = n->red = false;
 		*root = rotate_left(n);
@@ -188,7 +188,7 @@ bool RBtree::balance_remove_case2(node** root)
 	node* right = n->right;
 	if (right && right->red) { right->red = false; return false; }
 	if (left && left->red)
-	{ 
+	{
 		n->red = true;
 		left->red = false;
 		n = *root = rotate_right(n);
@@ -202,16 +202,16 @@ bool RBtree::balance_remove_case2(node** root)
 	if (lright && lright->red) mask |= 2;
 	switch (mask)
 	{
-	case 0:	
+	case 0:
 		left->red = true;
 		return true;
 	case 2:
-	case 3:		
+	case 3:
 		left->red = true;
 		lright->red = false;
 		left = n->left = rotate_left(left);
 		lleft = left->left;
-	case 1:		
+	case 1:
 		left->red = n->red;
 		lleft->red = n->red = false;
 		*root = rotate_right(n);
@@ -436,7 +436,7 @@ int main()
 			}
 			break;
 		case 2:
-			while(tree.getsize() < j)
+			while (tree.getsize() < j)
 			{
 				n = rand() % j + rand() % j;
 				tree.insert(n);
@@ -449,21 +449,20 @@ int main()
 				lin >> n;
 				tree.insert(n);
 			}
-			
+
 		default:
 			n = 0;
 			break;
 		}
 	}
 	n = 1;
-	
 	if (exit != 27)
 	{
-		
+
 		while (n)
 		{
 			tree.print();
-			std::cout << "Вставить: \n";
+			std::cout << "Найти: \n";
 			std::cin >> cin;
 			system("cls");
 			if (isdigit(*cin))
@@ -477,13 +476,24 @@ int main()
 			}
 			if (n == 0)
 			{
-				std::cout << "Закончить или ввести 0?\n Y - выйти N = ввести\n";
+				std::cout << "Закончить или найти 0?\n Y - выйти N = найти\n";
 				while (exit != 'y' && exit != 'n')
 					exit = _getch();
 			}
+			if (exit != 'y')
+			{
+				if (!tree.find(n))
+				{
+					std::cout << "Числа в дереве нет, ввести его?\n Y - да N - нет\n";
+					while (*cin != 'y' && *cin != 'n')
+						*cin = _getch();
+					if (*cin == 'y')
+						tree.insert(n);
+				}
+				else
+					std::cout << "Число в дереве есть\n";
+			}
 
-			tree.insert(n);
-			
 			if (exit == 'n')
 				n = 1;
 			exit = 0;
