@@ -1,0 +1,11 @@
+|START:
+        89
+        |START:
+                90
+                9
+                /
+        |END.
+        -
+|END.
+Parser result : Correct
+Value : 79
